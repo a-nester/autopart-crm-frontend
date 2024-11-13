@@ -2,8 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import clsx from 'clsx';
 import StatusLabel, { Status } from '@/app/components/status-label';
-import Check from '@/icons/check.svg';
-import XMark from '@/icons/x-mark.svg';
+import Check from '/public/icons/check.svg';
+import XMark from '/public/icons/x-mark.svg';
 
 export interface CompanyRowProps {
   id: number;
