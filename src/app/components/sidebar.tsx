@@ -5,9 +5,9 @@ import Image from 'next/image';
 import SidebarItem from '@/app/components/sidebar-item';
 import { usePathname, useRouter } from 'next/navigation';
 
-export interface SidebarProps {}
+// export interface SidebarProps {}
 
-export default function Sidebar({}: SidebarProps) {
+export default function Sidebar({}: object) {
   const router = useRouter();
   const pathname = usePathname();
   const handleExitClick = () => {
