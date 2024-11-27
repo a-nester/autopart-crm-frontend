@@ -5,7 +5,8 @@ import React from 'react';
 export default function Page({}: object) {
   return (
     <main>
-      <h1 className="text-xl">Dashboard Page</h1>
+      <h1 className="text-xl">Dashboard / New companies</h1>
+      <div>Some additional info</div>
     </main>
   );
 }

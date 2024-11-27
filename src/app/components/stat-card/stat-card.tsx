@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { styles } from './styles.module.css';
+import styles from './styles.module.css';
 
 export enum StatCardType {
   Dark = 'dark',
