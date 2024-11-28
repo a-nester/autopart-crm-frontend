@@ -1,0 +1,1 @@
+export const PROM_URL='https://my.prom.ua/api/v1'

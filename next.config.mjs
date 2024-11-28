@@ -12,6 +12,9 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  images: {
+    domains: ['images.prom.ua'],
+  },
 };
 
 export default nextConfig;

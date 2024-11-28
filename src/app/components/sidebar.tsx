@@ -41,6 +41,22 @@ export default function Sidebar({}: object) {
           >
             Companies
           </SidebarItem>
+          <SidebarItem
+            current={pathname === '/orders'}
+            pathname="/orders"
+            src="/icons/briefcase.svg"
+            alt="companies icon"
+          >
+            Orders
+          </SidebarItem>
+          <SidebarItem
+            current={pathname === '/timers'}
+            pathname="/timers"
+            src="/icons/briefcase.svg"
+            alt="companies icon"
+          >
+            Timers
+          </SidebarItem>
         </ul>
         <button
           className="flex items-center gap-2 p-6 mt-auto mx-auto"
