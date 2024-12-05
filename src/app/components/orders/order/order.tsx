@@ -13,17 +13,19 @@ export default function Order({ id }: number) {
 
   return (
     order && (
-      <section className="w-full flex flex-row bg-gray-50 gap-3 border-[1px] rounded-lg p-1">
+      <section className="w-full flex flex-row bg-gray-100 gap-3 border-[1px] rounded-lg p-1">
         <Image
           className="rounded-lg border-[1px] border-solid border-gray-100"
           src={order.products[0].image}
           alt="product image"
-          width={80}
+          width={100}
           height={80}
         />
         <div className="flex-col w-56">
-          <Link href={''}>№ {order.id}</Link>
-          <p>
+          <Link href={''} className="text-blue-700 hover:underline">
+            № {order.id}
+          </Link>
+          <p className="text-gray-500">
             {new Date(order.date_created).toLocaleString('uk-UA', {
               year: 'numeric',
               month: '2-digit',
@@ -40,6 +42,11 @@ export default function Order({ id }: number) {
           >
             {order.products[0].name_multilang.uk}
           </p>
+        </div>
+        <div>
+          <p>{order.full_price}</p>
+          <p>{order.products.length}шт.</p>
+          <p>{order.cpa_commission.amount}</p>
         </div>
       </section>
     )
