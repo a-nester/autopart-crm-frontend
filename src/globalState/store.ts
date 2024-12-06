@@ -3,8 +3,6 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const token = process.env.NEXT_PUBLIC_AVTOKLAN_TOKEN;
-
 type Order = {
   id: number;
   promStoreId: number;
@@ -18,16 +16,18 @@ type State = {
 
 type Actions = {
   fetchOrders: () => Promise<void>;
-  removeAllBears: () => void;
+  clearOrders: () => void;
 };
 
 type OrdersStore = State & Actions;
 
-export const API = axios.create({
-  baseURL: PROM_URL,
-  headers: {"Authorization": `Bearer ${token}`},
+// export const API = axios.create({
+//   baseURL: PROM_URL,
+//   headers: {"Authorization": `Bearer ${token}`},
 
-})
+// })
+
+const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto',];
 
 const useStore = create<OrdersStore>()(
   persist(
@@ -39,10 +39,17 @@ const useStore = create<OrdersStore>()(
       fetchOrders: async () => {
         set({ isLoading: true, error: null });
         try { 
-          const response = await API.get('/api/proxy');
-          console.log(response);
+          const responses = await Promise.all(
+            STORE_IDS.map((storeId) => axios.get('/api/proxy', {
+              params: { storeId },
+            }).then((response) => ({ storeId, data: response.data}))
+            ),
+          );
+            
+          const orders = responses.flatMap(({storeId, data}) => data.orders.map((order)=>({...order, promStoreId: storeId})))
+            .sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
           
-          set({orders: response.data.orders, isLoading: false})
+          set({orders, isLoading: false})
         } catch (error) {
           set({
             error: error instanceof Error ? error.message : 'Unknown error',
@@ -50,7 +57,7 @@ const useStore = create<OrdersStore>()(
           })
         }
       },
-      removeAllBears: () => set({ orders: [] }),
+      clearOrders: () => set({ orders: [] }),
     }),
     {
       name: 'orders-storage', // localstorage key

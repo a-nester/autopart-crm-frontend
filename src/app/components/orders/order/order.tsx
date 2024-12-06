@@ -14,13 +14,16 @@ export default function Order({ id }: number) {
   return (
     order && (
       <section className="w-full flex flex-row bg-gray-100 gap-3 border-[1px] rounded-lg p-1">
-        <Image
-          className="rounded-lg border-[1px] border-solid border-gray-100"
-          src={order.products[0].image}
-          alt="product image"
-          width={100}
-          height={80}
-        />
+        <div>
+          <p className="flex justify-center">{order.promStoreId}</p>
+          <Image
+            className="rounded-lg border-[1px] border-solid border-gray-100 object-contain"
+            src={order.products[0].image}
+            alt="product image"
+            width={100}
+            height={100}
+          />
+        </div>
         <div className="flex-col w-56">
           <Link href={''} className="text-blue-700 hover:underline">
             № {order.id}
