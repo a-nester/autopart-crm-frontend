@@ -39,7 +39,7 @@ const useStore = create<OrdersStore>()(
       fetchOrders: async () => {
         set({ isLoading: true, error: null });
         try { 
-          const response = await axios.get('/api/proxy');
+          const response = await API.get('/api/proxy');
           console.log(response);
           
           set({orders: response.data.orders, isLoading: false})
