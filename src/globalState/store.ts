@@ -1,4 +1,3 @@
-import { PROM_URL } from '@/app/constants/constants';
 import axios from 'axios';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -17,6 +16,7 @@ type State = {
 type Actions = {
   fetchOrders: () => Promise<void>;
   clearOrders: () => void;
+  addStores: (newStores: string[]) => void;
 };
 
 type OrdersStore = State & Actions;
@@ -27,26 +27,28 @@ type OrdersStore = State & Actions;
 
 // })
 
-const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto',];
+// export const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
 const useStore = create<OrdersStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       orders: [],
       isLoading: false,
       error: null,
-
+      stores: [],
+      addStores: (newStores: string[]) => { set({ stores: [...newStores] }) },
       fetchOrders: async () => {
+        const { stores } = get();
         set({ isLoading: true, error: null });
         try { 
           const responses = await Promise.all(
-            STORE_IDS.map((storeId) => axios.get('/api/proxy', {
-              params: { storeId },
-            }).then((response) => ({ storeId, data: response.data}))
+            stores.map((storeId) => axios
+              .get('/api/proxy', { params: { storeId } })
+              .then((response) => ({ storeId, data: response.data }))
             ),
           );
             
-          const orders = responses.flatMap(({storeId, data}) => data.orders.map((order)=>({...order, promStoreId: storeId})))
+          const orders = responses.flatMap(({storeId, data}) => data.orders.map((order: Order)=>({...order, promStoreId: storeId})))
             .sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
           
           set({orders, isLoading: false})

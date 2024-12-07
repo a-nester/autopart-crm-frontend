@@ -9,20 +9,22 @@ export default function Order({ id }: number) {
   const order = useStore((state) =>
     state.orders.find((elem) => elem.id === orderId),
   );
-  console.log('order', order);
+  // console.log('order', order);
 
   return (
     order && (
-      <section className="w-full flex flex-row bg-gray-100 gap-3 border-[1px] rounded-lg p-1">
+      <section className="w-full h-36 flex flex-row bg-gray-100 gap-3 border-[1px] rounded-lg p-1">
         <div>
           <p className="flex justify-center">{order.promStoreId}</p>
-          <Image
-            className="rounded-lg border-[1px] border-solid border-gray-100 object-contain"
-            src={order.products[0].image}
-            alt="product image"
-            width={100}
-            height={100}
-          />
+          <div className="w-28 h-28 object-contain">
+            <Image
+              className="rounded-lg border-[1px] border-solid border-gray-400 object-contain w-full h-full"
+              src={order.products[0].image}
+              alt="product image"
+              width={100}
+              height={100}
+            />
+          </div>
         </div>
         <div className="flex-col w-56">
           <Link href={''} className="text-blue-700 hover:underline">
