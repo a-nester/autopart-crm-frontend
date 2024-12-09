@@ -1,14 +1,12 @@
 import axios from 'axios';
 import { error } from 'console';
 
-
-
-
 export default async function handler(req, res) {
   const { method, query } = req;
 
   if (method === 'GET') {
-    const { storeId } = query;
+    const { storeId, URL, limit, page, group_id } = query;
+    console.log(storeId, URL);
 
         const STORES = {
   AvtoKlan: { token: process.env.NEXT_PUBLIC_AVTOKLAN_TOKEN,    
@@ -22,6 +20,7 @@ export default async function handler(req, res) {
 }
 
     const store = STORES[storeId];
+    
 
     if (!store) {
       return res.status(400).json({error: 'Invalid store ID'})
@@ -29,11 +28,17 @@ export default async function handler(req, res) {
 
     try {
       const response = await axios.get(
-        'https://my.prom.ua/api/v1/orders/list',
+        URL,
         {
+          baseURL: 'https://my.prom.ua/api/v1/',
           headers: {
             Authorization: `Bearer ${store.token}`,
           },
+          params: {
+            limit,
+            page, 
+            group_id,
+          }
         },
       );
       res.status(200).json(response.data);

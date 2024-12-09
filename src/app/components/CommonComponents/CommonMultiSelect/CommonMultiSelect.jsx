@@ -23,8 +23,8 @@ const MenuProps = {
   },
 };
 
-function CommonMultiSelect({ children, values, setValues }) {
-  const STORE_IDS = children;
+function CommonMultiSelect({ children, values, setValues, ...props }) {
+  const SELECT_LIST = children;
 
   const handleChange = (evt) => {
     const {
@@ -41,14 +41,14 @@ function CommonMultiSelect({ children, values, setValues }) {
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        multiple
         value={values}
         onChange={handleChange}
         input={<OutlinedInput label="Store" />}
         renderValue={(selected) => selected.join(', ')}
         MenuProps={MenuProps}
+        {...props}
       >
-        {STORE_IDS.map((elem) => (
+        {SELECT_LIST.map((elem) => (
           <MenuItem key={elem} value={elem}>
             <Checkbox checked={values.includes(elem)} />
             <ListItemText primary={elem} />

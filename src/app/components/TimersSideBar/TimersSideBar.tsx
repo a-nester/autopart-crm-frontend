@@ -4,32 +4,31 @@ import CommonMultiSelect from '@/app/components/CommonComponents/CommonMultiSele
 import { useStore } from '../../../globalState/store';
 import { useEffect, useState } from 'react';
 import { getRootCategories } from '@/app/helpers/getCategories';
-import Link from 'next/link';
-import { Accordion } from '@mui/material';
 import { CategoriesNav } from '@/app/components/CategoriesNav/CategoriesNav';
 
-export default function Page({}) {
-  const {
-    store,
-    addStore,
-    storeCategories,
-    getStoreCategories,
-    products,
-    getProductsByCategoryId,
-  } = useStore();
+export default function TimersSideBar() {
+  const { addStore, storeCategories, getStoreCategories } = useStore();
   const [fetchStore, setFetchStore] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
   useEffect(() => {
-    console.log(products);
-  }, [products]);
+    if (fetchStore) {
+      addStore(fetchStore);
+      getStoreCategories();
+    }
+  }, [fetchStore]);
+
+  const rootCategories = getRootCategories(storeCategories);
+  console.log(rootCategories);
 
   return (
-    <section className="flex-col">
-      <p>Product Timers</p>
-      {products.map((elem) => elem.name)}
+    <section className="flex-col w-72">
+      <CommonMultiSelect values={fetchStore} setValues={setFetchStore}>
+        {STORE_IDS}
+      </CommonMultiSelect>
+      <CategoriesNav>{rootCategories}</CategoriesNav>
     </section>
   );
 }

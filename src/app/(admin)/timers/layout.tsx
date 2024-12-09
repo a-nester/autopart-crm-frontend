@@ -7,8 +7,9 @@ import { getRootCategories } from '@/app/helpers/getCategories';
 import Link from 'next/link';
 import { Accordion } from '@mui/material';
 import { CategoriesNav } from '@/app/components/CategoriesNav/CategoriesNav';
+import TimersSideBar from '@/app/components/TimersSideBar/TimersSideBar';
 
-export default function Page({}) {
+export default function Page({ children }) {
   const {
     store,
     addStore,
@@ -23,13 +24,19 @@ export default function Page({}) {
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
   useEffect(() => {
-    console.log(products);
-  }, [products]);
+    if (fetchStore) {
+      addStore(fetchStore);
+      getStoreCategories();
+    }
+  }, [fetchStore]);
+
+  const rootCategories = getRootCategories(storeCategories);
+  console.log(rootCategories);
 
   return (
-    <section className="flex-col">
-      <p>Product Timers</p>
-      {products.map((elem) => elem.name)}
+    <section className="flex flex-row">
+      <TimersSideBar />
+      {children}
     </section>
   );
 }

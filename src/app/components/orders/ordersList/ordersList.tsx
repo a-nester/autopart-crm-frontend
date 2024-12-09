@@ -8,12 +8,7 @@ import { useEffect, useState } from 'react';
 export default function OrdersList() {
   const { stores, addStores, fetchOrders } = useStore();
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
-  const [storesList, setStoresList] = useState<string[]>([
-    'AvtoKlan',
-    'AutoAx',
-    'iDoAuto',
-    'ToAuto',
-  ]);
+  const [storesList, setStoresList] = useState<string[]>(stores);
   const orders = useStore((state) => state.orders);
 
   console.log(storesList);
@@ -29,7 +24,7 @@ export default function OrdersList() {
   console.log('Orders', orders);
   return (
     <section className="flex flex-col gap-2">
-      <CommonMultiSelect values={storesList} setValues={setStoresList}>
+      <CommonMultiSelect values={storesList} setValues={setStoresList} multiple>
         {STORE_IDS}
       </CommonMultiSelect>
       <ul className="flex flex-col gap-2">

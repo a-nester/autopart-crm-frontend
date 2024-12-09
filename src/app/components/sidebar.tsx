@@ -1,21 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import SidebarItem from '@/app/components/sidebar-item';
 import { usePathname, useRouter } from 'next/navigation';
+import clsx from 'clsx';
 
 // export interface SidebarProps {}
 
 export default function Sidebar({}: object) {
+  const [active, setActive] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
   const handleExitClick = () => {
     router.push('/');
   };
+  const handleToggle = () => {
+    setActive(!active);
+  };
 
   return (
-    <aside className="fixed top-0 left-0 z-40 w-60 h-screen">
+    <aside
+      className={clsx(
+        'fixed top-0 left-0 z-40 h-screen',
+        active ? 'w-60' : 'w-12',
+      )}
+    >
       <div className="flex flex-col h-full overflow-y-auto bg-gray-900">
         <Image
           className="py-8 mb-11 mx-auto"
@@ -54,6 +64,7 @@ export default function Sidebar({}: object) {
             pathname="/timers"
             src="/icons/briefcase.svg"
             alt="companies icon"
+            onClick={handleToggle}
           >
             Timers
           </SidebarItem>

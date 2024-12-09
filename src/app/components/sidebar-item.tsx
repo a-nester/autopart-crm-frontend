@@ -16,6 +16,7 @@ export default function SidebarItem({
   src,
   alt,
   children,
+  onClick,
 }: SidebarItemProps) {
   return (
     <li>
