@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const { method, query } = req;
 
   if (method === 'GET') {
-    const { storeId, URL, limit, page, group_id } = query;
+    const { storeId, URL, limit, last_id, group_id } = query;
     console.log(storeId, URL);
 
         const STORES = {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
           },
           params: {
             limit,
-            page, 
+            last_id, 
             group_id,
           }
         },

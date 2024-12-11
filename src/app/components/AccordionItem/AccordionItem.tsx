@@ -5,18 +5,19 @@ import { useEffect } from 'react';
 
 export function AccordionItem({ children, element }) {
   const { getProductsByCategoryId } = useStore();
-  console.log(children);
-
   const group_id = element.id;
-  useEffect(() => {
+
+  const handleClick = () => {
     getProductsByCategoryId(group_id);
-  }, []);
+  };
 
   return (
     <div>
       <Accordion>
-        <AccordionSummary>{element.name_multilang.uk}</AccordionSummary>
-        <AccordionDetails>{children}</AccordionDetails>
+        <AccordionSummary>
+          <button onClick={handleClick}>{element.name_multilang.uk}</button>
+        </AccordionSummary>
+        <AccordionDetails>{}</AccordionDetails>
       </Accordion>
     </div>
   );

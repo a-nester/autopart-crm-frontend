@@ -9,6 +9,7 @@ export interface SidebarItemProps {
   src: string;
   alt: string;
   children: React.ReactNode;
+  onClick?: () => void;
 }
 export default function SidebarItem({
   current,
@@ -22,6 +23,7 @@ export default function SidebarItem({
     <li>
       <Link
         href={pathname}
+        onClick={onClick}
         className={clsx(
           'flex items-center h-9 mx-1 gap-3.5',
           current &&

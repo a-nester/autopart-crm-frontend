@@ -23,7 +23,7 @@ export default function Page({}) {
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
   useEffect(() => {
-    console.log(products);
+    console.log('Products', products);
   }, [products]);
 
   return (

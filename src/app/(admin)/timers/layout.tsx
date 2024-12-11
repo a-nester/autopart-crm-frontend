@@ -10,28 +10,18 @@ import { CategoriesNav } from '@/app/components/CategoriesNav/CategoriesNav';
 import TimersSideBar from '@/app/components/TimersSideBar/TimersSideBar';
 
 export default function Page({ children }) {
-  const {
-    store,
-    addStore,
-    storeCategories,
-    getStoreCategories,
-    products,
-    getProductsByCategoryId,
-  } = useStore();
-  const [fetchStore, setFetchStore] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
-  const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
-
-  useEffect(() => {
-    if (fetchStore) {
-      addStore(fetchStore);
-      getStoreCategories();
-    }
-  }, [fetchStore]);
-
-  const rootCategories = getRootCategories(storeCategories);
-  console.log(rootCategories);
+  //   const {
+  //     store,
+  //     addStore,
+  //     storeCategories,
+  //     getStoreCategories,
+  //     products,
+  //     getProductsByCategoryId,
+  //   } = useStore();
+  //   const [fetchStore, setFetchStore] = useState([]);
+  //   const [subCategory, setSubCategory] = useState([]);
+  //   const [categoryId, setCategoryId] = useState(null);
+  //   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
   return (
     <section className="flex flex-row">

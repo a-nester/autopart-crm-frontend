@@ -20,11 +20,12 @@ export default function TimersSideBar() {
     }
   }, [fetchStore]);
 
+  //   console.log(storeCategories);
   const rootCategories = getRootCategories(storeCategories);
-  console.log(rootCategories);
+  //   console.log(rootCategories);
 
   return (
-    <section className="flex-col w-72">
+    <section className="flex-col min-w-72">
       <CommonMultiSelect values={fetchStore} setValues={setFetchStore}>
         {STORE_IDS}
       </CommonMultiSelect>

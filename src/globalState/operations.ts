@@ -1,4 +1,5 @@
 import axios from "axios";
+import { log } from "console";
 
 type Order = {
     id: number;
@@ -36,24 +37,64 @@ export const fetchAndSetOrders = async (stores: string[], set: SetFunction) => {
 
 export const getStoreCategoriesOperation = async (store, set) => {
     const storeId = store[0];
-    
+
     set({ isLoading: true, error: null });
-    const URL = 'groups/list'
+    const URL = 'groups/list';
+
+    let last_id = null; 
+    const storeCategories = []; 
+    let shouldContinue = true;
+    const params = {
+                storeId,
+                URL,
+                limit: 100,
+                last_id: null
+    };
+  
     try {
-        const response = await axios
-                .get('/api/proxy', { params: { storeId, URL, limit:100, page: 1 } })
-                // .then((response) => ({ storeId, data: response.data }))
-                const storeCategories = response.data.groups;
-                // console.log(response);
-// )
-        set({storeCategories, isLoading: false})
+        while (shouldContinue) {
+            
+
+            if (last_id !== null) {
+                params.last_id = last_id;
+            }
+            const response = await axios.get('/api/proxy', {
+                params,
+                headers: { 'Cache-Control': 'no-cache' },
+            });
+            const groups = response.data.groups; 
+            if (groups && groups.length > 0) {
+                storeCategories.push(...groups); 
+                const lastGroup = groups[groups.length - 1];
+                if (lastGroup && lastGroup.id) {
+                    last_id = lastGroup.id;
+                } else {
+                    console.error("Помилка: останній елемент не має `id`");
+                    shouldContinue = false;
+                }
+                if (groups.length < 100) {
+                    shouldContinue = false;
+                }
+            } else {
+                // Якщо `groups` порожній, завершуємо цикл
+                console.warn("Відповідь порожня, завершення циклу");
+                shouldContinue = false;
+            }
+        }
+
+        console.log("Отримані категорії:", storeCategories);
+
+        set({ storeCategories, isLoading: false });
     } catch (error) {
+        // Обробка помилок
         set({
             error: error instanceof Error ? error.message : "Unknown error",
             isLoading: false,
-        })
+        });
+        console.error("Помилка при отриманні категорій:", error);
     }
-}
+};
+
 
 export const getProductsByCategoryIdOperation = async (store, set, group_id) => {
   const storeId = store[0];
@@ -62,9 +103,9 @@ export const getProductsByCategoryIdOperation = async (store, set, group_id) => 
   try {
     const response = await axios
       .get('/api/proxy', { params: { storeId, URL, limit: 100, group_id } });
-    console.log("products_data", response);
     
-    const products = response;
+    const products = response.data.products;
+    set({products, isLoading: false})
   } catch (error) {
     set({
       error: error instanceof Error ? error.message : 'Unknown error',
