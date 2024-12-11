@@ -13,3 +13,7 @@ export const getRootCategories = (storeCategories) => {
       );
     return rootCategories;
 }
+
+export const getSubcategoriesByParentId = (storeCategories, parentCatId) => {
+  return storeCategories.filter((elem) => elem.parent_group_id === parentCatId)
+}

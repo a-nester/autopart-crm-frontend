@@ -11,9 +11,7 @@ export function CategoriesNav({ children }) {
     <section>
       {children.map((elem) => (
         <li key={elem.id}>
-          <AccordionItem element={elem}>
-            {/* {<AccordionItem></AccordionItem>} */}
-          </AccordionItem>
+          <AccordionItem element={elem} />
         </li>
       ))}
     </section>

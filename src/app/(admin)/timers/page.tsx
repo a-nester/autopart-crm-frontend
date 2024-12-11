@@ -7,20 +7,10 @@ import { getRootCategories } from '@/app/helpers/getCategories';
 import Link from 'next/link';
 import { Accordion } from '@mui/material';
 import { CategoriesNav } from '@/app/components/CategoriesNav/CategoriesNav';
+import TimersProductItem from '@/app/components/TimersProductItem/TimersProductItem';
 
 export default function Page({}) {
-  const {
-    store,
-    addStore,
-    storeCategories,
-    getStoreCategories,
-    products,
-    getProductsByCategoryId,
-  } = useStore();
-  const [fetchStore, setFetchStore] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
-  const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
+  const { products } = useStore();
 
   useEffect(() => {
     console.log('Products', products);
@@ -29,7 +19,13 @@ export default function Page({}) {
   return (
     <section className="flex-col">
       <p>Product Timers</p>
-      {products.map((elem) => elem.name)}
+      <ul>
+        {products.map((elem) => (
+          <li key={elem.id}>
+            <TimersProductItem product={elem} />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
