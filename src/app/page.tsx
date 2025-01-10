@@ -3,7 +3,7 @@ import AddCompanyButton from './components/add-company-button';
 import Link from 'next/link';
 
 export default function Home() {
-  console.log(headers());
+  // console.log(headers());
 
   return (
     <main>

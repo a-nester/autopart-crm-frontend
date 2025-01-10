@@ -1,12 +1,7 @@
 'use client';
 
-import CommonMultiSelect from '@/app/components/CommonComponents/CommonMultiSelect/CommonMultiSelect';
 import { useStore } from '../../../globalState/store';
-import { useEffect, useState } from 'react';
-import { getRootCategories } from '@/app/helpers/getCategories';
-import Link from 'next/link';
-import { Accordion } from '@mui/material';
-import { CategoriesNav } from '@/app/components/CategoriesNav/CategoriesNav';
+import { useEffect } from 'react';
 import TimersProductItem from '@/app/components/TimersProductItem/TimersProductItem';
 
 export default function Page({}) {
@@ -17,11 +12,11 @@ export default function Page({}) {
   }, [products]);
 
   return (
-    <section className="flex-col">
+    <section className="flex-col p-4 gap-2">
       <p>Product Timers</p>
       <ul>
         {products.map((elem) => (
-          <li key={elem.id}>
+          <li key={elem.id} className="m-1">
             <TimersProductItem product={elem} />
           </li>
         ))}

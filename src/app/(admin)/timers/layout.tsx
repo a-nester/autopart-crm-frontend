@@ -24,7 +24,7 @@ export default function Page({ children }) {
   //   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
   return (
-    <section className="flex flex-row">
+    <section className="flex flex-row p-3">
       <TimersSideBar />
       {children}
     </section>

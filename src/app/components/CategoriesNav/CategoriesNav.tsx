@@ -9,11 +9,13 @@ export function CategoriesNav({ children }) {
 
   return (
     <section>
-      {children.map((elem) => (
-        <li key={elem.id}>
-          <AccordionItem element={elem} />
-        </li>
-      ))}
+      <ul>
+        {children.map((elem) => (
+          <li key={elem.id}>
+            <AccordionItem element={elem} />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
