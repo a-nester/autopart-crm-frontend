@@ -34,9 +34,16 @@ export function TimersProductItem({ product }: { product: Product }) {
       {/* <button className="flex justify-center border-t">
           Add discount timer
         </button> */}
-      <Accordion className="rounded-xl w-full" sx={{ margin: 0 }}>
+      <Accordion
+        className=" w-full rounded-xl bg-inherit"
+        sx={{
+          boxShadow: 'none',
+          borderRadius: '12px',
+          '&:before': { display: 'none' }, // Прибирає лінію перед Accordion
+        }}
+      >
         <AccordionSummary
-          className="p-1 flex flex-col justify-between w-full border-none rounded-xl"
+          className="flex flex-col justify-between w-full border-none rounded-xl pl-3 pr-3 bg-inherit"
           sx={{ m: 0 }}
           expandIcon={<ExpandMoreIcon />}
         >
@@ -78,7 +85,7 @@ export function TimersProductItem({ product }: { product: Product }) {
             {/* <button onClick={handleClick}>{element.name_multilang.uk}</button> */}
           </div>
         </AccordionSummary>
-        <AccordionDetails className="p-1">
+        <AccordionDetails className="p-3 rounded-xl bg-inherit">
           {'Add discount timer'}
           <p>timer</p>
           <p>timer</p>
