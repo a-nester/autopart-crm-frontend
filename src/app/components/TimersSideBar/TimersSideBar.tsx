@@ -25,11 +25,11 @@ export default function TimersSideBar() {
   //   console.log(rootCategories);
 
   return (
-    <section className="flex flex-col min-w-72 ">
+    <section className="flex flex-col gap-3 min-w-72 max-w-32 ">
       <CommonMultiSelect values={fetchStore} setValues={setFetchStore}>
         {STORE_IDS}
       </CommonMultiSelect>
-      <CategoriesNav className="w-auto">{rootCategories}</CategoriesNav>
+      <CategoriesNav>{rootCategories}</CategoriesNav>
     </section>
   );
 }
