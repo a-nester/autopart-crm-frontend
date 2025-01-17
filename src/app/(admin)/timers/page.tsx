@@ -6,6 +6,7 @@ import TimersProductItem from '@/app/components/TimersProductItem/TimersProductI
 
 export default function Page({}) {
   const { products } = useStore();
+  const { store } = useStore();
 
   useEffect(() => {
     console.log('Products', products);
@@ -17,7 +18,7 @@ export default function Page({}) {
       <ul>
         {products.map((elem) => (
           <li key={elem.id} className="m-1">
-            <TimersProductItem product={elem} />
+            <TimersProductItem product={elem} shop={store} />
           </li>
         ))}
       </ul>

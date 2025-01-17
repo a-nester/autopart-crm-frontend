@@ -84,8 +84,8 @@ export type Actions = {
     clearOrders: () => void;
     addStore: (newStore: string) => void;
     getStoreCategories: () => void;
-    getProductsByCategoryId: (group_id: number) => void;
-
+  getProductsByCategoryId: (group_id: number) => void;
+  setProductDiscountTimer: (timerParams: {}) => void;
 };
 
 export type OrdersStore = State & Actions;

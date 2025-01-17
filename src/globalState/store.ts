@@ -1,7 +1,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { fetchAndSetOrders, getProductsByCategoryIdOperation, getStoreCategoriesOperation } from './operations';
+import { fetchAndSetOrders, getProductsByCategoryIdOperation, getStoreCategoriesOperation, setProductDiscountTimerOperation } from './operations';
 import { OrdersStore } from '@/types/types';
 
 // export const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
@@ -35,6 +35,10 @@ const useStore = create<OrdersStore>()(
       getProductsByCategoryId: async (group_id: number) => {
         const { store } = get();
         await getProductsByCategoryIdOperation(store, set, group_id);
+      },
+      setProductDiscountTimer: async (timerParams) => {
+        const { store } = get();
+        await setProductDiscountTimerOperation(store, set, timerParams);
       }
     }),
 

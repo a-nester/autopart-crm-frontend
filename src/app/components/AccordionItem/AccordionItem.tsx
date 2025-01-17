@@ -14,8 +14,6 @@ export function AccordionItem({ element }) {
     setSubCategory(subCategories);
   }, []);
 
-  console.log(subCategories);
-
   const handleClick = () => {
     getProductsByCategoryId(group_id);
   };

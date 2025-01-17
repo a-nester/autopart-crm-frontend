@@ -9,8 +9,8 @@ import { CategoriesNav } from '@/app/components/CategoriesNav/CategoriesNav';
 export default function TimersSideBar() {
   const { addStore, storeCategories, getStoreCategories } = useStore();
   const [fetchStore, setFetchStore] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
+  // const [subCategory, setSubCategory] = useState([]);
+  // const [categoryId, setCategoryId] = useState(null);
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
   useEffect(() => {
@@ -19,7 +19,6 @@ export default function TimersSideBar() {
       getStoreCategories();
     }
   }, [fetchStore]);
-
   //   console.log(storeCategories);
   const rootCategories = getRootCategories(storeCategories);
   //   console.log(rootCategories);

@@ -13,12 +13,14 @@ type SetFunction = (partial: Partial<{
 }>) => void;
 
 export const fetchAndSetOrders = async (stores: string[], set: SetFunction) => {
-    set({ isLoading: true, error: null });
+  set({ isLoading: true, error: null });
+  
+    const service = 'prom';
     const URL = 'orders/list/';
         try { 
           const responses = await Promise.all(
             stores.map((storeId) => axios
-              .get('/api/proxy', { params: { storeId, URL } })
+              .get('/api/proxy', { params: { service, storeId, URL } })
               .then((response) => ({ storeId, data: response.data }))
             ),
           );
@@ -37,14 +39,15 @@ export const fetchAndSetOrders = async (stores: string[], set: SetFunction) => {
 
 export const getStoreCategoriesOperation = async (store, set) => {
     const storeId = store[0];
-
+const service = 'prom';
     set({ isLoading: true, error: null });
     const URL = 'groups/list';
 
     let last_id = null; 
     const storeCategories = []; 
     let shouldContinue = true;
-    const params = {
+  const params = {
+      service,
                 storeId,
                 URL,
                 limit: 100,
@@ -98,11 +101,12 @@ export const getStoreCategoriesOperation = async (store, set) => {
 
 export const getProductsByCategoryIdOperation = async (store, set, group_id) => {
   const storeId = store[0];
+  const service = 'prom';
   set({ isLoading: true, error: null });
   const URL = 'products/list/';
   try {
     const response = await axios
-      .get('/api/proxy', { params: { storeId, URL, limit: 100, group_id } });
+      .get('/api/proxy', { params: { service, storeId, URL, limit: 100, group_id } });
     
     const products = response.data.products;
     set({products, isLoading: false})
@@ -111,4 +115,24 @@ export const getProductsByCategoryIdOperation = async (store, set, group_id) => 
       error: error instanceof Error ? error.message : 'Unknown error',
     })
   }
+}
+
+export const setProductDiscountTimerOperation = async (store, set, timerParams) => {
+  const storeId = store[0];
+  const service = 'myApp';
+  const URL = 'timers/';
+  set({ isLoading: true, error: null });
+
+  try {
+    const response = await axios.post('/api/proxy',
+      timerParams, {
+      params: { service, storeId, URL },
+    });
+    set({ isLoading: false, response: response.data})
+  } catch (error) {
+    set({
+      error: error instanceof Error ? error.message : 'Unkown error',
+    })
+  }
+
 }

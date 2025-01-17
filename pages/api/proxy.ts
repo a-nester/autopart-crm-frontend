@@ -1,52 +1,61 @@
+import { getTokenByService } from '@/app/helpers/getTokenByService';
 import axios from 'axios';
-import { error } from 'console';
+// import { error } from 'console';
 
-export default async function handler(req, res) {
-  const { method, query } = req;
+const SERVICES = {
+    prom: {
+      baseURL: 'https://my.prom.ua/api/v1/',
+    },
+    myApp: {
+      baseURL: 'http://93.183.216.213:3000/',
+    }
+}
+  
+async function makeRequest({ method, service, storeId, URL, queryParams, body }:
+  { method: string, service: string, storeId: string, URL: string, queryParams: string, body: string }) {
+  const tokenObj = getTokenByService(service, storeId);
 
-  if (method === 'GET') {
-    const { storeId, URL, limit, last_id, group_id } = query;
-    console.log(storeId, URL);
+  if (!tokenObj) {
+    throw new Error('Invalid store ID');
+  }
 
-        const STORES = {
-  AvtoKlan: { token: process.env.NEXT_PUBLIC_AVTOKLAN_TOKEN,    
-  },
-  AutoAx: { token: process.env.NEXT_PUBLIC_AUTOAX_TOKEN,    
-  },
-  iDoAuto: { token: process.env.NEXT_PUBLIC_IDOAUTO_TOKEN,    
-  },
-  ToAuto: { token: process.env.NEXT_PUBLIC_TOAUTO_TOKEN,    
-  },
+  const serviceConfig = SERVICES[service];
+
+  if (!serviceConfig) {
+    throw new Error('Invalid service');
+  }
+
+  return await axios({
+    method,
+    url: URL,
+    baseURL: serviceConfig.baseURL,
+    headers: {
+      Authorization: `Bearer ${tokenObj.token}`
+    },
+    params: queryParams,
+    data: body,
+  })
 }
 
-    const store = STORES[storeId];
-    
+export default async function handler(req, res) {
+  const { method, query, body } = req;
+  const { service, storeId, URL, limit, last_id, group_id } = query;
 
-    if (!store) {
-      return res.status(400).json({error: 'Invalid store ID'})
-    }
+    const queryParams = { limit, last_id, group_id }
 
+  if (method === 'GET' || method === 'POST') {
     try {
-      const response = await axios.get(
-        URL,
-        {
-          baseURL: 'https://my.prom.ua/api/v1/',
-          headers: {
-            Authorization: `Bearer ${store.token}`,
-          },
-          params: {
-            limit,
-            last_id, 
-            group_id,
-          }
-        },
-      );
+      const response = await makeRequest({ method, service, storeId, URL, queryParams, body })
+        
       res.status(200).json(response.data);
-    } catch (error) {
-      res.status(error.response?.status || 500).json({ error: error.message });
+    } catch (error: any) {
+      res
+        .status(error.response?.status || 500)
+        .json({ error: error.message || 'Internal Server Error' });
     }
-  } else {
-    res.setHeader('Allow', ['GET']);
-    res.status(405).end(`Method ${method} Not Allowed`);
-  }
+  } 
+    else {
+      res.setHeader('Allow', ['GET']);
+      res.status(405).end(`Method ${method} Not Allowed`);
+    }
 }
