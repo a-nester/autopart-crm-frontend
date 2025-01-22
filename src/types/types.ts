@@ -15,9 +15,9 @@ export type Category = {
 export type Discount = {
   type: string;
   value: number;
-  dateEnd: string;
-  dateStart: string;
-};
+  date_end?: string;
+  date_start?: string;
+} | null;
 
 export type Groupe = {
   id: number;

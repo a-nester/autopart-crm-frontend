@@ -7,7 +7,7 @@ const SERVICES = {
       baseURL: 'https://my.prom.ua/api/v1/',
     },
     myApp: {
-      baseURL: 'http://93.183.216.213:3000/',
+      baseURL: 'http://93.183.216.213:8080/',
     }
 }
   
@@ -30,14 +30,15 @@ async function makeRequest({ method, service, storeId, URL, queryParams, body }:
     url: URL,
     baseURL: serviceConfig.baseURL,
     headers: {
-      Authorization: `Bearer ${tokenObj.token}`
+      Authorization: `Bearer ${tokenObj.token}`,
+      'Content-Type': 'application/json',
     },
-    params: queryParams,
-    data: body,
+    data: method === 'POST' ? body : undefined,
+    params: method === 'GET' ? queryParams: undefined,
   })
 }
 
-export default async function handler(req, res) {
+export default async function handler(req, res) { 
   const { method, query, body } = req;
   const { service, storeId, URL, limit, last_id, group_id } = query;
 
@@ -45,6 +46,7 @@ export default async function handler(req, res) {
 
   if (method === 'GET' || method === 'POST') {
     try {
+      console.log({ method, query, body }, { service, storeId, URL, limit, last_id, group_id } );
       const response = await makeRequest({ method, service, storeId, URL, queryParams, body })
         
       res.status(200).json(response.data);

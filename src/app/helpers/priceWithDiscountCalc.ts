@@ -1,18 +1,68 @@
 import { Discount } from "@/types/types";
 
+export const priceWithDiscountCalc = (price: number | null, discountObj: Discount | null, isPerioded?: boolean): number | null => {
+    if (!discountObj) {
+        return price;
+    }
 
-export const priceWithDiscountCalc = (price: number | null, discount: Discount | null) => {
-    if (discount !== null) {
-        const { dateEnd, dateStart, type, value } = discount;
-        const isDiscountPeriod = new Date(dateStart) < new Date() && new Date < new Date(dateEnd);
-        if (isDiscountPeriod && price !== null) {
-            if (type === "percent") {
-                const totalPrice = price - (price / 100 * value);
-                return totalPrice;
-            } else {
-                const totalPrice = price - value;
-                return totalPrice;
+    const { date_end, date_start, type, value } = discountObj;
+
+    if (isPerioded === true) {
+        if (discountObj !== null) {
+
+        if (discountObj?.date_start !== null && discountObj?.date_end !== null) {
+            // Перевірка на наявність дати та коректність формату
+            if (!date_start || !date_end) {
+                console.error("Invalid date format or undefined date:", { date_start, date_end });
+                return price;  // Якщо дати невірні, повертаємо початкову ціну
             }
-        } else return price;
-    } else return price;
-}
+
+            // Перетворення формату дати "DD.MM.YYYY" в об'єкт Date
+            const parseDate = (dateString: string): Date | null => {
+                const [day, month, year] = dateString.split('.').map(Number);
+                if (isNaN(day) || isNaN(month) || isNaN(year)) {
+                    console.error("Invalid date values:", dateString);
+                    return null;
+                }
+                return new Date(year, month - 1, day); // Місяць у Date починається з 0
+            };
+            
+            const startDate = parseDate(date_start);
+            const endDate = parseDate(date_end);
+            
+
+            // Якщо дати не валідні, повертаємо оригінальну ціну
+            if (!startDate || !endDate) {
+                return price;
+            }
+
+            // Перевірка періоду дії знижки
+            const isDiscountPeriod = startDate <= new Date() && new Date() <= endDate;
+
+            if (isDiscountPeriod && price !== null) {
+                if (type === "percent") {
+                    const result = price - (price * value / 100);
+                    return parseFloat(result.toFixed(2));
+                } else {
+                    const result = (price - value);
+                    return parseFloat(result.toFixed(2));
+                }
+            }
+        }
+    }
+        return price;
+    }
+    else {
+        if (!price) {
+            return price;
+        }
+        if (type === "percent") {
+                    const result = price - (price * value / 100);
+                    return parseFloat(result.toFixed(2));
+                } else {
+                    const result = (price - value);
+                    return parseFloat(result.toFixed(2));
+                }
+    }
+    
+};
