@@ -1,18 +1,48 @@
+import {  CategoryElement, Order, Product, TimerParams } from "@/types/types";
 import axios from "axios";
-import { log } from "console";
 
-type Order = {
-    id: number;
-    promStoreId: number;
-};
 
-type SetFunction = (partial: Partial<{
-    orders: Order[];
+
+// type Order = {
+//     id: number;
+//     promStoreId: number;
+// };
+
+type SetFunction_fetchAndSetOrders = (partial: Partial<{
+  orders: Order[];
+  
     isLoading: boolean;
     error: string | null;
 }>) => void;
 
-export const fetchAndSetOrders = async (stores: string[], set: SetFunction) => {
+type SetFunction_getStoreCategoriesOperation = (partial: Partial<{
+  storeCategories: CategoryElement[];
+  
+    isLoading: boolean;
+    error: string | null;
+}>) => void;
+
+type SetFunction_getProductsByCategoryIdOperation = (partial: Partial<{
+  products: Product[];
+  
+    isLoading: boolean;
+    error: string | null;
+}>) => void;
+
+type SetFunction_setProductDiscountTimerOperation = (partial: Partial<{
+  response: {data: string};
+    isLoading: boolean;
+    error: string | null;
+}>) => void;
+
+// storeCategories?: string[];
+//   products: Product[];
+//   response: {
+//     data: string
+//   }
+// type SetFunction = Parameters<StateCreator<OrdersStore>>[1];
+
+export const fetchAndSetOrders = async (stores: string[], set: SetFunction_fetchAndSetOrders) => {
   set({ isLoading: true, error: null });
   
     const service = 'prom';
@@ -37,7 +67,7 @@ export const fetchAndSetOrders = async (stores: string[], set: SetFunction) => {
         }
 }
 
-export const getStoreCategoriesOperation = async (store, set) => {
+export const getStoreCategoriesOperation = async (store: string, set: SetFunction_getStoreCategoriesOperation) => {
     const storeId = store[0];
 const service = 'prom';
     set({ isLoading: true, error: null });
@@ -99,7 +129,7 @@ const service = 'prom';
 };
 
 
-export const getProductsByCategoryIdOperation = async (store, set, group_id) => {
+export const getProductsByCategoryIdOperation = async (store: string, set: SetFunction_getProductsByCategoryIdOperation, group_id: number) => {
   const storeId = store[0];
   const service = 'prom';
   set({ isLoading: true, error: null });
@@ -117,7 +147,7 @@ export const getProductsByCategoryIdOperation = async (store, set, group_id) => 
   }
 }
 
-export const setProductDiscountTimerOperation = async (store, set, timerParams) => {
+export const setProductDiscountTimerOperation = async (store: string, set: SetFunction_setProductDiscountTimerOperation, timerParams: TimerParams) => {
   const storeId = store[0];
   const service = 'myApp';
   const URL = 'timers/';

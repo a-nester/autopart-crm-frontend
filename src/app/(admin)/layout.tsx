@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../../components/sidebar';
 import clsx from 'clsx';
 
 export interface LayoutProps {
@@ -11,7 +11,7 @@ export interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [isActive, setIsActive] = useState(true);
 
-  console.log('rendering');
+  // console.log('rendering');
 
   return (
     <>

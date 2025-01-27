@@ -1,15 +1,8 @@
 'use client';
 
-import CommonMultiSelect from '@/app/components/CommonComponents/CommonMultiSelect/CommonMultiSelect';
-import { useStore } from '../../../globalState/store';
-import { useEffect, useState } from 'react';
-import { getRootCategories } from '@/app/helpers/getCategories';
-import Link from 'next/link';
-import { Accordion } from '@mui/material';
-import { CategoriesNav } from '@/app/components/CategoriesNav/CategoriesNav';
-import TimersSideBar from '@/app/components/TimersSideBar/TimersSideBar';
+import TimersSideBar from '@/components/TimersSideBar/TimersSideBar';
 
-export default function Page({ children }) {
+export default function Page({ children }: { children: React.ReactElement }) {
   //   const {
   //     store,
   //     addStore,

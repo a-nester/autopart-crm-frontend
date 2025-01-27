@@ -1,5 +1,4 @@
-import { headers } from 'next/headers';
-import AddCompanyButton from './components/add-company-button';
+import AddCompanyButton from '../components/add-company-button';
 import Link from 'next/link';
 
 export default function Home() {

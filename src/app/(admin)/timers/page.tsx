@@ -2,7 +2,7 @@
 
 import { useStore } from '../../../globalState/store';
 import { useEffect, useState } from 'react';
-import TimersProductItem from '@/app/components/TimersProductItem/TimersProductItem';
+import TimersProductItem from '@/components/TimersProductItem/TimersProductItem';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 
 export default function Page({}) {

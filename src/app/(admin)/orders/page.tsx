@@ -1,12 +1,12 @@
 'use client';
 
-import OrdersList from '@/app/components/orders/ordersList/ordersList';
+import OrdersList from '@/components/orders/ordersList/ordersList';
 
 export default function Page({}) {
   return (
-    <div className="flex-col">
+    <section className="flex flex-col p-3 gap-2">
       <p>Product Timers. Bears </p>
       <OrdersList />
-    </div>
+    </section>
   );
 }

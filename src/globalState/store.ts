@@ -27,7 +27,9 @@ const useStore = create<OrdersStore>()(
         await fetchAndSetOrders(stores, set);
       },
       clearOrders: () => set({ orders: [] }),
-      addStore: (newStore: string) => {set({store: newStore})},
+      addStore: (newStore: string) => {
+        return set({ store: newStore });
+      },
       getStoreCategories: async () => {
         const { store } = get();
         await getStoreCategoriesOperation(store, set);

@@ -9,9 +9,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // ваша конфігурація
-  experimental: {
-    appDir: true,
-  },
+  // experimental: {
+  //   appDir: true,
+  // },
   images: {
     domains: ['images.prom.ua'],
   },

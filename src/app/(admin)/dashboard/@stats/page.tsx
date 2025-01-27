@@ -1,8 +1,10 @@
 import React from 'react';
 import { getSummaryStats } from '@/lib/api';
-import StatCard, { StatCardType } from '@/app/components/stat-card/stat-card';
+import StatCard, { StatCardType } from '@/components/stat-card/stat-card';
 import Link from 'next/link';
-export interface PageProps {}
+
+export type PageProps = object;
+
 const labelByStat = {
   promotions: 'Total promotions',
   categories: 'Total categories',

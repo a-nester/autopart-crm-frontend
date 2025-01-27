@@ -1,23 +1,25 @@
-// export type storeCategories = {
-
-// }
-
-export type Order = {
-  id: number;
-  promStoreId: number;
-};
-
-export type Category = {
-  id: number;
-  caption: string;
-};
-
 export type Discount = {
   type: string;
   value: number;
   date_end?: string;
   date_start?: string;
 } | null;
+
+export type Category = {
+  id: number;
+  caption: string;
+  parent_group_id?: number | null;
+};
+
+export type CategoryElement = {
+  id: number;
+  name_multilang: {
+    uk: string;
+    [key: string]: string;
+  };
+  parent_group_id?: number | null;
+  // Add other properties that `element` may have
+};
 
 export type Groupe = {
   id: number;
@@ -68,24 +70,149 @@ export type Product = {
   variation_group_id: number | null;
 };
 
+export type OrderProduct = {
+  cpa_commission: { amount: string };
+  external_id: string;
+  id: number;
+  image: string;
+  measure_unit: string;
+  name: string;
+  name_multilang: {
+    ru: string,
+    uk: string
+  };
+  price: string;
+  quantity: number;
+  sku: string;
+  total_price: string;
+  url: string;
+}
+
+// export type Order = {
+//   id: number;
+//   promStoreId: number;
+//   date_created: string;
+//   products: OrderProduct[];
+//   // {
+//   //   image: string;
+//   //   name_multilang: {
+//   //     uk: string;
+//   //     [key: string]: string;
+//   //   };
+//   // }[];
+//   full_price: number;
+//   cpa_commission: {
+//     amount: number;
+//   };
+// };
+
+export type Order = {
+  cancellation: string | null;
+  client: {
+    first_name: string; //'Анна',
+    last_name: string; //'Пархоменко',
+    second_name: string | null;
+    id: number; //280429035
+  };
+  client_first_name: string; //"Анна"
+  client_id: number;  //280429035
+  client_last_name: string; //"Пархоменко"
+  client_notes: string; // ""
+  client_second_name: string | null;
+  cpa_commission: {
+    amount: string; //'2.86',
+    is_refunded: boolean
+  }
+  date_created: string; //"2025-01-23T16:16:39.053131+00:00"
+  date_modified: string; //"2025-01-26T09:42:44.642314+00:00"
+  delivery_address: string; //"с. Доброводи (Черкаська обл.), Пункт приймання-видачі (до 30 кг): вул. Незалежності, 5а"
+  delivery_cost: number; //105
+  delivery_option: {
+    id: number;  //14869279,
+    name: string; //'Нова Пошта',
+    shipping_service: string; //null
+  }
+  delivery_provider_data: {
+    provider: string;  //'nova_poshta',
+    type: string;  //'W2W',
+    sender_warehouse_id: string;  //'32902192-3f5a-11e6-a9f2-005056887b8d',
+    recipient_warehouse_id: string;  //'7a2dbd93-f7e5-11e9-9c59-005056b24375',
+    declaration_number: string;  //'20451090131101', 
+    recipient_address: {
+      apartment_number: string | null;
+      building_number: string | null;
+      city_id: string;  //"24cd0822-cf18-11e9-b0c5-005056b24375"
+      city_name: string;  //"с. Доброводи (Черкаська обл.)"
+      street_id: string | null;
+      street_name: string | null;
+      warehouse_id: string;  //"7a2dbd93-f7e5-11e9-9c59-005056b"  
+    }
+    unified_status: string;  //"on_the_way"
+  }
+  delivery_recipient: object
+  dont_call_customer_back: boolean;
+  email: string | null;
+  full_price: string;
+  has_order_promo_free_delivery: boolean;
+  id: number;
+  payment_data: {
+    type: string;  //'evopay',
+    status: string;  //'paid',
+    status_modified: string;  //'2025-01-23T16:17:16.903988+00:00'
+  }
+  payment_option: {
+    id: number, 
+    name: string
+  }
+  phone: string;
+  price: string;
+  price_with_special_offer: null;
+  products: OrderProduct[];
+  promStoreId: string;  //"iDoAuto";
+  ps_promotion: null;
+  source: string;  //"mobile_catalog_app";
+  special_offer_discount: null;
+  special_offer_promocode: null;
+  status: string;  //"delivered";
+  status_name: string;  //"Выполнен";
+  utm: {
+    campaign: string; // ""
+    medium: string; // "trigger)"
+    sourc: string; //"viber"
+  }
+}
+
 export type State = {
   orders: Order[];
-    storeCategories: Category[];
-    store: string;
-    products: Product[];
+  storeCategories: CategoryElement[];
+  store: string;
+  products: Product[];
   isLoading: boolean;
-    error: string | null;
-    stores: string[];
+  error: string | null;
+  stores: string[];
 };
 
+export type TimerParams = {
+  shop: string;
+  productId: number;
+  dayDiscountType: string;
+  dayDiscount: number;
+  nightDiscountType: string;
+  nightDiscount: number;
+}
+
 export type Actions = {
-    addStores: (newStores: string[]) => void;
-    fetchOrders: () => Promise<void>;
-    clearOrders: () => void;
-    addStore: (newStore: string) => void;
-    getStoreCategories: () => void;
+  addStores: (newStores: string[]) => void;
+  fetchOrders: () => Promise<void>;
+  clearOrders: () => void;
+  addStore: (newStore: string) => void;
+  getStoreCategories: () => void;
   getProductsByCategoryId: (group_id: number) => void;
-  setProductDiscountTimer: (timerParams: {}) => void;
+  setProductDiscountTimer: (timerParams: TimerParams) => void;
 };
 
 export type OrdersStore = State & Actions;
+
+export type STORES = Record<string, { token: string | undefined }>;
+
+
