@@ -1,7 +1,12 @@
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { fetchAndSetOrders, getProductsByCategoryIdOperation, getStoreCategoriesOperation, setProductDiscountTimerOperation } from './operations';
+import {
+  fetchAndSetOrders,
+  getProductsByCategoryIdOperation,
+  getStoreCategoriesOperation,
+  setProductDiscountTimerOperation,
+  userLoginOperation,
+} from './operations';
 import { OrdersStore } from '@/types/types';
 
 // export const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
@@ -9,39 +14,45 @@ import { OrdersStore } from '@/types/types';
 const useStore = create<OrdersStore>()(
   persist(
     (set, get) => ({
+      token: '',
       orders: [],
       storeCategories: [],
-      store: '',
+      shop: '',
       products: [],
       isLoading: false,
       error: null,
-      stores: [
-    'AvtoKlan',
-    'AutoAx',
-    'iDoAuto',
-    'ToAuto',
-  ],
-      addStores: (newStores: string[]) => { set({ stores: [...newStores] }) },
+      shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
+      userLogin: async (email: string, password: string) => {
+        try {
+          await userLoginOperation(set, email, password);
+          console.log('User logged in successfully');
+        } catch (error) {
+          console.error('Error during login', error);
+        }
+      },
+      addStores: (newShops: string[]) => {
+        set({ shops: [...newShops] });
+      },
       fetchOrders: async () => {
-        const { stores } = get();
-        await fetchAndSetOrders(stores, set);
+        const { shops } = get();
+        await fetchAndSetOrders(shops, set);
       },
       clearOrders: () => set({ orders: [] }),
-      addStore: (newStore: string) => {
-        return set({ store: newStore });
+      addStore: (newShop: string) => {
+        return set({ shop: newShop });
       },
       getStoreCategories: async () => {
-        const { store } = get();
-        await getStoreCategoriesOperation(store, set);
+        const { shop } = get();
+        await getStoreCategoriesOperation(shop, set);
       },
       getProductsByCategoryId: async (group_id: number) => {
-        const { store } = get();
-        await getProductsByCategoryIdOperation(store, set, group_id);
+        const { shop } = get();
+        await getProductsByCategoryIdOperation(shop, set, group_id);
       },
       setProductDiscountTimer: async (timerParams) => {
-        const { store } = get();
-        await setProductDiscountTimerOperation(store, set, timerParams);
-      }
+        const { shop } = get();
+        await setProductDiscountTimerOperation(shop, set, timerParams);
+      },
     }),
 
     {

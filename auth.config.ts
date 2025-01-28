@@ -1,23 +1,26 @@
 import { NextAuthConfig } from "next-auth";
 
-export const authConfig = {
-    pages: {
-        signIn: '/login',
-        signOut: '/logout',
-        error: '/error'
+// Конфігурація для NextAuth
+export const authConfig: NextAuthConfig = {
+  pages: {
+    signIn: '/login',
+    signOut: '/logout',
+    error: '/error',
+  },
+  callbacks: {
+    async authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user; // Користувач повинен бути аутентифікованим
+      const isOnDashboard = nextUrl.pathname.startsWith('/');
+
+      // Якщо користувач намагається зайти на /dashboard без авторизації
+      if (isOnDashboard) {
+        return isLoggedIn ? true : false; // Якщо не авторизований, редиректимемо на логін
+      } else if (!isLoggedIn) {
+        return Response.redirect(new URL('/dashboard', nextUrl));
+      }
+
+      return true;
     },
-  //   callbacks: {
-  //   authorized({ auth, request: { nextUrl } }) {
-  //     const isLoggedIn = !auth?.user;
-  //     const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-  //     if (isOnDashboard) {
-  //       if (isLoggedIn) return true;
-  //       return false; // Redirect unauthenticated users to login page
-  //     } else if (isLoggedIn) {
-  //       return Response.redirect(new URL('/dashboard', nextUrl));
-  //     }
-  //     return true;
-  //   },
-  // },
-  providers: [], // Add providers with an empty array for now
-} satisfies NextAuthConfig;
+  },
+  providers: [], // Це порожній масив провайдерів, поки що не додаємо
+};

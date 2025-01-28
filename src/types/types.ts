@@ -1,3 +1,7 @@
+export type Token = {
+  accessToken: string
+}
+
 export type Discount = {
   type: string;
   value: number;
@@ -183,13 +187,14 @@ export type Order = {
 }
 
 export type State = {
+  token: string;
   orders: Order[];
   storeCategories: CategoryElement[];
-  store: string;
+  shop: string;
   products: Product[];
   isLoading: boolean;
   error: string | null;
-  stores: string[];
+  shops: string[];
 };
 
 export type TimerParams = {

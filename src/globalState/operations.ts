@@ -1,4 +1,4 @@
-import {  CategoryElement, Order, Product, TimerParams } from "@/types/types";
+import {  CategoryElement, Order, Product, TimerParams, Token } from "@/types/types";
 import axios from "axios";
 
 
@@ -35,12 +35,34 @@ type SetFunction_setProductDiscountTimerOperation = (partial: Partial<{
     error: string | null;
 }>) => void;
 
+type SetFunction_userLoginOperation = (partial: Partial<{
+  token: string;
+    isLoading: boolean;
+    error: string | null;
+}>) => void;
+
 // storeCategories?: string[];
 //   products: Product[];
 //   response: {
 //     data: string
 //   }
 // type SetFunction = Parameters<StateCreator<OrdersStore>>[1];
+
+export const userLoginOperation = async (email: string, password: string) => {
+  const URL = '/auth/login';
+  const service = 'myApp';
+  
+  try {
+    const response = await axios.post('/api/proxy', { email, password }, { params: { service } });
+    const user = response.data;
+    if (!user) {
+      throw new Error('Invalid response: no user received');
+    }
+    return user;
+} catch (error: any) {
+  console.error('Login failed:', error);
+}
+}
 
 export const fetchAndSetOrders = async (stores: string[], set: SetFunction_fetchAndSetOrders) => {
   set({ isLoading: true, error: null });
@@ -166,3 +188,4 @@ export const setProductDiscountTimerOperation = async (store: string, set: SetFu
   }
 
 }
+
