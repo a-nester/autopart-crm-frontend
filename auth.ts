@@ -35,10 +35,12 @@ export const {auth, signIn, signOut } = NextAuth({
 
         const { email, password } = parsedCredentials.data;
 
-        try {
-          const user = await userLoginOperation(email, password);
 
-          if (!user || !user.token) {
+        try {
+          const response = await userLoginOperation(email, password);
+          const user = response.data;
+console.log("1", user);
+          if (!user || !user.accessToken) {
             throw new Error('Invalid credentials');
           }
 
@@ -47,7 +49,7 @@ export const {auth, signIn, signOut } = NextAuth({
             name: user.name,
             email: user.email,
             role: user.role,
-            token: user.token,
+            token: user.accessToken,
           };
         } catch (error) {
           console.error('Authorize error:', error);

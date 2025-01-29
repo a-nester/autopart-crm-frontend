@@ -37,13 +37,22 @@ async function makeRequest({ method, service, storeId, URL, queryParams, body }:
       'Content-Type': 'application/json',
     },
     data: method === 'POST' ? body : undefined,
-    params: method === 'GET' ? queryParams: undefined,
+    params: method === 'GET' ? queryParams : undefined,
   })
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query, body } = req;
   const { service, storeId, URL, limit, last_id, group_id } = query;
+
+//   console.log('Making request with:', {
+//   method,
+//   service,
+//   storeId,
+//   URL,
+//   query,
+//   body,
+// });
 
   if (!service || typeof service !== 'string' || !(service in SERVICES)) {
     return res.status(400).json({ error: 'Invalid or missing service parameter' });
@@ -53,13 +62,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (method === 'GET' || method === 'POST') {
     try {
-      console.log({ method, query, body }, { service, storeId, URL, limit, last_id, group_id });
+      if (!URL || typeof URL !== 'string') {
+      return res.status(400).json({ error: 'Invalid or missing URL parameter' });
+}
+      
       const response = await makeRequest({
         method,
         service: service as ServiceType,
         storeId: storeId as string,
         URL: URL as string,
-        queryParams: queryParams as unknown as string,
+        queryParams,
         body,
       });
 

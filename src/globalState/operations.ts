@@ -49,11 +49,17 @@ type SetFunction_userLoginOperation = (partial: Partial<{
 // type SetFunction = Parameters<StateCreator<OrdersStore>>[1];
 
 export const userLoginOperation = async (email: string, password: string) => {
-  const URL = '/auth/login';
+  // const storeId = 'AvtoKlan';
   const service = 'myApp';
+  const URL = 'auth/login';
   
   try {
-    const response = await axios.post('/api/proxy', { email, password }, { params: { service } });
+    const loginParams = { email, password };
+    const response = await axios.post('/api/proxy',
+      loginParams, {
+        baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+        params: { service, URL }
+    });
     const user = response.data;
     if (!user) {
       throw new Error('Invalid response: no user received');
