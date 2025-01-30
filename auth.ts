@@ -37,9 +37,10 @@ export const {auth, signIn, signOut } = NextAuth({
 
 
         try {
+          
           const response = await userLoginOperation(email, password);
           const user = response.data;
-          // console.log("1", user);
+          
           if (!user || !user.accessToken) {
             throw new Error('Invalid credentials');
           }

@@ -6,9 +6,14 @@ export default function Home() {
 
   return (
     <main>
-      <h1 className="text-xl">Home page {new Date().toTimeString()}</h1>
-      <AddCompanyButton />
-      <Link href={'/dashboard'}>Dashboard</Link>
+      {/* <h1 className="flex flex-col text-xl">
+        Home page {new Date().toTimeString()}
+      </h1> */}
+      <section className="flex flex-col items-center">
+        {/* <AddCompanyButton /> */}
+        <Link href={'/dashboard'}>Dashboard</Link>
+        <Link href={'/login'}>Log in</Link>
+      </section>
     </main>
   );
 }
