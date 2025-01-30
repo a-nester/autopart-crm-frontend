@@ -1,4 +1,4 @@
-import {  CategoryElement, Order, Product, TimerParams, Token } from "@/types/types";
+import {  CategoryElement, Order, Product, TimerParams } from "@/types/types";
 import axios from "axios";
 
 
@@ -35,11 +35,11 @@ type SetFunction_setProductDiscountTimerOperation = (partial: Partial<{
     error: string | null;
 }>) => void;
 
-type SetFunction_userLoginOperation = (partial: Partial<{
-  token: string;
-    isLoading: boolean;
-    error: string | null;
-}>) => void;
+// type SetFunction_userLoginOperation = (partial: Partial<{
+//   token: string;
+//     isLoading: boolean;
+//     error: string | null;
+// }>) => void;
 
 // storeCategories?: string[];
 //   products: Product[];
@@ -65,7 +65,7 @@ export const userLoginOperation = async (email: string, password: string) => {
       throw new Error('Invalid response: no user received');
     }
     return user;
-} catch (error: any) {
+} catch (error: unknown ) {
   console.error('Login failed:', error);
 }
 }

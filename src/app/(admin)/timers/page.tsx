@@ -7,7 +7,7 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 
 export default function Page({}) {
   const { products } = useStore();
-  const { store } = useStore();
+  const { shop } = useStore();
   const [isAvailable, setIsAvailable] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(products);
 
@@ -45,7 +45,7 @@ export default function Page({}) {
       <ul>
         {filteredProducts.map((elem) => (
           <li key={elem.id} className="m-1">
-            <TimersProductItem product={elem} shop={store} />
+            <TimersProductItem product={elem} shop={shop} />
           </li>
         ))}
       </ul>

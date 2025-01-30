@@ -58,7 +58,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Invalid or missing service parameter' });
   }
 
-  const queryParams = { limit, last_id, group_id };
+  const queryParams = new URLSearchParams({
+  ...(limit && { limit: String(limit) }),
+  ...(last_id && { last_id: String(last_id) }),
+  ...(group_id && { group_id: String(group_id) }),
+}).toString();
 
   if (method === 'GET' || method === 'POST') {
     try {

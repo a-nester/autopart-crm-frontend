@@ -25,7 +25,7 @@ export const {auth, signIn, signOut } = NextAuth({
 
         //Check entered data format
         const parsedCredentials = schema.safeParse(credentials);
-        if (!parsedCredentials) {
+        if (!parsedCredentials.success) {
           console.error(
             'Invalid credentials format:',
             parsedCredentials.error.errors,
@@ -39,7 +39,7 @@ export const {auth, signIn, signOut } = NextAuth({
         try {
           const response = await userLoginOperation(email, password);
           const user = response.data;
-console.log("1", user);
+          // console.log("1", user);
           if (!user || !user.accessToken) {
             throw new Error('Invalid credentials');
           }
@@ -71,12 +71,14 @@ console.log("1", user);
     },
     async session({ session, token }) {
     session.user = {
-        id: token.id,
-        name: token.name,
-        email: token.email,
-        role: token.role, // Додаємо роль до сесії
+        id: String(token.id),
+        name: String(token.name),
+        email: String(token.email),
+        role: String(token.role), // Додаємо роль до сесії
+        token: String(token.accessToken),
+        emailVerified: null,
     };
-    session.accessToken = token.accessToken;
+    session.accessToken = String(token.accessToken);
     return session;
   },
   },

@@ -24,7 +24,7 @@ const useStore = create<OrdersStore>()(
       shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
       userLogin: async (email: string, password: string) => {
         try {
-          await userLoginOperation(set, email, password);
+          await userLoginOperation( email, password);
           console.log('User logged in successfully');
         } catch (error) {
           console.error('Error during login', error);
