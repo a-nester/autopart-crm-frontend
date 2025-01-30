@@ -6,9 +6,9 @@ import CommonMultiSelect from '../../CommonComponents/CommonMultiSelect/CommonMu
 import { useEffect, useState } from 'react';
 
 export default function OrdersList() {
-  const { stores, addStores, fetchOrders } = useStore();
+  const { shops, addStores, fetchOrders } = useStore();
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
-  const [storesList, setStoresList] = useState<string[]>(stores);
+  const [storesList, setStoresList] = useState<string[]>(shops);
   const orders = useStore((state) => state.orders);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function OrdersList() {
   }, [storesList, addStores]);
 
   useEffect(() => {
-    fetchOrders();
+    if (storesList.length > 0) fetchOrders();
   }, [storesList, fetchOrders]);
 
   return (
