@@ -23,7 +23,7 @@ export const {auth, signIn, signOut } = NextAuth({
           password: z.string().min(6),
         });
 
-        //Check entered data format
+        //тут перевірка введених даних
         const parsedCredentials = schema.safeParse(credentials);
         if (!parsedCredentials.success) {
           console.error(
@@ -84,5 +84,3 @@ export const {auth, signIn, signOut } = NextAuth({
   },
   },
 });
-
-// export default NextAuth(authOptions);

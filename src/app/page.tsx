@@ -1,4 +1,4 @@
-import AddCompanyButton from '../components/add-company-button';
+// import AddCompanyButton from '../components/add-company-button';
 import Link from 'next/link';
 
 export default function Home() {
@@ -11,8 +11,10 @@ export default function Home() {
       </h1> */}
       <section className="flex flex-col items-center">
         {/* <AddCompanyButton /> */}
-        <Link href={'/dashboard'}>Dashboard</Link>
-        <Link href={'/login'}>Log in</Link>
+        <Link href={'/admin/dashboard'}>Dashboard</Link>
+        <Link href={'/login'} className="hover:text-[blue]">
+          Log in
+        </Link>
       </section>
     </main>
   );

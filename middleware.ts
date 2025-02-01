@@ -1,9 +1,26 @@
-import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
- 
-export default NextAuth(authConfig).auth;
- 
+// import NextAuth from 'next-auth';
+// import { authConfig } from './auth.config';
+import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+
+export default async function middleware(req: NextRequest) {
+  // const auth = NextAuth(authConfig).auth(req);
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
+  const userRole = token?.role;
+  const isAdminRoute = req.nextUrl.pathname.startsWith('/admin');
+  // console.log("TOKEN", token);
+  
+    // Якщо користувач намагається зайти в /admin без прав, редиректимо на головну
+    if (isAdminRoute && (!token || (userRole !== 'admin' && userRole !== 'manager'))) {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+
+  // return auth;
+  return NextResponse.next(); // Пропускаємо далі
+}
+
+// Де застосовувати middleware
 export const config = {
-  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: ['/admin/:path*'], // Виконується тільки для адмінки
 };

@@ -45,8 +45,8 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
         />
         <ul className="space-y-7">
           <SidebarItem
-            current={pathname === '/dashboard'}
-            pathname="/dashboard"
+            current={pathname === '/admin/dashboard'}
+            pathname="/admin/dashboard"
             icon={<HiOutlineSquares2X2 className="w-6 h-6" />}
             // src="/icons/squares.svg"
             alt="dashboard icon"
@@ -54,8 +54,8 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
             Dashboard
           </SidebarItem>
           <SidebarItem
-            current={pathname === '/companies'}
-            pathname="/companies"
+            current={pathname === '/admin/companies'}
+            pathname="/admin/companies"
             icon={<HiOutlineBriefcase className="w-6 h-6" />}
             // src="/icons/briefcase.svg"
             alt="companies icon"
@@ -63,8 +63,8 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
             Companies
           </SidebarItem>
           <SidebarItem
-            current={pathname === '/orders'}
-            pathname="/orders"
+            current={pathname === '/admin/orders'}
+            pathname="/admin/orders"
             icon={<HiShoppingCart className="w-6 h-6" />}
             // src="/icons/briefcase.svg"
             alt="companies icon"
@@ -72,8 +72,8 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
             Orders
           </SidebarItem>
           <SidebarItem
-            current={pathname === '/timers'}
-            pathname="/timers"
+            current={pathname === '/admin/timers'}
+            pathname="/admin/timers"
             // src="/icons/briefcase.svg"
             icon={<HiOutlineClock className="w-6 h-6" />}
             alt="companies icon"

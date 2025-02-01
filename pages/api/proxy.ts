@@ -45,14 +45,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { method, query, body } = req;
   const { service, storeId, URL, limit, last_id, group_id } = query;
 
-  console.log('Making request with:', {
-  method,
-  service,
-  storeId,
-  URL,
-  query,
-  body,
-});
+//   console.log('Making request with:', {
+//   method,
+//   service,
+//   storeId,
+//   URL,
+//   query,
+//   body,
+// });
 
   if (!service || typeof service !== 'string' || !(service in SERVICES)) {
     return res.status(400).json({ error: 'Invalid or missing service parameter' });
