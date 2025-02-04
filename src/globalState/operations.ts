@@ -55,12 +55,11 @@ export const userLoginOperation = async (email: string, password: string) => {
   
   try {
     const loginParams = { email, password };
-    // console.log("1", loginParams);
-    const response = await axios.post('/api/proxy',
-      loginParams, {
-        baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-        params: { service, URL }
-    });
+    
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/proxy`, 
+  loginParams, { params: { service, URL } });
+
+    console.log("1", response.data);
     const user = response.data;
     if (!user) {
       throw new Error('Invalid response: no user received');
