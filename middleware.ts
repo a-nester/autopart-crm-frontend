@@ -6,6 +6,13 @@ import { getToken } from 'next-auth/jwt';
 export default async function middleware(req: NextRequest) {
   // const auth = NextAuth(authConfig).auth(req);
   console.log("HEADERS:", req.headers);
+  console.log(req.headers.get('x-forwarded-for'));
+  const xForwardedFor = req.headers.get('x-forwarded-for');
+if (xForwardedFor) {
+  console.log(xForwardedFor);
+} else {
+  console.log('x-forwarded-for header is not present');
+}
   console.log("COOKIES:", req.cookies);
   console.log("NEXTAUTH_SECRET", process.env.NEXTAUTH_SECRET);
 
