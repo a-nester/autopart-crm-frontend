@@ -6,6 +6,10 @@ import { getToken } from 'next-auth/jwt';
 export default async function middleware(req: NextRequest) {
   // const auth = NextAuth(authConfig).auth(req);
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  console.log("MIDDLEWARE TOKEN", token); // Перевіримо, чи є токен
+  if (!token) {
+    console.log("No token found, redirecting...");
+  }
 
   const userRole = token?.role;
   const isAdminRoute = req.nextUrl.pathname.startsWith('/admin');
