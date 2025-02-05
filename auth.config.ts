@@ -1,27 +1,46 @@
 import { NextAuthConfig } from "next-auth";
 
-// Конфігурація для NextAuth
 export const authConfig: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/login',
-    signOut: '/logout',
-    error: '/error',
+    signIn: "/login",
+    signOut: "/logout",
+    error: "/error",
   },
-  callbacks: {
-    async authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user; // Користувач повинен бути аутентифікованим
-      const isOnDashboard = nextUrl.pathname.startsWith('/');
-
-      // Якщо користувач намагається зайти на /dashboard без авторизації
-      if (isOnDashboard) {
-        return isLoggedIn ? true : false; // Якщо не авторизований, редиректимемо на логін
-      } else if (!isLoggedIn) {
-        return Response.redirect(new URL('/', nextUrl));
-      }
-
-      return true;
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === "production"
+        ? "__Secure-authjs.session-token"
+        : "authjs.session-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    callbackUrl: {
+      name: process.env.NODE_ENV === "production"
+        ? "__Secure-authjs.callback-url"
+        : "authjs.callback-url",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
     },
   },
-  providers: [], // Це порожній масив провайдерів// ToDo OAuth
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user && token) {
+        session.user.role = token.role;
+      }
+      return session;
+    },
+    async authorized({ auth }) {
+      return !!auth?.user;
+    },
+  },
+  providers: [], // TODO: OAuth провайдери
 };

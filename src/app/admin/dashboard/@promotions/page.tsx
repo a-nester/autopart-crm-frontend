@@ -9,7 +9,7 @@ export type PageProps = object;
 
 export default async function Page({}: PageProps) {
   const data = await getSummaryPromotions();
-  console.log(data);
+  // console.log(data);
 
   return (
     <DashboardCard label="Promotions">
