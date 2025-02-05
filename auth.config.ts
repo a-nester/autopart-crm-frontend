@@ -31,6 +31,7 @@ export const authConfig: NextAuthConfig = {
       },
     },
   },
+  
   callbacks: {
     async session({ session, token }) {
       if (session.user && token) {

@@ -8,7 +8,7 @@ export default async function middleware(req: NextRequest) {
   console.log("HEADERS:", req.headers);
 console.log("COOKIES:", req.cookies);
 
-  const token = await getToken({ req, secret: 'wVOQjLdrpG1TWCHhDzv3o',
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET,
    });
   console.log("MIDDLEWARE TOKEN", token); // Перевіримо, чи є токен
   if (!token) {
