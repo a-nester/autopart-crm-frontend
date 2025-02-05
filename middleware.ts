@@ -6,7 +6,8 @@ import { getToken } from 'next-auth/jwt';
 export default async function middleware(req: NextRequest) {
   // const auth = NextAuth(authConfig).auth(req);
   console.log("HEADERS:", req.headers);
-console.log("COOKIES:", req.cookies);
+  console.log("COOKIES:", req.cookies);
+  console.log("NEXTAUTH_SECRET", process.env.NEXTAUTH_SECRET);
 
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET,
    });
