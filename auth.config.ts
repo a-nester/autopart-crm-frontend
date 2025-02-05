@@ -1,4 +1,5 @@
-import { NextAuthConfig } from "next-auth";
+import { NextAuthConfig, Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 
 export const authConfig: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -33,9 +34,9 @@ export const authConfig: NextAuthConfig = {
   },
   
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user && token) {
-        session.user.role = token.role;
+        session.user.role = (token.role as string) || '';
       }
       return session;
     },
