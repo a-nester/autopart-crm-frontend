@@ -62,6 +62,7 @@ export const {auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({token, user}) {
       if (user) {
+        console.log("User found in JWT callback:", user);
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
@@ -71,6 +72,7 @@ export const {auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
+      console.log("Session token:", token);
     session.user = {
         id: String(token.id),
         name: String(token.name),
