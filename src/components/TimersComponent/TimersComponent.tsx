@@ -87,7 +87,7 @@ export const TimersComponent = ({
         <TextField
           label={name}
           variant="outlined"
-          value={discount} // Прив'язка до стану
+          value={discount ?? ''} // Прив'язка до стану
           onChange={(evt) => {
             setDiscount(evt);
           }} // Обробка змін
@@ -126,10 +126,12 @@ export const TimersComponent = ({
         <TextField
           label="Price"
           variant="outlined"
-          value={priceWithDiscountCalc(price, {
-            type: discountType,
-            value: discount,
-          })} // Прив'язка до стану
+          value={
+            priceWithDiscountCalc(price, {
+              type: discountType,
+              value: discount,
+            }) ?? ''
+          } // Прив'язка до стану
           //   onChange={handleChangeDayDiscount}
           fullWidth
           slotProps={{

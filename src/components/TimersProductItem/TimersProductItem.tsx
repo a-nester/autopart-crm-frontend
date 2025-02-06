@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useStore } from '@/globalState/store';
 import { TimersComponent } from '../TimersComponent/TimersComponent';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
 export function TimersProductItem({
   product,
@@ -24,11 +24,11 @@ export function TimersProductItem({
 
   const { setProductDiscountTimer } = useStore();
   const img = product?.images[0]?.thumbnail_url || '/images/no-image-100.png';
-  const available = product.presence === 'available' ? true : false;
+  const available = product.presence === 'available';
   const discount = product.discount;
   const article = product.sku;
   const id = product.id;
-  let priceWithDiscount: number | null | undefined = product.price;
+  // let priceWithDiscount: number | null | undefined = product.price;
 
   const [dayDiscount, setDayDiscount] = useState<number>(discount?.value || 0);
   const [dayDiscountType, setDayDiscountType] = useState(discount?.type || '');
@@ -36,14 +36,21 @@ export function TimersProductItem({
   const [nightDiscountType, setNightDiscountType] = useState('');
   const [isActive, setIsActive] = useState(false);
 
-  if (discount !== null && product.price !== null) {
-    const isPerioded = true;
-    priceWithDiscount = priceWithDiscountCalc(
-      product.price,
-      product.discount,
-      isPerioded,
-    );
-  }
+  // if (discount !== null && product.price !== null) {
+  //   const isPerioded = true;
+  //   priceWithDiscount = priceWithDiscountCalc(
+  //     product.price,
+  //     product.discount,
+  //     isPerioded,
+  //   );
+  // }
+
+  const priceWithDiscount = useMemo(() => {
+    if (discount && product.price) {
+      return priceWithDiscountCalc(product.price, discount, true);
+    }
+    return product.price;
+  }, [product.price, discount]);
 
   useEffect(() => {
     if (

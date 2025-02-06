@@ -52,24 +52,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { method, query, body } = req;
   const { service, storeId, URL, limit, last_id, group_id } = query;
 
-  console.log('Making request with:', {
-  method,
-  service,
-  storeId,
-  URL,
-  query,
-  body,
-});
+//   console.log('Making request with:', {
+//   method,
+//   service,
+//   storeId,
+//   URL,
+//   query,
+//   body,
+// });
 
   if (!service || typeof service !== 'string' || !(service in SERVICES)) {
     return res.status(400).json({ error: 'Invalid or missing service parameter' });
   }
-
-  // const queryParams = new URLSearchParams({
-  // ...(limit && { limit: String(limit) }),
-  // ...(last_id && { last_id: String(last_id) }),
-  // ...(group_id && { group_id: String(group_id) }),
-  // }).toString();
   
   const queryParams = {
   ...(limit && { limit: String(limit) }),
@@ -83,19 +77,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (!URL || typeof URL !== 'string') {
       return res.status(400).json({ error: 'Invalid or missing URL parameter' });
 }
-      
       const response = await makeRequest({
         method,
         service: service as ServiceType,
         storeId: storeId as string,
         URL: URL as string,
-        queryParams,
+        queryParams: queryParams as string,
         body,
       });
 
       res.status(200).json(response.data);
     } catch (error: unknown) {
-      console.log('Error entry', error);
+      // console.log('Error entry', error);
       
       // Перевірка типу помилки
       if (axios.isAxiosError(error)) {
