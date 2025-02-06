@@ -16,8 +16,11 @@ if (xForwardedFor) {
   console.log("COOKIES:", req.cookies);
   console.log("NEXTAUTH_SECRET", process.env.NEXTAUTH_SECRET);
 
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET,
-   });
+  const token = await getToken({
+  req,
+  secret: process.env.NEXTAUTH_SECRET,
+  cookieName: '__Secure-authjs.session-token', // Явно вказуємо cookie
+});
   console.log("MIDDLEWARE TOKEN", token); // Перевіримо, чи є токен
   if (!token) {
     console.log("No token found, redirecting...");
