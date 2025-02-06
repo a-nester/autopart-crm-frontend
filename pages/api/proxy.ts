@@ -15,7 +15,14 @@ const SERVICES = {
 type ServiceType = keyof typeof SERVICES;
   
 async function makeRequest({ method, service, storeId, URL, queryParams, body }:
-  { method: string, service: ServiceType, storeId: string, URL: string, queryParams: string, body: string }) {
+  {
+    method: string,
+    service: ServiceType,
+    storeId: string,
+    URL: string,
+    queryParams: string,
+    body: string
+  }) {
   const tokenObj = getTokenByService(service, storeId);
 
   if (!tokenObj) {
@@ -45,24 +52,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { method, query, body } = req;
   const { service, storeId, URL, limit, last_id, group_id } = query;
 
-//   console.log('Making request with:', {
-//   method,
-//   service,
-//   storeId,
-//   URL,
-//   query,
-//   body,
-// });
+  console.log('Making request with:', {
+  method,
+  service,
+  storeId,
+  URL,
+  query,
+  body,
+});
 
   if (!service || typeof service !== 'string' || !(service in SERVICES)) {
     return res.status(400).json({ error: 'Invalid or missing service parameter' });
   }
 
-  const queryParams = new URLSearchParams({
+  // const queryParams = new URLSearchParams({
+  // ...(limit && { limit: String(limit) }),
+  // ...(last_id && { last_id: String(last_id) }),
+  // ...(group_id && { group_id: String(group_id) }),
+  // }).toString();
+  
+  const queryParams = {
   ...(limit && { limit: String(limit) }),
   ...(last_id && { last_id: String(last_id) }),
   ...(group_id && { group_id: String(group_id) }),
-}).toString();
+};
+
 
   if (method === 'GET' || method === 'POST') {
     try {
@@ -81,9 +95,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       res.status(200).json(response.data);
     } catch (error: unknown) {
+      console.log('Error entry', error);
+      
       // Перевірка типу помилки
       if (axios.isAxiosError(error)) {
         // Якщо це помилка Axios
+        console.error("Axios error:", {
+      status: error.response?.status,
+      data: error.response?.data,
+      headers: error.response?.headers,
+      config: error.config,
+    });
         res.status(error.response?.status || 500).json({
           error: error.response?.data?.message || error.message || 'Internal Server Error',
         });

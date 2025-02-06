@@ -27,7 +27,7 @@ export function AccordionItem({ element }: { element: CategoryElement }) {
     <div>
       <Accordion>
         <AccordionSummary className="m-1 bg-gray-100 rounded-md">
-          <button onClick={handleClick}>{element.name_multilang.uk}</button>
+          <div onClick={handleClick}>{element.name_multilang.uk}</div>
         </AccordionSummary>
         <AccordionDetails className="p-1">
           {subCategories && (
