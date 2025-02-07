@@ -54,7 +54,7 @@ export function TimersProductItem({
       setTimer(settedTimer);
       setHasSettedTimer(!hasSettedTimer);
     }
-  }, [productsWithTimer, hasSettedTimer, id]);
+  }, [productsWithTimer]);
 
   useEffect(() => {
     if (
