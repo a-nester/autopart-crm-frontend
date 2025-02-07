@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import {
   fetchAndSetOrders,
+  getProductDiscountTimerOperation,
   getProductsByCategoryIdOperation,
   getStoreCategoriesOperation,
   setProductDiscountTimerOperation,
@@ -22,6 +23,7 @@ const useStore = create<OrdersStore>()(
       isLoading: false,
       error: null,
       shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
+      productsWithTimer: [],
       userLogin: async (email: string, password: string) => {
         try {
           await userLoginOperation( email, password);
@@ -53,6 +55,9 @@ const useStore = create<OrdersStore>()(
         const { shop } = get();
         await setProductDiscountTimerOperation(shop, set, timerParams);
       },
+      getProductDiscountTimer: async (getTimerParams) => {
+        await getProductDiscountTimerOperation(set, getTimerParams);
+      }
     }),
 
     {

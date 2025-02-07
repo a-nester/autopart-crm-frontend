@@ -35,6 +35,12 @@ type SetFunction_setProductDiscountTimerOperation = (partial: Partial<{
     error: string | null;
 }>) => void;
 
+type SetFunction_getProductDiscountTimerOperation = (partial: Partial<{
+  productsWithTimer: TimerParams[];
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
 // type SetFunction_userLoginOperation = (partial: Partial<{
 //   token: string;
 //     isLoading: boolean;
@@ -189,9 +195,32 @@ export const setProductDiscountTimerOperation = async (store: string, set: SetFu
     set({ isLoading: false, response: response.data})
   } catch (error) {
     set({
-      error: error instanceof Error ? error.message : 'Unkown error',
+      error: error instanceof Error ? error.message : 'Unknown error',
     })
   }
 
+}
+
+export const getProductDiscountTimerOperation = async (set: SetFunction_getProductDiscountTimerOperation, getTimerParams: string) => {
+  set({ isLoading: true, error: null });
+
+  const service = 'myApp';
+  const storeId = getTimerParams;
+  // const id = getTimerParams.productId;
+  const URL = `timers/?shop=${storeId}`;
+  
+  
+  try {
+    const response = await axios.get('/api/proxy', {
+      params: {
+        service,
+        storeId,
+        URL,
+      }
+    });
+    set({productsWithTimer: response.data.data, isLoading: false})
+  } catch (error) {
+    set({error: error instanceof Error ? error.message : 'Unknown error'})
+  }
 }
 

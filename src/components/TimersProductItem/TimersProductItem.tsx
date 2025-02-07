@@ -1,5 +1,5 @@
 import { priceWithDiscountCalc } from '@/helpers/priceWithDiscountCalc';
-import { Product } from '@/types/types';
+import { Product, TimerParams } from '@/types/types';
 import {
   Accordion,
   AccordionDetails,
@@ -20,9 +20,12 @@ export function TimersProductItem({
   product: Product;
   shop: string;
 }) {
-  console.log(product);
+  // console.log(product);
 
   const { setProductDiscountTimer } = useStore();
+  const { productsWithTimer } = useStore();
+  console.log(productsWithTimer);
+
   const img = product?.images[0]?.thumbnail_url || '/images/no-image-100.png';
   const available = product.presence === 'available';
   const discount = product.discount;
@@ -35,15 +38,8 @@ export function TimersProductItem({
   const [nightDiscount, setNightDiscount] = useState<number>(0);
   const [nightDiscountType, setNightDiscountType] = useState('');
   const [isActive, setIsActive] = useState(false);
-
-  // if (discount !== null && product.price !== null) {
-  //   const isPerioded = true;
-  //   priceWithDiscount = priceWithDiscountCalc(
-  //     product.price,
-  //     product.discount,
-  //     isPerioded,
-  //   );
-  // }
+  const [hasSettedTimer, setHasSettedTimer] = useState(false);
+  const [timer, setTimer] = useState<TimerParams>();
 
   const priceWithDiscount = useMemo(() => {
     if (discount && product.price) {
@@ -51,6 +47,14 @@ export function TimersProductItem({
     }
     return product.price;
   }, [product.price, discount]);
+
+  useEffect(() => {
+    const settedTimer = productsWithTimer.find((el) => el.productId === id);
+    if (settedTimer) {
+      setTimer(settedTimer);
+      setHasSettedTimer(!hasSettedTimer);
+    }
+  }, [productsWithTimer, hasSettedTimer, id]);
 
   useEffect(() => {
     if (
@@ -102,8 +106,10 @@ export function TimersProductItem({
 
   return (
     <section
-      className="max-w-[600px] min-h-28 p-1 border-[1px] border-[solid] border-[grey-50] 
-    rounded-xl flex flex-row gap-2"
+      className={clsx(
+        'max-w-[600px] min-h-28 p-1 border-[1px] border-[solid]  rounded-xl flex flex-row gap-2',
+        hasSettedTimer ? 'border-red-500' : 'border-gray-50',
+      )}
     >
       <div className="w-full">
         <div
@@ -167,9 +173,22 @@ export function TimersProductItem({
                 'Вкажіть ціну'
               )}
             </div>
-            {/* <div>markers</div>  */}
           </div>
         </div>
+        {hasSettedTimer && timer && (
+          <div className="border-[1px] border-solid border-[#453eff] rounded-l">
+            <p>Встановлено таймер:</p>
+            <p>
+              Денна знижка: {timer.dayDiscount},{' '}
+              {timer.dayDiscountType === 'amount' ? 'грн' : '%'} Ціна зі зниж.:
+            </p>
+            <p>
+              Нічна знижка: {timer.nightDiscount},{' '}
+              {timer.nightDiscountType === 'amount' ? 'грн' : '%'} Ціна зі
+              зниж.:
+            </p>
+          </div>
+        )}
         <Accordion
           className=" w-full rounded-xl bg-inherit"
           sx={{

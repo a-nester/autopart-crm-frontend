@@ -8,14 +8,25 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 export default function Page({}) {
   const { products } = useStore();
   const { shop } = useStore();
+  // console.log('SHOP', shop[0]);
+
+  const { getProductDiscountTimer } = useStore();
   const [isAvailable, setIsAvailable] = useState(false);
+
   const [filteredProducts, setFilteredProducts] = useState(products);
+
+  useEffect(() => {
+    if (shop.length !== 0) {
+      getProductDiscountTimer(shop[0]);
+    }
+  }, [shop, getProductDiscountTimer]);
 
   useEffect(() => {
     if (isAvailable) {
       setFilteredProducts(
         products.filter(
-          (el) => el.quantity_in_stock !== null && el.quantity_in_stock > 0,
+          // (el) => el.quantity_in_stock !== null && el.quantity_in_stock > 0,
+          (el) => el.presence !== 'not_available',
         ),
       );
     } else {

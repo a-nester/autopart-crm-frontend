@@ -195,6 +195,7 @@ export type State = {
   isLoading: boolean;
   error: string | null;
   shops: string[];
+  productsWithTimer: TimerParams[];
 };
 
 export type TimerParams = {
@@ -206,6 +207,11 @@ export type TimerParams = {
   nightDiscount: number;
 }
 
+export type GetTimerParams = {
+  shop: string;
+  productId: number;
+}
+
 export type Actions = {
   addStores: (newStores: string[]) => void;
   fetchOrders: () => Promise<void>;
@@ -214,6 +220,7 @@ export type Actions = {
   getStoreCategories: () => void;
   getProductsByCategoryId: (group_id: number) => void;
   setProductDiscountTimer: (timerParams: TimerParams) => void;
+  getProductDiscountTimer: (getTimerParams: string) => void;
 };
 
 export type OrdersStore = State & Actions;

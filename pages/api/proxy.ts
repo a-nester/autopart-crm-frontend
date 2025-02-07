@@ -59,7 +59,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 //   URL,
 //   query,
 //   body,
-// });
+  // });
+  
+  console.log("URL!!!", URL?.toString());
+  
 
   if (!service || typeof service !== 'string' || !(service in SERVICES)) {
     return res.status(400).json({ error: 'Invalid or missing service parameter' });
