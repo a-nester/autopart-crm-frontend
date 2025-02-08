@@ -30,7 +30,6 @@ export default function SidebarItem({
         )}
       >
         <div className="ml-5 text-zinc-50">{icon}</div> {/* Виводимо іконку */}
-        {/* <Image className="ml-5" width={18} height={18} src={src} alt={alt} /> */}
         <span className="font-medium text-zinc-50">{children}</span>
       </Link>
     </li>

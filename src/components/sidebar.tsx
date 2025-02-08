@@ -11,6 +11,8 @@ import {
   HiOutlineSquares2X2,
   HiOutlineClock,
   HiOutlineArrowLeftOnRectangle,
+  HiChevronLeft,
+  HiChevronRight,
 } from 'react-icons/hi2';
 
 export type SidebarProps = {
@@ -31,24 +33,25 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
   return (
     <aside
       className={clsx(
-        'fixed top-0 left-0 z-40 h-screen transition-width duration-300',
+        'fixed top-0 left-0 z-40 h-screen transition-width duration-300 flex flex-col',
         isActive ? 'w-60' : 'w-16',
       )}
     >
       <div className="flex flex-col h-full overflow-y-auto bg-gray-900">
-        <Image
-          className="py-8 mb-11 mx-auto"
-          width={122}
-          height={25}
-          src="/icons/logo.svg"
-          alt="logo"
-        />
-        <ul className="space-y-7">
+        <div className="h-48">
+          <Image
+            className="py-8 mb-11 mx-auto"
+            width={122}
+            height={25}
+            src="/icons/logo.svg"
+            alt="logo"
+          />
+        </div>
+        <ul className="space-y-7 flex-1">
           <SidebarItem
             current={pathname === '/admin/dashboard'}
             pathname="/admin/dashboard"
             icon={<HiOutlineSquares2X2 className="w-6 h-6" />}
-            // src="/icons/squares.svg"
             alt="dashboard icon"
           >
             Dashboard
@@ -57,7 +60,6 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
             current={pathname === '/admin/companies'}
             pathname="/admin/companies"
             icon={<HiOutlineBriefcase className="w-6 h-6" />}
-            // src="/icons/briefcase.svg"
             alt="companies icon"
           >
             Companies
@@ -66,39 +68,44 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
             current={pathname === '/admin/orders'}
             pathname="/admin/orders"
             icon={<HiShoppingCart className="w-6 h-6" />}
-            // src="/icons/briefcase.svg"
-            alt="companies icon"
+            alt="orders icon"
           >
             Orders
           </SidebarItem>
           <SidebarItem
             current={pathname === '/admin/timers'}
             pathname="/admin/timers"
-            // src="/icons/briefcase.svg"
             icon={<HiOutlineClock className="w-6 h-6" />}
-            alt="companies icon"
-            onClick={handleToggle}
+            alt="timers icon"
           >
             Timers
           </SidebarItem>
-        </ul>
-        <button
-          className="flex flex-row gap-2 p-6 mt-auto "
-          onClick={handleExitClick}
-        >
           <SidebarItem
-            // current={pathname === '/timers'}
             pathname="/timers"
-            // src="/icons/briefcase.svg"
             icon={<HiOutlineArrowLeftOnRectangle className="w-6 h-6" />}
-            alt="companies icon"
-            onClick={handleToggle}
+            alt="exit icon"
+            onClick={handleExitClick}
           >
             Exit
           </SidebarItem>
-          {/* <HiOutlineArrowLeftOnRectangle className="w-6 h-6" />
-          <span className="font-medium text-white">Exit</span> */}
-        </button>
+        </ul>
+
+        {/* Кнопка "Згорнути" закріплена внизу */}
+        <div className="mt-auto p-3">
+          <button
+            className="flex items-center h-9 w-full pl-4 text-white hover:bg-gray-800 rounded-lg"
+            onClick={handleToggle}
+          >
+            {isActive ? (
+              <HiChevronLeft className="w-6 h-6" />
+            ) : (
+              <HiChevronRight className="w-6 h-6" />
+            )}
+            <span className={clsx({ hidden: !isActive, 'ml-3': isActive })}>
+              Згорнути
+            </span>
+          </button>
+        </div>
       </div>
     </aside>
   );

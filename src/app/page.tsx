@@ -11,7 +11,7 @@ export default function Home() {
       </h1> */}
       <section className="flex flex-col items-center">
         {/* <AddCompanyButton /> */}
-        <Link href={'/admin/dashboard'}>Dashboard</Link>
+        <Link href={'/admin/dashboard'}>Admin</Link>
         <Link href={'/login'} className="hover:text-[blue]">
           Log in
         </Link>
