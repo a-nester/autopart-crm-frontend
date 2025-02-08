@@ -6,12 +6,9 @@ export default function Home() {
 
   return (
     <main>
-      {/* <h1 className="flex flex-col text-xl">
-        Home page {new Date().toTimeString()}
-      </h1> */}
       <section className="flex flex-col items-center">
         {/* <AddCompanyButton /> */}
-        <Link href={'/admin/dashboard'}>Admin</Link>
+        <Link href={'/admin/orders'}>Admin</Link>
         <Link href={'/login'} className="hover:text-[blue]">
           Log in
         </Link>

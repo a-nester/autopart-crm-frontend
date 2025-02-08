@@ -17,7 +17,7 @@ export default function Order({ id }: { id: number }): JSX.Element | undefined {
           <p className="flex justify-center">{order.promStoreId}</p>
           <div className="w-28 h-28 object-contain">
             <Image
-              className="rounded-lg border-[1px] border-solid border-gray-400 object-contain w-full h-full"
+              className="rounded-lg object-contain w-full h-full"
               src={order.products[0].image}
               alt="product image"
               width={100}
