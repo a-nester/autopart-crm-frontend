@@ -8,7 +8,6 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 export default function Page({}) {
   const { products } = useStore();
   const { shop } = useStore();
-  // console.log('SHOP', shop[0]);
 
   const { getProductDiscountTimer } = useStore();
   const [isAvailable, setIsAvailable] = useState(false);
