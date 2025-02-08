@@ -33,21 +33,18 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
   return (
     <aside
       className={clsx(
-        'fixed top-0 left-0 z-40 h-screen transition-width duration-300 flex flex-col',
+        'fixed top-0 left-0 z-40 h-screen transition-width duration-300 flex flex-col bg-gray-900 overflow-hidden',
         isActive ? 'w-60' : 'w-16',
       )}
     >
-      <div className="flex flex-col h-full overflow-y-auto bg-gray-900">
-        <div className="h-48">
-          <Image
-            className="py-8 mb-11 mx-auto"
-            width={122}
-            height={25}
-            src="/icons/logo.svg"
-            alt="logo"
-          />
-        </div>
-        <ul className="space-y-7 flex-1">
+      {/* Логотип */}
+      <div className="h-48 flex items-center justify-center w-full min-w-0">
+        <Image width={122} height={25} src="/icons/logo.svg" alt="logo" />
+      </div>
+
+      {/* Основне меню (з вертикальним скролом) */}
+      <div className="flex-1 overflow-y-auto w-full min-w-0">
+        <ul className="space-y-7">
           <SidebarItem
             current={pathname === '/admin/dashboard'}
             pathname="/admin/dashboard"
@@ -80,32 +77,36 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
           >
             Timers
           </SidebarItem>
-          <SidebarItem
-            pathname="/timers"
-            icon={<HiOutlineArrowLeftOnRectangle className="w-6 h-6" />}
-            alt="exit icon"
+          <button
+            className="flex items-center h-9 mx-1 gap-4"
             onClick={handleExitClick}
           >
-            Exit
-          </SidebarItem>
-        </ul>
-
-        {/* Кнопка "Згорнути" закріплена внизу */}
-        <div className="mt-auto p-3">
-          <button
-            className="flex items-center h-9 w-full pl-4 text-white hover:bg-gray-800 rounded-lg"
-            onClick={handleToggle}
-          >
-            {isActive ? (
-              <HiChevronLeft className="w-6 h-6" />
-            ) : (
-              <HiChevronRight className="w-6 h-6" />
-            )}
-            <span className={clsx({ hidden: !isActive, 'ml-3': isActive })}>
-              Згорнути
-            </span>
+            <SidebarItem
+              pathname="/timers"
+              icon={<HiOutlineArrowLeftOnRectangle className="w-6 h-6" />}
+              alt="exit icon"
+            >
+              Exit
+            </SidebarItem>
           </button>
-        </div>
+        </ul>
+      </div>
+
+      {/* Кнопка "Згорнути" (ФІКСОВАНА ВНИЗУ) */}
+      <div className="absolute bottom-0 w-full p-3 bg-gray-800">
+        <button
+          className="flex items-center h-9 w-full pl-4 text-white hover:bg-gray-700 rounded-lg"
+          onClick={handleToggle}
+        >
+          {isActive ? (
+            <HiChevronLeft className="w-6 h-6" />
+          ) : (
+            <HiChevronRight className="w-6 h-6" />
+          )}
+          <span className={clsx({ hidden: !isActive, 'ml-3': isActive })}>
+            Згорнути
+          </span>
+        </button>
       </div>
     </aside>
   );
