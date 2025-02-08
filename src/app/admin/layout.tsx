@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/sidebar';
 import clsx from 'clsx';
+import MobileMenu from '@/components/MobileMenu/MobileMenu';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -11,12 +12,25 @@ export interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [isActive, setIsActive] = useState(true);
 
-  // console.log('rendering');
-
   return (
-    <>
-      <Sidebar isActive={isActive} setIsActive={setIsActive} />
-      <div className={clsx(isActive ? 'ml-60' : 'ml-14')}>{children}</div>;
-    </>
+    <div className="flex">
+      {/* Сайдбар для планшетів і десктопів */}
+      <div className="hidden md:block">
+        <Sidebar isActive={isActive} setIsActive={setIsActive} />
+      </div>
+      {/* Контент */}
+      <div
+        className={clsx(
+          'flex-1 transition-all min-h-screen pb-16', // Враховуємо моб. меню
+          isActive ? 'md:ml-60' : 'md:ml-14',
+        )}
+      >
+        {children}
+      </div>
+      {/* Мобільне меню */}
+      <div className="fixed bottom-0 left-0 w-full md:hidden z-50">
+        <MobileMenu />
+      </div>
+    </div>
   );
 }

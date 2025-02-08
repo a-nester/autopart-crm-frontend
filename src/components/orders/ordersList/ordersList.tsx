@@ -17,6 +17,11 @@ export default function OrdersList() {
 
   useEffect(() => {
     if (storesList.length > 0) fetchOrders();
+
+    const interval = setInterval(() => {
+      if (storesList.length > 0) fetchOrders();
+    }, 60000);
+    return () => clearInterval(interval);
   }, [storesList, fetchOrders]);
 
   return (
