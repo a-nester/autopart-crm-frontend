@@ -12,10 +12,10 @@ export default function Order({ id }: { id: number }): JSX.Element | undefined {
 
   return (
     order && (
-      <section className="w-full h-36 flex flex-row bg-gray-100 gap-3 border-[1px] rounded-lg p-1">
+      <section className="w-full h-36 flex flex-row bg-gray-100 gap-1 md:gap-3 border-[1px] rounded-lg p-1">
         <div>
           <p className="flex justify-center">{order.promStoreId}</p>
-          <div className="w-28 h-28 object-contain">
+          <div className="max-w-28 min-w-16 max-h-28 min-h-16 object-contain">
             <Image
               className="rounded-lg object-contain w-full h-full"
               src={order.products[0].image}
