@@ -1,34 +1,36 @@
 'use client';
 
 import { useState } from 'react';
-import TimersSideBar from '@/components/TimersSideBar/TimersSideBar';
 import clsx from 'clsx';
+import TimersSideBar from '@/components/TimersSideBar/TimersSideBar';
 
-export default function Page({ children }: { children: React.ReactElement }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function page({ children }: { children: React.ReactElement }) {
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <section className="flex flex-row p-3">
-      {/* Бокове меню: фіксоване для мобільних, звичайне для планшетів і десктопів */}
+    <section className="flex flex-row p-1 md:p-3 gap-2 relative">
+      {/* Сайдбар */}
       <div
         className={clsx(
-          'md:relative md:block',
-          isOpen ? 'fixed inset-0 z-50 bg-white' : 'hidden',
+          ' top-0 left-0 h-screen w-64 bg-white shadow-md transition-transform duration-300 z-40 absolute',
+          isOpen ? 'translate-x-0 ' : '-translate-x-[250px]  ',
         )}
       >
-        <TimersSideBar />
+        <div className="p-4">
+          <TimersSideBar />
+          {/* Кнопка відкриття/закриття */}
+          <button
+            className="absolute top-5 right-[-24px] w-12 h-12 bg-white text-blue-500 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 "
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? '<' : '>'}
+          </button>
+        </div>
       </div>
-
       {/* Контент сторінки */}
-      <div className="flex-1">{children}</div>
-
-      {/* Кнопка відкриття сайдбара на мобільних */}
-      <button
-        className="fixed top-4 left-4 z-50 md:hidden bg-blue-500 text-white p-2 rounded"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        Меню
-      </button>
+      <div className={clsx('flex-1', isOpen ? 'md:ml-64' : 'ml-0')}>
+        {children}
+      </div>
     </section>
   );
 }

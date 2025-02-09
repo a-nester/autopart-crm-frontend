@@ -20,18 +20,14 @@ export function TimersProductItem({
   product: Product;
   shop: string;
 }) {
-  // console.log(product);
-
   const { setProductDiscountTimer } = useStore();
   const { productsWithTimer } = useStore();
-  console.log(productsWithTimer);
 
   const img = product?.images[0]?.thumbnail_url || '/images/no-image-100.png';
   const available = product.presence === 'available';
   const discount = product.discount;
   const article = product.sku;
   const id = product.id;
-  // let priceWithDiscount: number | null | undefined = product.price;
 
   const [dayDiscount, setDayDiscount] = useState<number>(discount?.value || 0);
   const [dayDiscountType, setDayDiscountType] = useState(discount?.type || '');
@@ -107,21 +103,27 @@ export function TimersProductItem({
   return (
     <section
       className={clsx(
-        'max-w-[600px] min-h-28 p-1 border-[1px] border-[solid]  rounded-xl flex flex-row gap-2',
+        'w-full min-h-28 p-0 md:p-1 border-[1px] border-[solid]  rounded-xl flex flex-row gap-2',
         hasSettedTimer ? 'border-red-500' : 'border-gray-50',
       )}
     >
       <div className="w-full">
         <div
           className={clsx(
-            'flex flex-row gap-3 w-full text-[14px] m-0 font-bold',
+            'flex flex-row gap-1 md:gap-3 w-full text-[14px] m-0 font-bold',
             available ? 'text-[black]' : 'text-[grey]',
           )}
         >
-          <div className="w-28 h-28">
+          <div
+            className="rounded-lg overflow-hidden"
+            style={{
+              width: 'clamp(60px, 10vw, 112px)',
+              height: 'clamp(60px, 10vw, 112px)',
+            }}
+          >
             {img && (
               <Image
-                className="rounded-lg object-cover"
+                className="object-cover w-full h-full"
                 src={img}
                 width={112}
                 height={112}
@@ -129,23 +131,25 @@ export function TimersProductItem({
               />
             )}
           </div>
+
           <div className="flex flex-col gap-2 w-full">
             <p className="w-full text-[12px]">{product.name}</p>
-            <div className="flex  flex-row justify-between">
-              <div>
-                <p className="w-auto">Код: {article}</p>
-                <p>id: {id}</p>
+            <div className="flex flex-col md:flex-row justify-between">
+              <div className="w-full">
+                <p className="w-full">Код: {article}</p>
+                <p className="w-full">id: {id}</p>
               </div>
-              <div>
+              <div className="w-full">
                 <p
                   className={clsx(
+                    'w-full',
                     available ? 'text-green-500' : 'text-red-500',
                   )}
                 >
                   {available ? 'В наявності' : 'немає в наявності'}
                 </p>
                 {available && (
-                  <p>
+                  <p className="w-full">
                     поточна знижка: {discount?.value}
                     {discount?.type === 'amount' ? 'грн' : '%'}
                   </p>
@@ -227,7 +231,7 @@ export function TimersProductItem({
             {' '}
           </AccordionSummary>
           <AccordionDetails
-            className="flex flex-row gap-3 justify-between p-3 rounded-xl bg-inherit"
+            className="flex flex-col md:flex-row gap-3 justify-between p-1 md:p-3 rounded-xl bg-inherit"
             sx={{
               m: 0,
               padding: 0,
@@ -253,7 +257,7 @@ export function TimersProductItem({
               />
             </div>
 
-            <div className="flex flex-col justify-center gap-2">
+            <div className="flex flex-row md:flex-col justify-center gap-2">
               <button
                 className={clsx(
                   'border-[2px] border-[solid] rounded-xl w-40 h-10',

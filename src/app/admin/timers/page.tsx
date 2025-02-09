@@ -41,7 +41,8 @@ export default function Page({}) {
   };
 
   return (
-    <section className="flex-col p-4 gap-2">
+    <section className="flex flex-col p-1 md:p-4 gap-2">
+      <p>TimersItems dsfsefsfsfsasrgfrgrgrggggr</p>
       <FormGroup>
         <FormControlLabel
           control={<Checkbox checked={isAvailable} />}
@@ -52,7 +53,7 @@ export default function Page({}) {
         {/* <FormControlLabel disabled control={<Checkbox />} label="Disabled" /> */}
       </FormGroup>
 
-      <ul>
+      <ul className="max-w-[600px] min-w-[360px]">
         {filteredProducts.map((elem) => (
           <li key={elem.id} className="m-1">
             <TimersProductItem product={elem} shop={shop} />
