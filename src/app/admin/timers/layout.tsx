@@ -4,7 +4,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import TimersSideBar from '@/components/TimersSideBar/TimersSideBar';
 
-export default function page({ children }: { children: React.ReactElement }) {
+export default function Page({ children }: { children: React.ReactElement }) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
