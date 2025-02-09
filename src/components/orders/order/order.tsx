@@ -1,21 +1,16 @@
-import { useStore } from '@/globalState/store';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './order.module.css';
-import { Order } from '@/types/types';
+import { Order as OrderType } from '@/types/types';
 
 export default function Order({
   elem,
 }: {
-  elem: Order;
+  elem: OrderType;
 }): JSX.Element | undefined {
   // const orderId = id;
   const order = elem;
-
-  //   useStore((state) =>
-  //   state.orders.find((elem) => elem.id === orderId),
-  // );
 
   const handleDetails = () => {
     console.log(elem);

@@ -20,6 +20,37 @@ export type SidebarProps = {
   setIsActive: (isActive: boolean) => void;
 };
 
+const sidebarItems = [
+  {
+    id: 1,
+    name: 'Dashboard',
+    path: '/admin/dashboard',
+    icon: HiOutlineSquares2X2,
+    alt: 'dashboard icon',
+  },
+  {
+    id: 2,
+    name: 'Companies',
+    path: '/admin/companies',
+    icon: HiOutlineBriefcase,
+    alt: 'companies icon',
+  },
+  {
+    id: 3,
+    name: 'Orders',
+    path: '/admin/orders',
+    icon: HiShoppingCart,
+    alt: 'orders icon',
+  },
+  {
+    id: 4,
+    name: 'Timers',
+    path: '/admin/timers',
+    icon: HiOutlineClock,
+    alt: 'timers icon',
+  },
+];
+
 export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -45,38 +76,19 @@ export default function Sidebar({ isActive, setIsActive }: SidebarProps) {
       {/* Основне меню (з вертикальним скролом) */}
       <div className="flex-1 overflow-y-auto w-full min-w-0">
         <ul className="space-y-7">
-          <SidebarItem
-            current={pathname === '/admin/dashboard'}
-            pathname="/admin/dashboard"
-            icon={<HiOutlineSquares2X2 className="w-6 h-6" />}
-            alt="dashboard icon"
-          >
-            Dashboard
-          </SidebarItem>
-          <SidebarItem
-            current={pathname === '/admin/companies'}
-            pathname="/admin/companies"
-            icon={<HiOutlineBriefcase className="w-6 h-6" />}
-            alt="companies icon"
-          >
-            Companies
-          </SidebarItem>
-          <SidebarItem
-            current={pathname === '/admin/orders'}
-            pathname="/admin/orders"
-            icon={<HiShoppingCart className="w-6 h-6" />}
-            alt="orders icon"
-          >
-            Orders
-          </SidebarItem>
-          <SidebarItem
-            current={pathname === '/admin/timers'}
-            pathname="/admin/timers"
-            icon={<HiOutlineClock className="w-6 h-6" />}
-            alt="timers icon"
-          >
-            Timers
-          </SidebarItem>
+          {sidebarItems.map((elem, id) => (
+            <li key={id}>
+              <SidebarItem
+                current={pathname === elem.path}
+                pathname={elem.path}
+                icon={React.createElement(elem.icon, { className: 'w-6 h-6' })}
+                alt={elem.alt}
+              >
+                {elem.name}
+              </SidebarItem>
+            </li>
+          ))}
+
           <button
             className="flex items-center h-9 mx-1 gap-4"
             onClick={handleExitClick}
