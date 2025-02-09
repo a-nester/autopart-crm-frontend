@@ -25,14 +25,14 @@ export default function OrdersList() {
   }, [storesList, fetchOrders]);
 
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-2 bg-gray-100">
       <CommonMultiSelect values={storesList} setValues={setStoresList} multiple>
         {STORE_IDS}
       </CommonMultiSelect>
       <ul className="flex flex-col gap-2">
         {orders.map((elem) => (
           <li key={elem.id}>
-            <Order id={elem.id} />
+            <Order elem={elem} />
           </li>
         ))}
       </ul>
