@@ -15,6 +15,14 @@ export default function Order({
   const handleDetails = () => {
     console.log(elem);
   };
+
+  const statusStyle = (status: string) => {
+    if (status === 'pending') return 'bg-green-200 text-green-700';
+    if (status === 'delivered') return 'bg-gray-200 text-gray-700';
+    if (status === 'canceled') return 'bg-red-200 text-red-700';
+    if (status === 'received') return 'bg-yellow-200 text-yellow-700';
+  };
+
   return (
     order && (
       <section className="w-full md:h-36 flex flex-row flex-wrap md:flex-nowrap bg-white gap-3 border-[1px] rounded-lg p-1">
@@ -32,11 +40,23 @@ export default function Order({
           </div>
         </div>
         {/*Block info */}
-        <div className="flex flex-col md:flex-row w-64 md:w-56 p-1">
+        <div className="flex flex-col md:flex-row w-[265px] md:w-64 p-1">
           <div>
-            <Link href={''} className="text-blue-700 hover:underline">
-              № {order.id}
-            </Link>
+            <div className="flex flex-row justify-between">
+              <Link href={''} className="text-blue-700 hover:underline">
+                № {order.id}
+              </Link>
+              <div>
+                <span
+                  className={clsx(
+                    'px-3 py-1 text-sm font-semibold rounded-full ',
+                    statusStyle(order.status),
+                  )}
+                >
+                  {order.status_name}
+                </span>
+              </div>
+            </div>
             <p className="text-gray-500">
               {new Date(order.date_created).toLocaleString('uk-UA', {
                 year: 'numeric',
