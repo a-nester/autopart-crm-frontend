@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 //   body,
   // });
   
-  console.log("URL!!!", URL?.toString());
+  // console.log("URL!!!", URL?.toString());
   
 
   if (!service || typeof service !== 'string' || !(service in SERVICES)) {

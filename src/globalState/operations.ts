@@ -1,13 +1,6 @@
 import {  CategoryElement, Order, Product, TimerParams } from "@/types/types";
 import axios from "axios";
 
-
-
-// type Order = {
-//     id: number;
-//     promStoreId: number;
-// };
-
 type SetFunction_fetchAndSetOrders = (partial: Partial<{
   orders: Order[];
   
@@ -40,19 +33,6 @@ type SetFunction_getProductDiscountTimerOperation = (partial: Partial<{
   isLoading: boolean;
   error: string | null;
 }>) => void;
-
-// type SetFunction_userLoginOperation = (partial: Partial<{
-//   token: string;
-//     isLoading: boolean;
-//     error: string | null;
-// }>) => void;
-
-// storeCategories?: string[];
-//   products: Product[];
-//   response: {
-//     data: string
-//   }
-// type SetFunction = Parameters<StateCreator<OrdersStore>>[1];
 
 export const userLoginOperation = async (email: string, password: string) => {
   // const storeId = 'AvtoKlan';
@@ -148,9 +128,6 @@ const service = 'prom';
                 shouldContinue = false;
             }
         }
-
-        console.log("Отримані категорії:", storeCategories);
-
         set({ storeCategories, isLoading: false });
     } catch (error) {
         // Обробка помилок

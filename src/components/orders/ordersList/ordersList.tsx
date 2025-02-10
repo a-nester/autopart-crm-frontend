@@ -1,15 +1,22 @@
 'use client';
 
 import { useStore } from '@/globalState/store';
-import Order from '../order/order';
 import CommonMultiSelect from '../../CommonComponents/CommonMultiSelect/CommonMultiSelect';
 import { useEffect, useState } from 'react';
+import Order from '../order/order';
+import { Order as OrderType } from '@/types/types';
 
-const DateSeparator = ({ date }: { date: string }) => (
+const DateSeparator = ({
+  date,
+  orderCount,
+}: {
+  date: string;
+  orderCount: number;
+}) => (
   <div className="flex items-center my-4">
     <div className="flex-grow border-t border-gray-700"></div>
     <span className="px-3 py-1 text-sm font-semibold bg-gray-800 text-gray-300 rounded-full mx-2">
-      {date}
+      {date} {'к-ть зам:'} {orderCount}
     </span>
     <div className="flex-grow border-t border-gray-700"></div>
   </div>
@@ -42,6 +49,10 @@ export default function OrdersList() {
     return dateCreated.split('T')[0];
   };
 
+  const ordersByDate = (elems: OrderType[], date: string) => {
+    return elems.filter((elem) => formatDate(elem.date_created) === date);
+  };
+
   return (
     <section className="flex flex-col gap-2 bg-gray-100">
       <CommonMultiSelect values={storesList} setValues={setStoresList} multiple>
@@ -52,15 +63,16 @@ export default function OrdersList() {
           <div key={date}>
             {' '}
             {/* Замість <li> тепер <div> */}
-            <DateSeparator date={date} />
+            <DateSeparator
+              date={date}
+              orderCount={ordersByDate(orders, date).length}
+            />
             <ul>
-              {orders
-                .filter((order) => formatDate(order.date_created) === date)
-                .map((elem) => (
-                  <li key={elem.id}>
-                    <Order elem={elem} />
-                  </li>
-                ))}
+              {ordersByDate(orders, date).map((elem) => (
+                <li key={elem.id}>
+                  <Order elem={elem} />
+                </li>
+              ))}
             </ul>
           </div>
         ))}

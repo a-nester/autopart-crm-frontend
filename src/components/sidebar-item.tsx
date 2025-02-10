@@ -19,19 +19,17 @@ export default function SidebarItem({
   onClick,
 }: SidebarItemProps) {
   return (
-    <li>
-      <Link
-        href={pathname}
-        onClick={onClick}
-        className={clsx(
-          'flex items-center h-9 mx-1 gap-4',
-          current &&
-            'after:h-full after:ml-auto after:border-2 after:border-purple-200 after:rounded-sm',
-        )}
-      >
-        <div className="ml-5 text-zinc-50">{icon}</div> {/* Виводимо іконку */}
-        <span className="font-medium text-zinc-50">{children}</span>
-      </Link>
-    </li>
+    <Link
+      href={pathname}
+      onClick={onClick}
+      className={clsx(
+        'flex items-center h-9 mx-1 gap-4',
+        current &&
+          'after:h-full after:ml-auto after:border-2 after:border-purple-200 after:rounded-sm',
+      )}
+    >
+      <div className="ml-5 text-zinc-50">{icon}</div>
+      <span className="font-medium text-zinc-50">{children}</span>
+    </Link>
   );
 }
