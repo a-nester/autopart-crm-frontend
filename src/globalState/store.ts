@@ -4,11 +4,12 @@ import {
   fetchAndSetOrders,
   getProductDiscountTimerOperation,
   getProductsByCategoryIdOperation,
+  getProductsByIdListOperation,
   getStoreCategoriesOperation,
   setProductDiscountTimerOperation,
   userLoginOperation,
 } from './operations';
-import { OrdersStore } from '@/types/types';
+import { OrdersStore, TimerParams } from '@/types/types';
 
 // export const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
@@ -50,6 +51,10 @@ const useStore = create<OrdersStore>()(
       getProductsByCategoryId: async (group_id: number) => {
         const { shop } = get();
         await getProductsByCategoryIdOperation(shop, set, group_id);
+      },
+      getProductsByIdList: async (products: TimerParams[]) => {
+        const { shop } = get();
+        await getProductsByIdListOperation(shop, set, products);
       },
       setProductDiscountTimer: async (timerParams) => {
         const { shop } = get();

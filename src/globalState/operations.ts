@@ -22,6 +22,12 @@ type SetFunction_getProductsByCategoryIdOperation = (partial: Partial<{
     error: string | null;
 }>) => void;
 
+type SetFunction_getProductsByIdListOperation = (partial: Partial<{
+  products: Product[];
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
 type SetFunction_setProductDiscountTimerOperation = (partial: Partial<{
   response: {data: string};
     isLoading: boolean;
@@ -155,6 +161,32 @@ export const getProductsByCategoryIdOperation = async (store: string, set: SetFu
     set({
       error: error instanceof Error ? error.message : 'Unknown error',
     })
+  }
+}
+
+export const getProductsByIdListOperation = async (store: string, set: SetFunction_getProductsByIdListOperation, productsList: TimerParams[]) => {
+  const storeId = store[0];
+  const service = 'prom';
+  
+  try {
+    const responses = await Promise.all(
+      productsList.map(product => axios
+        .get('/api/proxy', {
+          params: {
+            service, storeId, URL: `/products/${product.
+              productId
+              }`
+          }
+        })
+        // .then((response)=> ({response.data}))
+      )
+    );
+    const products = responses.map(response => response.data.product);
+    console.log('Products:', products);
+    set({products, isLoading: false});
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    
   }
 }
 

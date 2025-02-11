@@ -1,3 +1,4 @@
+import CommonAccordion from '@/ui/CommonAccordion/CommonAccordion';
 import Link from 'next/link';
 
 interface MobileDropMenuProps {
@@ -19,13 +20,35 @@ export default function MobileDropMenu({ onClose }: MobileDropMenuProps) {
           </Link>
         </li>
         <li>
-          <Link
-            href="/admin/timers"
-            className="block py-2 text-center text-blue-600"
-            onClick={onClose}
+          <CommonAccordion
+            title="Цінові таймери"
+            settings={{
+              root: 'text-blue-600',
+              title: 'py-2 px-0',
+              content: 'pl-0',
+            }}
           >
-            Цінові таймери
-          </Link>
+            <ul className="list-disc pl-36">
+              <li>
+                <Link
+                  href="/admin/timers"
+                  className="block py-2 text-left text-blue-600"
+                  onClick={onClose}
+                >
+                  Таймери
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/admin/timers/setted"
+                  className="block py-2 text-left text-blue-600"
+                  onClick={onClose}
+                >
+                  Встановлені таймери
+                </Link>
+              </li>
+            </ul>
+          </CommonAccordion>
         </li>
         <li>
           <Link

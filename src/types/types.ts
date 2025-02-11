@@ -219,6 +219,7 @@ export type Actions = {
   addStore: (newStore: string) => void;
   getStoreCategories: () => void;
   getProductsByCategoryId: (group_id: number) => void;
+  getProductsByIdList: (productsList: TimerParams[]) => void;
   setProductDiscountTimer: (timerParams: TimerParams) => void;
   getProductDiscountTimer: (getTimerParams: string) => void;
 };
