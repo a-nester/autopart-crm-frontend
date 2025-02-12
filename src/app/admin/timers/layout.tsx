@@ -1,10 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import clsx from 'clsx';
-import TimersSideBar from '@/components/TimersSideBar/TimersSideBar';
+// import TimersSideBar from '@/components/TimersSideBar/TimersSideBar';
 
-export default function Page({ children }: { children: React.ReactElement }) {
+interface LayoutProps {
+  children: ReactNode;
+  select: ReactNode;
+  categories: ReactNode;
+}
+
+export default function Layout({ children, select, categories }: LayoutProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -17,7 +23,8 @@ export default function Page({ children }: { children: React.ReactElement }) {
         )}
       >
         <div className="p-4">
-          <TimersSideBar />
+          {select}
+          {categories}
           {/* Кнопка відкриття/закриття */}
           <button
             className="absolute top-5 right-[-24px] w-12 h-12 bg-white text-blue-500 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 "
