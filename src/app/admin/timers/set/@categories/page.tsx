@@ -18,7 +18,7 @@ export default function Page({}: PageProps) {
   const rootCategories = getRootCategories(storeCategories);
 
   return (
-    <section className="flex flex-col gap-3 min-w-52 max-w-32 ">
+    <section className="flex flex-col gap-3 h-[85vh] overflow-y-auto">
       <CategoriesNav>{rootCategories}</CategoriesNav>
     </section>
   );

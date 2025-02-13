@@ -31,7 +31,7 @@ export default function MobileDropMenu({ onClose }: MobileDropMenuProps) {
             <ul className="list-disc pl-36">
               <li>
                 <Link
-                  href="/admin/timers"
+                  href="/admin/timers/set"
                   className="block py-2 text-left text-blue-600"
                   onClick={onClose}
                 >

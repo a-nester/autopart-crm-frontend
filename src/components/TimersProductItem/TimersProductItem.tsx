@@ -49,6 +49,7 @@ export function TimersProductItem({
     if (settedTimer) {
       setTimer(settedTimer);
       setHasSettedTimer(!hasSettedTimer);
+      console.log(settedTimer);
     }
   }, [productsWithTimer]);
 
@@ -103,8 +104,8 @@ export function TimersProductItem({
   return (
     <section
       className={clsx(
-        'w-full min-h-28 p-0 md:p-1 border-[1px] border-[solid]  rounded-xl flex flex-row gap-2',
-        hasSettedTimer ? 'border-red-500' : 'border-gray-50',
+        'w-full min-h-28 p-1 md:p-1 border-[1px] border-[solid]  rounded-xl flex flex-row gap-2',
+        hasSettedTimer ? 'border-purple-500 border-[2px]' : 'border-gray-50',
       )}
     >
       <div className="w-full">
@@ -180,17 +181,36 @@ export function TimersProductItem({
           </div>
         </div>
         {hasSettedTimer && timer && (
-          <div className="border-[1px] border-solid border-[#453eff] rounded-l">
+          <div className="p-1 border-[1px] border-solid border-[#453eff] rounded-lg">
             <p>Встановлено таймер:</p>
-            <p>
-              Денна знижка: {timer.dayDiscount},{' '}
-              {timer.dayDiscountType === 'amount' ? 'грн' : '%'} Ціна зі зниж.:
-            </p>
-            <p>
-              Нічна знижка: {timer.nightDiscount},{' '}
-              {timer.nightDiscountType === 'amount' ? 'грн' : '%'} Ціна зі
-              зниж.:
-            </p>
+            <div className="flex flex-row justify-between">
+              <p>
+                Денна знижка: {timer.dayDiscount},{' '}
+                {timer.dayDiscountType === 'amount' ? 'грн' : '%'}
+              </p>
+              <p className="">
+                Ціна зі зниж.:
+                {priceWithDiscountCalc(
+                  product.price,
+                  { type: timer.dayDiscountType, value: timer.dayDiscount },
+                  false,
+                )}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between">
+              <p>
+                Нічна знижка: {timer.nightDiscount},{' '}
+                {timer.nightDiscountType === 'amount' ? 'грн' : '%'}
+              </p>
+              <p>
+                Ціна зі зниж.:
+                {priceWithDiscountCalc(
+                  product.price,
+                  { type: timer.nightDiscountType, value: timer.nightDiscount },
+                  false,
+                )}
+              </p>
+            </div>
           </div>
         )}
         <Accordion
@@ -241,17 +261,17 @@ export function TimersProductItem({
             <div className="flex flex-col gap-3">
               <TimersComponent
                 price={product.price}
-                discount={dayDiscount}
+                discount={timer?.dayDiscount}
                 setDiscount={handleSetDayDiscount}
-                discountType={dayDiscountType}
+                discountType={timer?.dayDiscountType}
                 setDiscountType={handleSetDayDiscountType}
                 name="Day discount"
               />
               <TimersComponent
                 price={product.price}
-                discount={nightDiscount}
+                discount={timer?.nightDiscount}
                 setDiscount={handleSetNightDiscount}
-                discountType={nightDiscountType}
+                discountType={timer?.nightDiscountType}
                 setDiscountType={handleSetNightDiscountType}
                 name="Night discount"
               />

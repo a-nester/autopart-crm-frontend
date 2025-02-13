@@ -1,9 +1,9 @@
 'use client';
 
-import { useStore } from '../../../globalState/store';
 import { useEffect, useState } from 'react';
 import TimersProductItem from '@/components/TimersProductItem/TimersProductItem';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { useStore } from '@/globalState/store';
 
 export default function Page({}) {
   const { products } = useStore();

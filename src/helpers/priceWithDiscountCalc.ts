@@ -1,6 +1,6 @@
 import { Discount } from "@/types/types";
 
-export const priceWithDiscountCalc = (price: number | null, discountObj: Discount | null, isPerioded?: boolean): number | null => {
+export const priceWithDiscountCalc = (price: number | null, discountObj: Discount | null, isPerioded?: boolean): number | null | undefined=> {
     if (!discountObj) {
         return price;
     }
@@ -39,7 +39,7 @@ export const priceWithDiscountCalc = (price: number | null, discountObj: Discoun
             // Перевірка періоду дії знижки
             const isDiscountPeriod = startDate <= new Date() && new Date() <= endDate;
 
-            if (isDiscountPeriod && price !== null) {
+            if (isDiscountPeriod && price !== null && value !== undefined) {
                 if (type === "percent") {
                     const result = price - (price * value / 100);
                     return parseFloat(result.toFixed(2));
@@ -56,10 +56,10 @@ export const priceWithDiscountCalc = (price: number | null, discountObj: Discoun
         if (!price) {
             return price;
         }
-        if (type === "percent") {
+        if (type === "percent" && value !== undefined) {
                     const result = price - (price * value / 100);
                     return parseFloat(result.toFixed(2));
-                } else {
+                } else if (value !== undefined) {
                     const result = (price - value);
                     return parseFloat(result.toFixed(2));
                 }

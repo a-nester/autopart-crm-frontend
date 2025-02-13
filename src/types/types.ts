@@ -3,8 +3,8 @@ export type Token = {
 }
 
 export type Discount = {
-  type: string;
-  value: number;
+  type: string | undefined;
+  value: number | undefined;
   date_end?: string;
   date_start?: string;
 } | null;

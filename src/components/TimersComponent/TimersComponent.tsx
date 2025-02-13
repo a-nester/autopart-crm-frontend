@@ -71,11 +71,11 @@ export const TimersComponent = ({
   name,
 }: {
   price: number | null;
-  discount: number;
+  discount: number | undefined;
   setDiscount: (
     evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
-  discountType: string;
+  discountType: string | undefined;
   setDiscountType: (evt: SelectChangeEvent<string>) => void;
   name: string;
 }) => {
@@ -117,7 +117,7 @@ export const TimersComponent = ({
             <MenuItem
               key={type}
               value={type}
-              style={getStyles(type, discountType, theme)}
+              style={getStyles(type, discountType ?? '', theme)}
             >
               {type === 'percent' ? '%' : 'грн'}
             </MenuItem>

@@ -24,7 +24,7 @@ export default function TimersSideBar() {
   //   console.log(rootCategories);
 
   return (
-    <section className="flex flex-col gap-3 min-w-52 max-w-32 ">
+    <section className="h-screen flex flex-col gap-3 ">
       <CommonMultiSelect values={fetchStore} setValues={setFetchStore}>
         {STORE_IDS}
       </CommonMultiSelect>
