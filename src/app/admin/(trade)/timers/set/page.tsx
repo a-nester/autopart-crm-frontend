@@ -41,8 +41,8 @@ export default function Page({}) {
   };
 
   return (
-    <section className="flex flex-col p-1 md:p-4 gap-2">
-      <p>TimersItems dsfsefsfsfsasrgfrgrgrggggr</p>
+    <section className="flex flex-col items-center p-1 md:p-4 gap-2">
+      <p>Встановити цінові таймери</p>
       <FormGroup>
         <FormControlLabel
           control={<Checkbox checked={isAvailable} />}

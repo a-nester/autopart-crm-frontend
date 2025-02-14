@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Контент */}
       <div
         className={clsx(
-          'flex-1 transition-all min-h-screen pb-16 ', // Враховуємо моб. меню
+          'flex-1 transition-all min-h-screen pb-16', // Враховуємо моб. меню
           isActive ? 'md:ml-60' : 'md:ml-14',
         )}
       >
