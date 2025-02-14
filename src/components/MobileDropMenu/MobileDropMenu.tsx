@@ -74,7 +74,7 @@ export default function MobileDropMenu({ onClose }: MobileDropMenuProps) {
               </CommonAccordion>
             </li>
           ) : (
-            <li>
+            <li key={idx}>
               <Link
                 href="/admin/orders"
                 className="block py-1 text-center text-blue-600"
