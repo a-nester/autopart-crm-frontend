@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styles from './order.module.css';
 import { Order as OrderType } from '@/types/types';
 import { HiOutlinePercentBadge, HiOutlineShoppingCart } from 'react-icons/hi2';
+import { FiUser } from 'react-icons/fi';
 
 export default function Order({
   elem,
@@ -47,9 +48,6 @@ export default function Order({
           </div>
           <p className="text-gray-500">
             {new Date(order.date_created).toLocaleString('uk-UA', {
-              // year: 'numeric',
-              // month: '2-digit',
-              // day: '2-digit',
               hour: '2-digit',
               minute: '2-digit',
             })}
@@ -92,6 +90,12 @@ export default function Order({
                   <HiOutlinePercentBadge />
                   {order.cpa_commission.amount} грн
                 </span>
+              </p>
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+              <FiUser /> {'  '}
+              <p>
+                {order.client_first_name} {order.client_last_name}
               </p>
             </div>
           </div>

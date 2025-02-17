@@ -89,14 +89,14 @@ export const fetchAndSetOrders = async (stores: string[], set: SetFunction_fetch
 
 export const getStoreCategoriesOperation = async (store: string, set: SetFunction_getStoreCategoriesOperation) => {
     const storeId = store[0];
-const service = 'prom';
+    const service = 'prom';
     set({ isLoading: true, error: null });
     const URL = 'groups/list';
 
     let last_id = null; 
     const storeCategories = []; 
     let shouldContinue = true;
-  const params = {
+    const params = {
       service,
                 storeId,
                 URL,
@@ -151,17 +151,79 @@ export const getProductsByCategoryIdOperation = async (store: string, set: SetFu
   const service = 'prom';
   set({ isLoading: true, error: null });
   const URL = 'products/list/';
-  try {
-    const response = await axios
-      .get('/api/proxy', { params: { service, storeId, URL, limit: 100, group_id } });
+
+
+  // const storeId = store[0];
+  //   const service = 'prom';
+  //   set({ isLoading: true, error: null });
+  //   const URL = 'groups/list';
+
+  let last_id = null;
+  const products = [];
+    let shouldContinue = true;
+    const params = {
+      service,
+      storeId,
+      URL,
+      limit: 100,
+      last_id: null,
+      group_id
+    };
+  
+    try {
+        while (shouldContinue) {
+            
+
+            if (last_id !== null) {
+                params.last_id = last_id;
+            }
+            const response = await axios.get('/api/proxy', {
+                params,
+                headers: { 'Cache-Control': 'no-cache' },
+            });
+            
+            console.log("Response", response);
+            const newProducts = response.data.products; 
+          if (newProducts && newProducts.length > 0) {
+              
+                products.push(...newProducts); 
+                const lastProduct = newProducts[newProducts.length - 1];
+                if (lastProduct && lastProduct.id) {
+                    last_id = lastProduct.id;
+                } else {
+                    console.error("Помилка: останній елемент не має `id`");
+                    shouldContinue = false;
+                }
+                if (newProducts.length < 100) {
+                    shouldContinue = false;
+                }
+            } else {
+                // Якщо `groups` порожній, завершуємо цикл
+                console.warn("Відповідь порожня, завершення циклу");
+                shouldContinue = false;
+            }
+        }
+      
+        set({ products, isLoading: false });
+    } catch (error) {
+        // Обробка помилок
+        set({
+            error: error instanceof Error ? error.message : "Unknown error",
+            isLoading: false,
+        });
+        console.error("Помилка при отриманні категорій:", error);
+    }
+  // try {
+  //   const response = await axios
+  //     .get('/api/proxy', { params: { service, storeId, URL, limit: 100, group_id } });
     
-    const products = response.data.products;
-    set({products, isLoading: false})
-  } catch (error) {
-    set({
-      error: error instanceof Error ? error.message : 'Unknown error',
-    })
-  }
+  //   const products = response.data.products;
+  //   set({products, isLoading: false})
+  // } catch (error) {
+  //   set({
+  //     error: error instanceof Error ? error.message : 'Unknown error',
+  //   })
+  // }
 }
 
 export const getProductsByIdListOperation = async (store: string, set: SetFunction_getProductsByIdListOperation, productsList: TimerParams[]) => {
