@@ -1,5 +1,6 @@
 import {  CategoryElement, Order, Product, TimerParams } from "@/types/types";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 type SetFunction_fetchAndSetOrders = (partial: Partial<{
   orders: Order[];
@@ -153,11 +154,7 @@ export const getProductsByCategoryIdOperation = async (store: string, set: SetFu
   const URL = 'products/list/';
 
 
-  // const storeId = store[0];
-  //   const service = 'prom';
-  //   set({ isLoading: true, error: null });
-  //   const URL = 'groups/list';
-
+  
   let last_id = null;
   const products = [];
     let shouldContinue = true;
@@ -213,17 +210,7 @@ export const getProductsByCategoryIdOperation = async (store: string, set: SetFu
         });
         console.error("Помилка при отриманні категорій:", error);
     }
-  // try {
-  //   const response = await axios
-  //     .get('/api/proxy', { params: { service, storeId, URL, limit: 100, group_id } });
-    
-  //   const products = response.data.products;
-  //   set({products, isLoading: false})
-  // } catch (error) {
-  //   set({
-  //     error: error instanceof Error ? error.message : 'Unknown error',
-  //   })
-  // }
+  
 }
 
 export const getProductsByIdListOperation = async (store: string, set: SetFunction_getProductsByIdListOperation, productsList: TimerParams[]) => {
@@ -263,11 +250,13 @@ export const setProductDiscountTimerOperation = async (store: string, set: SetFu
       timerParams, {
       params: { service, storeId, URL },
     });
-    set({ isLoading: false, response: response.data})
+    set({ isLoading: false, response: response.data })
+    toast.success('Ціновий таймер успішно додано!')
   } catch (error) {
     set({
       error: error instanceof Error ? error.message : 'Unknown error',
     })
+    toast.error('Виникла помилка з встановленням таймера!')
   }
 
 }

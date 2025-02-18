@@ -34,13 +34,6 @@ export const TimersComponent = ({
   setDiscountType: (evt: SelectChangeEvent<string>) => void;
   name: string;
 }) => {
-  // const theme = useTheme();
-
-  // Локальне збереження типу знижки (уникнення uncontrolled to controlled)
-  // const [localDiscountType, setLocalDiscountType] = useState(
-  //   discountType ?? 'percent',
-  // );
-
   useEffect(() => {
     if (discountType) {
       setDiscountType({
@@ -84,7 +77,6 @@ export const TimersComponent = ({
           value={discountType === 'percent' ? 'percent' : 'amount'}
           onChange={(evt) => {
             // setLocalDiscountType(evt.target.value);
-
             setDiscountType(evt);
           }}
           input={<OutlinedInput label="Name" />}

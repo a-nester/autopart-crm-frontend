@@ -29,13 +29,17 @@ export function TimersProductItem({
   const article = product.sku;
   const id = product.id;
 
-  const [dayDiscount, setDayDiscount] = useState<number>(discount?.value || 0);
+  const [timer, setTimer] = useState<TimerParams>();
+  const [dayDiscount, setDayDiscount] = useState<number>(
+    timer?.dayDiscount || 0,
+  );
   const [dayDiscountType, setDayDiscountType] = useState('');
-  const [nightDiscount, setNightDiscount] = useState<number>(0);
+  const [nightDiscount, setNightDiscount] = useState<number>(
+    timer?.nightDiscount || 0,
+  );
   const [nightDiscountType, setNightDiscountType] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [hasSettedTimer, setHasSettedTimer] = useState(false);
-  const [timer, setTimer] = useState<TimerParams>();
 
   const priceWithDiscount = useMemo(() => {
     if (discount && product.price) {
@@ -49,7 +53,10 @@ export function TimersProductItem({
     if (settedTimer) {
       setTimer(settedTimer);
       setHasSettedTimer(!hasSettedTimer);
-      // setDayDiscount(settedTimer.);
+      setDayDiscount(settedTimer.dayDiscount);
+      setDayDiscountType(settedTimer.dayDiscountType);
+      setNightDiscount(settedTimer.nightDiscount);
+      setNightDiscountType(settedTimer.nightDiscountType);
       // console.log('settedTimer', settedTimer);
     }
   }, [productsWithTimer]);
@@ -261,21 +268,15 @@ export function TimersProductItem({
             <div className="flex flex-col gap-3">
               <TimersComponent
                 price={product.price}
-                discount={timer?.dayDiscount ? timer?.dayDiscount : dayDiscount}
+                discount={dayDiscount}
                 setDiscount={handleSetDayDiscount}
-                discountType={
-                  timer?.dayDiscountType
-                    ? timer?.dayDiscountType
-                    : dayDiscountType
-                }
+                discountType={dayDiscountType}
                 setDiscountType={handleSetDayDiscountType}
                 name="Day discount"
               />
               <TimersComponent
                 price={product.price}
-                discount={
-                  timer?.nightDiscount ? timer?.nightDiscount : nightDiscount
-                }
+                discount={nightDiscount}
                 setDiscount={handleSetNightDiscount}
                 discountType={
                   timer?.nightDiscountType
