@@ -64,9 +64,7 @@ export function TimersProductItem({
     }
   }, [dayDiscount, dayDiscountType, nightDiscount, nightDiscountType]);
 
-  const handleSetDayDiscount = (
-    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleSetDayDiscount = (evt: ChangeEvent<HTMLInputElement>) => {
     setDayDiscount(Number(evt.target.value));
   };
 
@@ -74,9 +72,7 @@ export function TimersProductItem({
     setDayDiscountType(evt.target.value);
   };
 
-  const handleSetNightDiscount = (
-    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleSetNightDiscount = (evt: ChangeEvent<HTMLInputElement>) => {
     setNightDiscount(Number(evt.target.value));
   };
 
@@ -263,7 +259,7 @@ export function TimersProductItem({
                 price={product.price}
                 discount={timer?.dayDiscount}
                 setDiscount={handleSetDayDiscount}
-                discountType={timer?.dayDiscountType}
+                discountType={timer ? timer.dayDiscountType : 'percent'}
                 setDiscountType={handleSetDayDiscountType}
                 name="Day discount"
               />
@@ -271,7 +267,7 @@ export function TimersProductItem({
                 price={product.price}
                 discount={timer?.nightDiscount}
                 setDiscount={handleSetNightDiscount}
-                discountType={timer?.nightDiscountType}
+                discountType={timer ? timer.nightDiscountType : 'percent'}
                 setDiscountType={handleSetNightDiscountType}
                 name="Night discount"
               />

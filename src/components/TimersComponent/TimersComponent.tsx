@@ -3,7 +3,7 @@ import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { TextField } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { priceWithDiscountCalc } from '@/helpers/priceWithDiscountCalc';
 
 const ITEM_HEIGHT = 45;
@@ -29,23 +29,23 @@ export const TimersComponent = ({
 }: {
   price: number | null;
   discount: number | undefined;
-  setDiscount: (
-    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-  discountType: string | undefined;
+  setDiscount: (evt: ChangeEvent<HTMLInputElement>) => void;
+  discountType: string | '%';
   setDiscountType: (evt: SelectChangeEvent<string>) => void;
   name: string;
 }) => {
   // const theme = useTheme();
 
   // Локальне збереження типу знижки (уникнення uncontrolled to controlled)
-  const [localDiscountType, setLocalDiscountType] = useState(
-    discountType ?? 'percent',
-  );
+  // const [localDiscountType, setLocalDiscountType] = useState(
+  //   discountType ?? 'percent',
+  // );
 
   useEffect(() => {
     if (discountType) {
-      setLocalDiscountType(discountType);
+      setDiscountType({
+        target: { value: discountType },
+      } as SelectChangeEvent<string>);
     }
   }, [discountType]);
 
@@ -56,8 +56,8 @@ export const TimersComponent = ({
         <TextField
           label={name}
           variant="outlined"
-          value={discount ?? ''}
-          onChange={setDiscount}
+          value={discount}
+          onChange={(evt) => setDiscount(evt as ChangeEvent<HTMLInputElement>)}
           fullWidth
           slotProps={{
             input: {
@@ -72,9 +72,9 @@ export const TimersComponent = ({
         <Select
           labelId="Type"
           id="dayDiscountType"
-          value={localDiscountType}
+          value={discountType}
           onChange={(evt) => {
-            setLocalDiscountType(evt.target.value);
+            // setLocalDiscountType(evt.target.value);
             setDiscountType(evt);
           }}
           input={<OutlinedInput label="Name" />}
@@ -94,7 +94,7 @@ export const TimersComponent = ({
           variant="outlined"
           value={
             priceWithDiscountCalc(price, {
-              type: localDiscountType,
+              type: discountType,
               value: discount,
             }) ?? ''
           }
