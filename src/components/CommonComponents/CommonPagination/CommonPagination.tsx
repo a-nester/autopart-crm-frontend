@@ -14,7 +14,7 @@ export default function CommonPagination({
   const count = Math.ceil(elements / perPage);
   //   const [page, setPage] = useState<number>(1);
   const pagination = Array.from({ length: count }, (_, i) => ++i);
-  console.log(pagination);
+  //   console.log(pagination);
 
   return (
     <section className="flex flex-row gap-1 w-48 overflow-hidden">

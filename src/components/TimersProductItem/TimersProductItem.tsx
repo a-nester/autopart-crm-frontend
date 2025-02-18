@@ -30,7 +30,7 @@ export function TimersProductItem({
   const id = product.id;
 
   const [dayDiscount, setDayDiscount] = useState<number>(discount?.value || 0);
-  const [dayDiscountType, setDayDiscountType] = useState(discount?.type || '');
+  const [dayDiscountType, setDayDiscountType] = useState('');
   const [nightDiscount, setNightDiscount] = useState<number>(0);
   const [nightDiscountType, setNightDiscountType] = useState('');
   const [isActive, setIsActive] = useState(false);
@@ -49,7 +49,8 @@ export function TimersProductItem({
     if (settedTimer) {
       setTimer(settedTimer);
       setHasSettedTimer(!hasSettedTimer);
-      console.log(settedTimer);
+      // setDayDiscount(settedTimer.);
+      // console.log('settedTimer', settedTimer);
     }
   }, [productsWithTimer]);
 
@@ -93,9 +94,12 @@ export function TimersProductItem({
 
   const handleDeleteTimer = () => {
     console.log(product);
+    console.log(timer);
   };
 
   const handleAccordionChange = () => {};
+
+  // console.log(timer);
 
   return (
     <section
@@ -257,17 +261,27 @@ export function TimersProductItem({
             <div className="flex flex-col gap-3">
               <TimersComponent
                 price={product.price}
-                discount={timer?.dayDiscount}
+                discount={timer?.dayDiscount ? timer?.dayDiscount : dayDiscount}
                 setDiscount={handleSetDayDiscount}
-                discountType={timer ? timer.dayDiscountType : 'percent'}
+                discountType={
+                  timer?.dayDiscountType
+                    ? timer?.dayDiscountType
+                    : dayDiscountType
+                }
                 setDiscountType={handleSetDayDiscountType}
                 name="Day discount"
               />
               <TimersComponent
                 price={product.price}
-                discount={timer?.nightDiscount}
+                discount={
+                  timer?.nightDiscount ? timer?.nightDiscount : nightDiscount
+                }
                 setDiscount={handleSetNightDiscount}
-                discountType={timer ? timer.nightDiscountType : 'percent'}
+                discountType={
+                  timer?.nightDiscountType
+                    ? timer.nightDiscountType
+                    : nightDiscountType
+                }
                 setDiscountType={handleSetNightDiscountType}
                 name="Night discount"
               />

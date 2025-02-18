@@ -30,7 +30,7 @@ export const TimersComponent = ({
   price: number | null;
   discount: number | undefined;
   setDiscount: (evt: ChangeEvent<HTMLInputElement>) => void;
-  discountType: string | '%';
+  discountType: string;
   setDiscountType: (evt: SelectChangeEvent<string>) => void;
   name: string;
 }) => {
@@ -48,6 +48,15 @@ export const TimersComponent = ({
       } as SelectChangeEvent<string>);
     }
   }, [discountType]);
+
+  // console.log('discountType', {
+  //   price,
+  //   discount,
+  //   setDiscount,
+  //   discountType,
+  //   setDiscountType,
+  //   name,
+  // });
 
   return (
     <section>
@@ -71,10 +80,11 @@ export const TimersComponent = ({
         {/* Вибір типу знижки */}
         <Select
           labelId="Type"
-          id="dayDiscountType"
-          value={discountType}
+          id="discountType"
+          value={discountType === 'percent' ? 'percent' : 'amount'}
           onChange={(evt) => {
             // setLocalDiscountType(evt.target.value);
+
             setDiscountType(evt);
           }}
           input={<OutlinedInput label="Name" />}

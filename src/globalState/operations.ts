@@ -182,7 +182,7 @@ export const getProductsByCategoryIdOperation = async (store: string, set: SetFu
                 headers: { 'Cache-Control': 'no-cache' },
             });
             
-            console.log("Response", response);
+            // console.log("Response", response);
             const newProducts = response.data.products; 
           if (newProducts && newProducts.length > 0) {
               

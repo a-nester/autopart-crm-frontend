@@ -1,6 +1,11 @@
 import { Discount } from "@/types/types";
 
 export const priceWithDiscountCalc = (price: number | null, discountObj: Discount | null, isPerioded?: boolean): number | null | undefined=> {
+    // console.log("Price", price);
+    // console.log("DiscounyObj", discountObj);
+    
+    
+    
     if (!discountObj) {
         return price;
     }
@@ -57,6 +62,8 @@ export const priceWithDiscountCalc = (price: number | null, discountObj: Discoun
             return price;
         }
         if (type === "percent" && value !== undefined) {
+            // console.log(price);
+            
                     const result = price - (price * value / 100);
                     return parseFloat(result.toFixed(2));
                 } else if (value !== undefined) {

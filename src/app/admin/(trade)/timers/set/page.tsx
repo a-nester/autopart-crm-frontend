@@ -41,7 +41,7 @@ export default function Page({}) {
         el.name.toLowerCase().includes(search.toLowerCase()),
       );
     }
-    console.log(filtered);
+    // console.log(filtered);
 
     setFilteredProducts(filtered);
   }, [products, isAvailable, search]);
