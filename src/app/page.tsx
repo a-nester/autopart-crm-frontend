@@ -2,8 +2,6 @@
 import Link from 'next/link';
 
 export default function Home() {
-  // console.log(headers());
-
   return (
     <main>
       <section className="flex flex-col items-center">

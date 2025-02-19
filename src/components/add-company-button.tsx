@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Button from './button';
+// import Button from './button';
 import CompanyFormModal from './company-form-modal';
+import Button from './button';
 
 export default function AddCompanyButton() {
   const [show, setShow] = useState(false);

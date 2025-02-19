@@ -228,4 +228,17 @@ export type OrdersStore = State & Actions;
 
 export type STORES = Record<string, { token: string | undefined }>;
 
+// TRANSPORT
 
+export type TripRowProps = {
+  id: string;
+  driver: string;
+  truck: string[];
+  startDate: string;
+  endDate: string;
+  startPoints: string[];
+  endPoints: string[];
+  rangeToStart: number;
+  range: number;
+  price: number;
+}

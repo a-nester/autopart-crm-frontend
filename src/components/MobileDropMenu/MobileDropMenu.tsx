@@ -25,7 +25,7 @@ const menuItems = [
     submenu: [
       {
         title: 'Рейси',
-        path: '/admin/cariers/',
+        path: '/admin/trips/',
       },
       {
         title: 'Ремонти',
