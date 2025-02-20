@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -7,9 +8,15 @@ interface ModalProps {
   children: ReactNode;
   isOpen: boolean;
   onClose: () => void;
+  className?: string;
 }
 
-export default function Modal({ children, isOpen, onClose }: ModalProps) {
+export default function Modal({
+  children,
+  isOpen,
+  onClose,
+  className,
+}: ModalProps) {
   if (!isOpen) return null;
 
   return createPortal(
@@ -22,7 +29,12 @@ export default function Modal({ children, isOpen, onClose }: ModalProps) {
         }}
       ></div>
       {/* вміст */}
-      <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-lg rounded-t-lg z-50">
+      <div
+        className={clsx(
+          'fixed bottom-0 left-0 bg-white p-4 shadow-lg rounded-t-lg z-50',
+          className,
+        )}
+      >
         <button
           className="absolute top-2 right-4 text-gray-600 hover:text-red-500"
           onClick={onClose}

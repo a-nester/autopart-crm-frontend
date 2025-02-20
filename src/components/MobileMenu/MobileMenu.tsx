@@ -37,6 +37,7 @@ export default function MobileMenu() {
 
       {/* Виклик моддалки */}
       <Modal
+        className={'w-full'}
         isOpen={isActiveMenu}
         onClose={() => {
           setIsActiveMenu(false);

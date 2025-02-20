@@ -1,5 +1,9 @@
-import Header from '@/components/header';
+'use client';
+
+import Button from '@/components/Button/Button';
+import Modal from '@/components/Modal/Modal';
 import TripsList from '@/components/transport/TripsList/TripsList';
+import { useState } from 'react';
 
 const trips = [
   {
@@ -29,10 +33,27 @@ const trips = [
 ];
 
 export default function Page() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <Header>Список рейсів</Header>
-      <TripsList trips={trips}></TripsList>
+      <section className="flex relative">
+        <TripsList trips={trips}></TripsList>
+      </section>
+      <Button
+        type="button"
+        className="bg-blue-700 flex fixed top-auto right-4 shadow-lg z-50"
+        onClick={() => setIsOpen(true)}
+      >
+        Додати рейс
+      </Button>
+      <Modal
+        className="top-[4px] left-[4px] right-[4px] bottom-[4px] rounded-lg"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        New trip
+      </Modal>
     </>
   );
 }
