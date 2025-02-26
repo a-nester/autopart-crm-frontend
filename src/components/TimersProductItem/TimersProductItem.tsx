@@ -33,11 +33,11 @@ export function TimersProductItem({
   const [dayDiscount, setDayDiscount] = useState<number>(
     timer?.dayDiscount || 0,
   );
-  const [dayDiscountType, setDayDiscountType] = useState('');
+  const [dayDiscountType, setDayDiscountType] = useState('amount');
   const [nightDiscount, setNightDiscount] = useState<number>(
     timer?.nightDiscount || 0,
   );
-  const [nightDiscountType, setNightDiscountType] = useState('');
+  const [nightDiscountType, setNightDiscountType] = useState('amount');
   const [isActive, setIsActive] = useState(false);
   const [hasSettedTimer, setHasSettedTimer] = useState(false);
 
@@ -90,6 +90,15 @@ export function TimersProductItem({
 
   const handleAddTimer = () => {
     setProductDiscountTimer({
+      shop: shop[0],
+      productId: product.id,
+      dayDiscountType,
+      dayDiscount,
+      nightDiscountType,
+      nightDiscount,
+    });
+
+    console.log({
       shop: shop[0],
       productId: product.id,
       dayDiscountType,
