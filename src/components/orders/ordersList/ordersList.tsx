@@ -55,7 +55,12 @@ export default function OrdersList() {
 
   return (
     <section className="flex flex-col gap-2 bg-gray-100">
-      <CommonMultiSelect values={storesList} setValues={setStoresList} multiple>
+      <CommonMultiSelect
+        values={storesList}
+        setValues={setStoresList}
+        label={'Магазин'}
+        multiple
+      >
         {STORE_IDS}
       </CommonMultiSelect>
       <div className="flex flex-col gap-2">

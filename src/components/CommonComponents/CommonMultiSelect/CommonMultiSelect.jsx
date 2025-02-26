@@ -21,7 +21,7 @@ const MenuProps = {
   },
 };
 
-function CommonMultiSelect({ children, values, setValues, ...props }) {
+function CommonMultiSelect({ children, values, setValues, label, ...props }) {
   const SELECT_LIST = children;
 
   const handleChange = (evt) => {
@@ -35,13 +35,13 @@ function CommonMultiSelect({ children, values, setValues, ...props }) {
   };
   return (
     <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Store</InputLabel>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={values}
         onChange={handleChange}
-        input={<OutlinedInput label="Store" />}
+        input={<OutlinedInput label={label} />}
         renderValue={(selected) => selected.join(', ')}
         MenuProps={MenuProps}
         {...props}

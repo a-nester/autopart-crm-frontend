@@ -20,7 +20,11 @@ export default function Page() {
 
   return (
     <section className="flex flex-col gap-3 min-w-52 max-w-32 ">
-      <CommonMultiSelect values={fetchStore} setValues={setFetchStore}>
+      <CommonMultiSelect
+        values={fetchStore}
+        setValues={setFetchStore}
+        label={'Store'}
+      >
         {STORE_IDS}
       </CommonMultiSelect>
     </section>

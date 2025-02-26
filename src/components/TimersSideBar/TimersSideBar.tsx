@@ -25,7 +25,11 @@ export default function TimersSideBar() {
 
   return (
     <section className="h-screen flex flex-col gap-3 ">
-      <CommonMultiSelect values={fetchStore} setValues={setFetchStore}>
+      <CommonMultiSelect
+        values={fetchStore}
+        setValues={setFetchStore}
+        label={'Store'}
+      >
         {STORE_IDS}
       </CommonMultiSelect>
       <CategoriesNav>{rootCategories}</CategoriesNav>

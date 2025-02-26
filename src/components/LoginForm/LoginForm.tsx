@@ -11,7 +11,7 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { useActionState } from 'react';
 import { authenticate } from '@/lib/actions';
 import { useSearchParams } from 'next/navigation';
-import Button from '../Button/Button';
+import Button from '../CommonComponents/Button/Button';
 
 export default function LoginForm() {
   const searchParams = useSearchParams();

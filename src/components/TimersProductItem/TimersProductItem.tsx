@@ -63,10 +63,10 @@ export function TimersProductItem({
 
   useEffect(() => {
     if (
-      dayDiscount &&
-      dayDiscountType !== '' &&
-      nightDiscount &&
-      nightDiscountType !== ''
+      dayDiscount !== null &&
+      dayDiscountType !== undefined &&
+      nightDiscount !== null &&
+      nightDiscountType !== undefined
     ) {
       setIsActive(true);
     }
