@@ -3,12 +3,14 @@ import CommonMultiSelect from '@/components/CommonComponents/CommonMultiSelect/C
 import { Box, TextField } from '@mui/material';
 import { useState } from 'react';
 import { drivers, trucks } from '@/constants/mockdata';
+import { useStore } from '@/globalState/store';
 
 interface EditTripProps {
   onClose: () => void;
 }
 
 export default function EditTrip({ onClose }: EditTripProps) {
+  const { setTrip } = useStore();
   const [driver, setDriver] = useState([]);
   const [auto, setAuto] = useState([]);
   const [load, setLoad] = useState<string>('');
@@ -23,6 +25,19 @@ export default function EditTrip({ onClose }: EditTripProps) {
 
   const handleSave = () => {
     console.log({
+      driver: driver[0],
+      auto: auto[0],
+      loadingPlace: load,
+      unloadingPlace: unload,
+      rangeTo: rangeTo,
+      range: range,
+      price: price,
+      currency: currency[0],
+      payment_Form: paymentForm[0],
+      dispetcher_fee: dispFee,
+      dispetcher_Currency: dispFeeCurrency[0],
+    });
+    setTrip({
       driver: driver[0],
       auto: auto[0],
       loadingPlace: load,

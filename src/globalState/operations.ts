@@ -1,4 +1,4 @@
-import {  CategoryElement, Order, Product, TimerParams } from "@/types/types";
+import {  CategoryElement, Order, Product, TimerParams, Trip } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -35,11 +35,19 @@ type SetFunction_setProductDiscountTimerOperation = (partial: Partial<{
     error: string | null;
 }>) => void;
 
-type SetFunction_getProductDiscountTimerOperation = (partial: Partial<{
+type GetFunction_getProductDiscountTimerOperation = (partial: Partial<{
   productsWithTimer: TimerParams[];
   isLoading: boolean;
   error: string | null;
 }>) => void;
+
+type SetFunction_setTripOperation = (partial: Partial<{
+  response: { data: string };
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
+// Trade Operations
 
 export const userLoginOperation = async (email: string, password: string) => {
   // const storeId = 'AvtoKlan';
@@ -261,7 +269,7 @@ export const setProductDiscountTimerOperation = async (store: string, set: SetFu
 
 }
 
-export const getProductDiscountTimerOperation = async (set: SetFunction_getProductDiscountTimerOperation, getTimerParams: string) => {
+export const getProductDiscountTimerOperation = async (set: GetFunction_getProductDiscountTimerOperation, getTimerParams: string) => {
   set({ isLoading: true, error: null });
 
   const service = 'myApp';
@@ -284,3 +292,23 @@ export const getProductDiscountTimerOperation = async (set: SetFunction_getProdu
   }
 }
 
+// Transport Operations
+
+export const setTripOperation = async (set: SetFunction_setTripOperation, setTripParams: Trip) => {
+  const service = 'myApp';
+  const URL = 'transport/';
+  set({ isLoading: true, error: null });
+
+  try {
+    const response = await axios.post('/api/proxy', setTripParams, {
+      params: { service, URL },
+    });
+    set({ isLoading: false, response: response.data })
+    toast.success('Рейс успішно записано!')
+  } catch (error) {
+    set({
+      error: error instanceof Error ? error.message: 'Unknown error',
+    })
+    toast.error('Виникла помилка з записом рейсу!')
+  }
+}

@@ -7,9 +7,10 @@ import {
   getProductsByIdListOperation,
   getStoreCategoriesOperation,
   setProductDiscountTimerOperation,
+  setTripOperation,
   userLoginOperation,
 } from './operations';
-import { OrdersStore, TimerParams } from '@/types/types';
+import { OrdersStore, TimerParams, Trip } from '@/types/types';
 
 // export const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
@@ -62,6 +63,9 @@ const useStore = create<OrdersStore>()(
       },
       getProductDiscountTimer: async (getTimerParams) => {
         await getProductDiscountTimerOperation(set, getTimerParams);
+      },
+      setTrip: async (tripParams: Trip) => {
+        await setTripOperation(set, tripParams);
       }
     }),
 

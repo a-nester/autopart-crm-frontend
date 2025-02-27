@@ -222,6 +222,8 @@ export type Actions = {
   getProductsByIdList: (productsList: TimerParams[]) => void;
   setProductDiscountTimer: (timerParams: TimerParams) => void;
   getProductDiscountTimer: (getTimerParams: string) => void;
+  setTrip: (tripParams: Trip) => void;
+  
 };
 
 export type OrdersStore = State & Actions;
@@ -242,3 +244,17 @@ export type TripRowProps = {
   range: number;
   price: number;
 }
+
+export type Trip = {
+      driver: string,
+      auto: string,
+      loadingPlace: string,
+      unloadingPlace: string,
+      rangeTo: number | undefined,
+      range: number | undefined,
+      price: number | undefined,
+      currency: string,
+      payment_Form: string,
+      dispetcher_fee: number | undefined,
+      dispetcher_Currency: string,
+    }
