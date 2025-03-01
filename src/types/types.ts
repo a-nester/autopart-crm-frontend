@@ -258,7 +258,7 @@ export type Trip = {
   loadingPlace: string,
   loadDate: number | null,
   unloadingPlace: string,
-  unloadDate: number | null,
+  unloadDate?: number | null,
   rangeTo: number | undefined,
   range: number | undefined,
   price: number | undefined,

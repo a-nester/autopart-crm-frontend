@@ -22,7 +22,7 @@ export default function TripRow({ trip }: { trip: Trip }) {
           ))} */}
         </td>
         <td className="  text-blue-700 ">
-          {dayjs(trip.unloadDate).format('DD.MM.YY')}
+          {trip.unloadDate ? dayjs(trip.unloadDate).format('DD.MM.YY') : '-'}
         </td>
         <td className="  ">{trip.loadingPlace}</td>
         <td className="  ">

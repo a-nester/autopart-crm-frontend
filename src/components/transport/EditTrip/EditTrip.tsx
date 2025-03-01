@@ -10,6 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CURRENCY } from '@/constants/constants';
+import { Trip } from '@/types/types';
 
 interface EditTripProps {
   onClose: () => void;
@@ -33,14 +34,17 @@ export default function EditTrip({ onClose }: EditTripProps) {
   const [dispFeeCurrency, setDispFeeCurrency] = useState<string>('');
 
   const handleSave = async () => {
-    const newTrip = {
+    const newTrip: Trip = {
       id,
       driver: driver[0],
       truck: truck[0],
       loadingPlace: load,
       loadDate: loadDate ? dayjs(loadDate).valueOf() : null,
       unloadingPlace: unload,
-      unloadDate: unloadDate ? dayjs(unloadDate).valueOf() : null,
+
+      //   unloadDate && dayjs(loadDate).isValid()
+      //     ? dayjs(unloadDate).valueOf()
+      //     : null,
       rangeTo: rangeTo,
       range: range,
       price: price,
@@ -49,11 +53,16 @@ export default function EditTrip({ onClose }: EditTripProps) {
       dispetcher_fee: dispFee,
       dispetcher_Currency: dispFeeCurrency[0],
     };
+    if (unloadDate && dayjs(unloadDate).isValid()) {
+      newTrip.unloadDate = dayjs(unloadDate).valueOf();
+    }
+    console.log(newTrip);
+
     await setTrip(newTrip);
     useStore.setState((state) => ({
       tripsList: [...state.tripsList, newTrip],
     }));
-    onClose();
+    // onClose();
   };
 
   return (
