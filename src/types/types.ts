@@ -1,3 +1,5 @@
+
+
 export type Token = {
   accessToken: string
 }
@@ -234,6 +236,8 @@ export type STORES = Record<string, { token: string | undefined }>;
 
 // TRANSPORT
 
+export type Currency = 'USD' | 'UAH' | 'EUR' | string;
+
 export type TripRowProps = {
   id: string;
   driver: string;
@@ -258,8 +262,8 @@ export type Trip = {
   rangeTo: number | undefined,
   range: number | undefined,
   price: number | undefined,
-  currency: string,
+  currency: Currency,
   payment_Form: string,
   dispetcher_fee: number | undefined,
-  dispetcher_Currency: string,
+  dispetcher_Currency: Currency,
     }
