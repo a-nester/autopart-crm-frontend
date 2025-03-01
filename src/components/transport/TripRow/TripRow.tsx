@@ -1,4 +1,6 @@
+import { CURRENCY } from '@/constants/constants';
 import { Trip } from '@/types/types';
+import dayjs from 'dayjs';
 
 export default function TripRow({ trip }: { trip: Trip }) {
   console.log(trip);
@@ -19,7 +21,9 @@ export default function TripRow({ trip }: { trip: Trip }) {
             </span>
           ))} */}
         </td>
-        <td className="  text-blue-700 ">{trip.unloadDate}</td>
+        <td className="  text-blue-700 ">
+          {dayjs(trip.unloadDate).format('DD.MM.YY')}
+        </td>
         <td className="  ">{trip.loadingPlace}</td>
         <td className="  ">
           {trip.unloadingPlace}
@@ -30,7 +34,10 @@ export default function TripRow({ trip }: { trip: Trip }) {
             </span>
           ))} */}
         </td>
-        <td className="  ">{trip.price}</td>
+        <td className="  ">
+          {trip.price}
+          {CURRENCY[trip.currency]}
+        </td>
       </tr>
     </>
   );

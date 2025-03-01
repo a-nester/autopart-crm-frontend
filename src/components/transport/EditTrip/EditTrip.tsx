@@ -9,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { CURRENCY } from '@/constants/constants';
 
 interface EditTripProps {
   onClose: () => void;
@@ -37,9 +38,9 @@ export default function EditTrip({ onClose }: EditTripProps) {
       driver: driver[0],
       truck: truck[0],
       loadingPlace: load,
-      loadDate: loadDate ? dayjs(loadDate).format('DD.MM.YYYY') : '',
+      loadDate: loadDate ? dayjs(loadDate).valueOf() : null,
       unloadingPlace: unload,
-      unloadDate: unloadDate ? dayjs(unloadDate).format('DD.MM.YYYY') : '',
+      unloadDate: unloadDate ? dayjs(unloadDate).valueOf() : null,
       rangeTo: rangeTo,
       range: range,
       price: price,
@@ -144,7 +145,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
           setValues={setCurrency}
           label={'Валюта'}
         >
-          {['Грн', 'USD', 'Eur']}
+          {Object.keys(CURRENCY)}
         </CommonMultiSelect>
         <CommonMultiSelect
           // className="flex"
@@ -169,7 +170,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
           setValues={setDispFeeCurrency}
           label={'Валюта'}
         >
-          {['Грн', 'USD', 'Eur']}
+          {Object.keys(CURRENCY)}
         </CommonMultiSelect>
         <Box className="w-full"></Box>
       </Box>
