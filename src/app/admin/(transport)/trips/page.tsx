@@ -20,16 +20,19 @@ export default function Page() {
 
   return (
     <>
-      <section className="flex relative h-[calc(75vh)]">
-        {tripsList && <TripsList trips={tripsList}></TripsList>}
+      <section className="flex relative h-[calc(75vh)] flex-col justify-between">
+        {tripsList && <TripsList trips={tripsList} />}
+        <div className="sticky bottom-0 bg-white py-2">
+          <Button
+            type="button"
+            className="bg-blue-700 flex mx-auto shadow-lg z-50"
+            onClick={() => setIsOpen(true)}
+          >
+            Додати рейс
+          </Button>
+        </div>
       </section>
-      <Button
-        type="button"
-        className="bg-blue-700 flex fixed top-auto right-4 shadow-lg z-50"
-        onClick={() => setIsOpen(true)}
-      >
-        Додати рейс
-      </Button>
+
       <Modal
         className="top-[4px] left-[4px] right-[4px] bottom-[4px] rounded-lg"
         isOpen={isOpen}
