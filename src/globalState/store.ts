@@ -1,18 +1,19 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, PersistOptions } from 'zustand/middleware';
 import {
   fetchAndSetOrders,
   getProductDiscountTimerOperation,
   getProductsByCategoryIdOperation,
   getProductsByIdListOperation,
   getStoreCategoriesOperation,
+  getTripsOperation,
   setProductDiscountTimerOperation,
   setTripOperation,
   userLoginOperation,
 } from './operations';
 import { OrdersStore, TimerParams, Trip } from '@/types/types';
 
-// export const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
+type OrdersPersist = Pick<OrdersStore, 'orders'>;
 
 const useStore = create<OrdersStore>()(
   persist(
@@ -26,9 +27,10 @@ const useStore = create<OrdersStore>()(
       error: null,
       shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
       productsWithTimer: [],
+      tripsList: [],
       userLogin: async (email: string, password: string) => {
         try {
-          await userLoginOperation( email, password);
+          await userLoginOperation(email, password);
           console.log('User logged in successfully');
         } catch (error) {
           console.error('Error during login', error);
@@ -43,7 +45,7 @@ const useStore = create<OrdersStore>()(
       },
       clearOrders: () => set({ orders: [] }),
       addStore: (newShop: string) => {
-        return set({ shop: newShop });
+        set({ shop: newShop });
       },
       getStoreCategories: async () => {
         const { shop } = get();
@@ -66,14 +68,18 @@ const useStore = create<OrdersStore>()(
       },
       setTrip: async (tripParams: Trip) => {
         await setTripOperation(set, tripParams);
-      }
+      },
+      getTrips: async () => {
+        await getTripsOperation(set);
+      },
     }),
-
     {
-      name: 'orders-storage', // localstorage key
-      partialize: (state) => ({ orders: state.orders }),
-    },
-  ),
+      name: 'orders-storage',
+      partialize: (state) => ({
+        orders: state.orders,
+      }),
+    } satisfies PersistOptions<OrdersStore, OrdersPersist>
+  )
 );
 
 export { useStore };

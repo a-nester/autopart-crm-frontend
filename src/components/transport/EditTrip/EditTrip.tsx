@@ -4,6 +4,11 @@ import { Box, TextField } from '@mui/material';
 import { useState } from 'react';
 import { drivers, trucks } from '@/constants/mockdata';
 import { useStore } from '@/globalState/store';
+import dayjs, { Dayjs } from 'dayjs';
+
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface EditTripProps {
   onClose: () => void;
@@ -11,8 +16,11 @@ interface EditTripProps {
 
 export default function EditTrip({ onClose }: EditTripProps) {
   const { setTrip } = useStore();
+  const [id, setId] = useState<string>();
   const [driver, setDriver] = useState([]);
-  const [auto, setAuto] = useState([]);
+  const [truck, setTruck] = useState([]);
+  const [loadDate, setLoadDate] = useState<Dayjs | null | undefined>();
+  const [unloadDate, setUnloadDate] = useState<Dayjs | null | undefined>();
   const [load, setLoad] = useState<string>('');
   const [unload, setUnload] = useState<string>('');
   const [rangeTo, setRangeTo] = useState<number>();
@@ -23,12 +31,15 @@ export default function EditTrip({ onClose }: EditTripProps) {
   const [dispFee, setDispFee] = useState<number>();
   const [dispFeeCurrency, setDispFeeCurrency] = useState<string>('');
 
-  const handleSave = () => {
-    console.log({
+  const handleSave = async () => {
+    const newTrip = {
+      id,
       driver: driver[0],
-      auto: auto[0],
+      truck: truck[0],
       loadingPlace: load,
+      loadDate: loadDate ? dayjs(loadDate).format('DD.MM.YYYY') : '',
       unloadingPlace: unload,
+      unloadDate: unloadDate ? dayjs(unloadDate).format('DD.MM.YYYY') : '',
       rangeTo: rangeTo,
       range: range,
       price: price,
@@ -36,24 +47,27 @@ export default function EditTrip({ onClose }: EditTripProps) {
       payment_Form: paymentForm[0],
       dispetcher_fee: dispFee,
       dispetcher_Currency: dispFeeCurrency[0],
-    });
-    setTrip({
-      driver: driver[0],
-      auto: auto[0],
-      loadingPlace: load,
-      unloadingPlace: unload,
-      rangeTo: rangeTo,
-      range: range,
-      price: price,
-      currency: currency[0],
-      payment_Form: paymentForm[0],
-      dispetcher_fee: dispFee,
-      dispetcher_Currency: dispFeeCurrency[0],
-    });
+    };
+    await setTrip(newTrip);
+    useStore.setState((state) => ({
+      tripsList: [...state.tripsList, newTrip],
+    }));
+    onClose();
   };
+
   return (
     <section className="flex flex-col gap-2">
       <h2>Створення нового рейсу</h2>
+      <Box className="flex gap-2">
+        <TextField
+          className="flex w-full"
+          id="id"
+          label="id"
+          variant="outlined"
+          onChange={(evt) => setId(evt.target.value)}
+        />
+        <Box className="w-full"></Box>
+      </Box>
       <Box className="flex flex-row gap-2">
         <CommonMultiSelect
           values={driver}
@@ -62,11 +76,20 @@ export default function EditTrip({ onClose }: EditTripProps) {
         >
           {drivers}
         </CommonMultiSelect>
-        <CommonMultiSelect values={auto} setValues={setAuto} label={'Авто'}>
+        <CommonMultiSelect values={truck} setValues={setTruck} label={'Авто'}>
           {trucks}
         </CommonMultiSelect>
       </Box>
       <Box className="flex flex-row gap-2">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            className="flex-[1.5]"
+            label="Дата"
+            value={loadDate ? dayjs(loadDate) : null}
+            format="DD-MM-YYYY"
+            onChange={(newValue) => setLoadDate(newValue)}
+          />
+        </LocalizationProvider>
         <TextField
           className="flex-[3]"
           id="load"
@@ -83,6 +106,15 @@ export default function EditTrip({ onClose }: EditTripProps) {
         />
       </Box>
       <Box className="flex flex-row gap-2">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            className="flex-[1.5]"
+            label="Дата"
+            value={unloadDate ? dayjs(unloadDate) : null}
+            format="DD-MM-YYYY"
+            onChange={(newValue) => setUnloadDate(newValue)}
+          />
+        </LocalizationProvider>
         <TextField
           className="flex-[3]"
           id="unload"

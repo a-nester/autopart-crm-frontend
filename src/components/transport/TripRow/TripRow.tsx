@@ -1,6 +1,8 @@
-import { TripRowProps } from '@/types/types';
+import { Trip } from '@/types/types';
 
-export default function TripRow({ trip }: { trip: TripRowProps }) {
+export default function TripRow({ trip }: { trip: Trip }) {
+  console.log(trip);
+
   return (
     <>
       <tr className="h-14 text-[10px] md:text-base font-medium text-center text-gray-800 bg-white">
@@ -9,22 +11,24 @@ export default function TripRow({ trip }: { trip: TripRowProps }) {
         </td>
         <td className="px-1">{trip.driver}</td>
         <td className="  text-blue-700 ">
-          {trip.truck.map((plate, idx) => (
+          {trip.truck}
+          {/* {trip.truck.map((plate, idx) => (
             <span key={idx}>
               {plate}
               <br />
             </span>
-          ))}
+          ))} */}
         </td>
-        <td className="  text-blue-700 ">{trip.endDate}</td>
-        <td className="  ">{trip.startPoints}</td>
+        <td className="  text-blue-700 ">{trip.unloadDate}</td>
+        <td className="  ">{trip.loadingPlace}</td>
         <td className="  ">
-          {trip.endPoints.map((elem, idx) => (
+          {trip.unloadingPlace}
+          {/* {trip.unload.map((elem, idx) => (
             <span key={idx}>
               {elem}
               <br />
             </span>
-          ))}
+          ))} */}
         </td>
         <td className="  ">{trip.price}</td>
       </tr>

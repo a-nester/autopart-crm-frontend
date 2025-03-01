@@ -74,8 +74,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   ...(limit && { limit: String(limit) }),
   ...(last_id && { last_id: String(last_id) }),
   ...(group_id && { group_id: String(group_id) }),
+  
 };
 
+console.log('queryParams', queryParams);
 
   if (method === 'GET' || method === 'POST') {
     try {

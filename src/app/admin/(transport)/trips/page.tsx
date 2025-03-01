@@ -4,16 +4,24 @@ import Button from '@/components/CommonComponents/Button/Button';
 import Modal from '@/components/Modal/Modal';
 import EditTrip from '@/components/transport/EditTrip/EditTrip';
 import TripsList from '@/components/transport/TripsList/TripsList';
-import { useState } from 'react';
-import { trips } from '@/constants/mockdata';
+import { useEffect, useState } from 'react';
+// import { trips } from '@/constants/mockdata';
+import { useStore } from '@/globalState/store';
 
 export default function Page() {
+  const { tripsList, getTrips } = useStore();
   const [isOpen, setIsOpen] = useState(false);
+  // console.log(tripsList);
+
+  useEffect(() => {
+    // const page = 1;
+    getTrips();
+  }, []);
 
   return (
     <>
       <section className="flex relative h-[calc(75vh)]">
-        <TripsList trips={trips}></TripsList>
+        {tripsList && <TripsList trips={tripsList}></TripsList>}
       </section>
       <Button
         type="button"

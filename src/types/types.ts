@@ -196,6 +196,7 @@ export type State = {
   error: string | null;
   shops: string[];
   productsWithTimer: TimerParams[];
+  tripsList: Trip[];
 };
 
 export type TimerParams = {
@@ -223,6 +224,7 @@ export type Actions = {
   setProductDiscountTimer: (timerParams: TimerParams) => void;
   getProductDiscountTimer: (getTimerParams: string) => void;
   setTrip: (tripParams: Trip) => void;
+  getTrips: () => void;
   
 };
 
@@ -236,25 +238,28 @@ export type TripRowProps = {
   id: string;
   driver: string;
   truck: string[];
-  startDate: string;
-  endDate: string;
-  startPoints: string[];
-  endPoints: string[];
+  loadingPlace: string;
+  loadDate: string;
+  unloadingPlace: string,
+  unloadDate: string,
   rangeToStart: number;
   range: number;
   price: number;
 }
 
 export type Trip = {
-      driver: string,
-      auto: string,
-      loadingPlace: string,
-      unloadingPlace: string,
-      rangeTo: number | undefined,
-      range: number | undefined,
-      price: number | undefined,
-      currency: string,
-      payment_Form: string,
-      dispetcher_fee: number | undefined,
-      dispetcher_Currency: string,
+  id: string | undefined,
+  driver: string,
+  truck: string[],
+  loadingPlace: string,
+  loadDate: string,
+  unloadingPlace: string,
+  unloadDate: string,
+  rangeTo: number | undefined,
+  range: number | undefined,
+  price: number | undefined,
+  currency: string,
+  payment_Form: string,
+  dispetcher_fee: number | undefined,
+  dispetcher_Currency: string,
     }

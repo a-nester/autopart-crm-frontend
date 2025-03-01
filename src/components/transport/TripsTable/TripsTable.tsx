@@ -1,5 +1,7 @@
 export interface TripsTableProps {
-  children?: React.ReactNode;
+  children?:
+    | React.ReactElement<HTMLTableRowElement>[]
+    | React.ReactElement<HTMLTableRowElement>;
 }
 
 const headers = [
@@ -17,12 +19,16 @@ const headers = [
 
 export default function TripsTable({ children }: TripsTableProps) {
   return (
-    <div className="py-1 px-1 bg-gray-100">
-      <table className="table-auto w-full border-separate border-spacing-y-2 ">
+    <div className="w-full py-1 px-1 bg-gray-100">
+      <table className="table-fixed w-full border-separate border-spacing-y-2 ">
         <thead>
           <tr>
             {headers.map((header, idx) => (
-              <th key={idx} className="pb-5 text-sm font-light text-gray-900">
+              <th
+                key={idx}
+                scope="col"
+                className="w-full pb-5 text-sm font-light text-gray-900"
+              >
                 {header}
               </th>
             ))}

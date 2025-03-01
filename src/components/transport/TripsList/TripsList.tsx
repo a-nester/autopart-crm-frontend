@@ -1,8 +1,8 @@
-import { TripRowProps } from '@/types/types';
+import { Trip } from '@/types/types';
 import TripRow from '../TripRow/TripRow';
 import TripsTable from '../TripsTable/TripsTable';
 
-export default function TripsList({ trips }: { trips: TripRowProps[] }) {
+export default function TripsList({ trips }: { trips: Trip[] }) {
   return (
     <section>
       <TripsTable>
