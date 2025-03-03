@@ -12,6 +12,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CURRENCY } from '@/constants/constants';
 import { Trip } from '@/types/types';
 
+import CreateCostumer from '../CreateCostumer/CreateCostumer';
+import PickCostumer from '../PickCostumer/PickCostumer';
+import { customersList } from '@/constants/mockdata';
+
 interface EditTripProps {
   onClose: () => void;
 }
@@ -30,8 +34,11 @@ export default function EditTrip({ onClose }: EditTripProps) {
   const [price, setPrice] = useState<number>();
   const [currency, setCurrency] = useState<string>('');
   const [paymentForm, setPaymentForm] = useState<string>('');
+  const [dispName, setDispName] = useState<string>('');
   const [dispFee, setDispFee] = useState<number>();
   const [dispFeeCurrency, setDispFeeCurrency] = useState<string>('');
+  const [isActiveCreateDispModal, setIsActiveCreateDispModal] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSave = async () => {
     const newTrip: Trip = {
@@ -41,15 +48,12 @@ export default function EditTrip({ onClose }: EditTripProps) {
       loadingPlace: load,
       loadDate: loadDate ? dayjs(loadDate).valueOf() : null,
       unloadingPlace: unload,
-
-      //   unloadDate && dayjs(loadDate).isValid()
-      //     ? dayjs(unloadDate).valueOf()
-      //     : null,
       rangeTo: rangeTo,
       range: range,
       price: price,
       currency: currency[0],
       payment_Form: paymentForm[0],
+      dispetcher_name: dispName,
       dispetcher_fee: dispFee,
       dispetcher_Currency: dispFeeCurrency[0],
     };
@@ -63,6 +67,10 @@ export default function EditTrip({ onClose }: EditTripProps) {
       tripsList: [...state.tripsList, newTrip],
     }));
     // onClose();
+  };
+
+  const handleCreateDisp = () => {
+    setIsActiveCreateDispModal(true);
   };
 
   return (
@@ -164,6 +172,40 @@ export default function EditTrip({ onClose }: EditTripProps) {
         >
           {['Готівка', 'Безнал']}
         </CommonMultiSelect>
+      </Box>
+      <Box className="w-full relative">
+        <TextField
+          id="dispetcher"
+          label="Диспетчер"
+          variant="outlined"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+          onChange={(evt) => setDispName(evt.target.value)}
+          className="w-full pr-10"
+        />
+        <Button
+          className="absolute right-2 top-7 -translate-y-1/2 rounded-full bg-blue-500 text-white w-8 h-8 flex items-center justify-center hover:bg-blue-400 leading-none"
+          onClick={handleCreateDisp}
+        >
+          <span className="relative -top-[2px]">+</span>
+        </Button>
+
+        {isActiveCreateDispModal && (
+          <CreateCostumer
+            className=" absolute top-14 w-full h-80 shadow-lg  rounded-lg z-100"
+            onClose={() => setIsActiveCreateDispModal(false)}
+            customer={dispName}
+            onChangeName={setDispName}
+          />
+        )}
+        {isFocused && (
+          <PickCostumer
+            className="absolute top-14 w-full  shadow-lg  rounded-lg z-100"
+            searchName={dispName}
+          >
+            {customersList}
+          </PickCostumer>
+        )}
       </Box>
       <Box className="flex flex-row gap-2">
         <TextField

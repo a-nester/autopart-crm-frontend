@@ -123,3 +123,34 @@ export const trips = [
     price: 9500,
   },
 ];
+
+export const customersList = [
+  {
+    id: 1,
+    name: 'Світлана',
+    company: 'ФОП Ворробйов',
+    phone: '+380123456789',
+    email: 'svvorob@gmail.com',
+  },
+  {
+    id: 2,
+    name: 'Зоряна',
+    company: 'Birolwood',
+    phone: '+380123456789',
+    email: 'zoriana@gmail.com',
+  },
+  {
+    id: 3,
+    name: 'Customer3',
+    company: 'Birolwood',
+    phone: '+380123456789',
+    email: 'zoriana@gmail.com',
+  },
+  {
+    id: 4,
+    name: 'Customer3',
+    company: 'Birolwood',
+    phone: '+380123456789',
+    email: 'zoriana@gmail.com',
+  },
+];

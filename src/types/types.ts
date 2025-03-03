@@ -264,6 +264,15 @@ export type Trip = {
   price: number | undefined,
   currency: Currency,
   payment_Form: string,
+  dispetcher_name: string,
   dispetcher_fee: number | undefined,
   dispetcher_Currency: Currency,
-    }
+}
+    
+export type Customer = {
+  id: number;
+  name: string;
+  company: string;
+  phone: string;
+  email: string;
+};
