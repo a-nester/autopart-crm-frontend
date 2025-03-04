@@ -1,3 +1,4 @@
+import Button from '@/components/CommonComponents/Button/Button';
 import { Customer } from '@/types/types';
 import clsx from 'clsx';
 
@@ -5,12 +6,14 @@ type Props = {
   children: Customer[];
   className: string;
   searchName: string;
+  setSelectedCustomer: (customer: Customer) => void;
 };
 
 export default function PickCostumer({
   children,
   className,
   searchName,
+  setSelectedCustomer,
 }: Props) {
   const filtered =
     searchName.trim() === ''
@@ -29,8 +32,13 @@ export default function PickCostumer({
       <h2>Список контрагентів</h2>
       <ul>
         {filtered.map((customer) => (
-          <li key={customer.id}>
-            <p>{customer.name}</p>
+          <li key={customer._id}>
+            <Button
+              className="border-[1px] border-[solid] border-[black]"
+              onClick={() => setSelectedCustomer(customer)}
+            >
+              {`${customer.name}  ${customer.company}`}
+            </Button>
           </li>
         ))}
       </ul>

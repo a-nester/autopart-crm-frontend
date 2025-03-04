@@ -1,4 +1,5 @@
 import Button from '@/components/CommonComponents/Button/Button';
+import { Customer } from '@/types/types';
 import { Box, TextField } from '@mui/material';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -7,7 +8,7 @@ type Props = {
   onClose: () => void;
   className: string;
   customer: string;
-  onChangeName: (name: string) => void;
+  onChangeName: ({ name }: Customer) => void;
 };
 
 export default function CreateCostumer({
@@ -38,7 +39,7 @@ export default function CreateCostumer({
           variant="outlined"
           value={customer}
           onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
-            onChangeName(evt.target.value)
+            onChangeName({ name: evt.target.value })
           }
           helperText=" "
         ></TextField>

@@ -126,30 +126,30 @@ export const trips = [
 
 export const customersList = [
   {
-    id: 1,
+    id: 1456874987,
     name: 'Світлана',
     company: 'ФОП Ворробйов',
     phone: '+380123456789',
     email: 'svvorob@gmail.com',
   },
   {
-    id: 2,
+    id: 1254987532,
     name: 'Зоряна',
     company: 'Birolwood',
     phone: '+380123456789',
     email: 'zoriana@gmail.com',
   },
   {
-    id: 3,
+    id: 1398715975,
     name: 'Customer3',
-    company: 'Birolwood',
+    company: 'Comp3',
     phone: '+380123456789',
     email: 'zoriana@gmail.com',
   },
   {
-    id: 4,
-    name: 'Customer3',
-    company: 'Birolwood',
+    id: 3449854123,
+    name: 'Customer4',
+    company: 'Comp4',
     phone: '+380123456789',
     email: 'zoriana@gmail.com',
   },

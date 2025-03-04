@@ -10,7 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CURRENCY } from '@/constants/constants';
-import { Trip } from '@/types/types';
+import { Customer, Trip } from '@/types/types';
 
 import CreateCostumer from '../CreateCostumer/CreateCostumer';
 import PickCostumer from '../PickCostumer/PickCostumer';
@@ -34,7 +34,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
   const [price, setPrice] = useState<number>();
   const [currency, setCurrency] = useState<string>('');
   const [paymentForm, setPaymentForm] = useState<string>('');
-  const [dispName, setDispName] = useState<string>('');
+  const [dispetcher, setDispetcher] = useState<Customer>({ name: '' });
   const [dispFee, setDispFee] = useState<number>();
   const [dispFeeCurrency, setDispFeeCurrency] = useState<string>('');
   const [isActiveCreateDispModal, setIsActiveCreateDispModal] = useState(false);
@@ -53,7 +53,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
       price: price,
       currency: currency[0],
       payment_Form: paymentForm[0],
-      dispetcher_name: dispName,
+      dispetcher_id: dispetcher._id,
       dispetcher_fee: dispFee,
       dispetcher_Currency: dispFeeCurrency[0],
     };
@@ -180,7 +180,12 @@ export default function EditTrip({ onClose }: EditTripProps) {
           variant="outlined"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-          onChange={(evt) => setDispName(evt.target.value)}
+          value={dispetcher.name}
+          onChange={(evt) =>
+            setDispetcher({
+              name: evt.target.value,
+            })
+          }
           className="w-full pr-10"
         />
         <Button
@@ -194,14 +199,15 @@ export default function EditTrip({ onClose }: EditTripProps) {
           <CreateCostumer
             className=" absolute top-14 w-full h-80 shadow-lg  rounded-lg z-100"
             onClose={() => setIsActiveCreateDispModal(false)}
-            customer={dispName}
-            onChangeName={setDispName}
+            customer={dispetcher.name}
+            onChangeName={setDispetcher}
           />
         )}
         {isFocused && (
           <PickCostumer
             className="absolute top-14 w-full  shadow-lg  rounded-lg z-100"
-            searchName={dispName}
+            searchName={dispetcher.name}
+            setSelectedCustomer={setDispetcher}
           >
             {customersList}
           </PickCostumer>
