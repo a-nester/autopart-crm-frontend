@@ -74,7 +74,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
   };
 
   return (
-    <section className="flex flex-col gap-2 min-h-[80vh] max-h-[100vh] overflow-y-auto">
+    <section className="flex flex-col gap-2 min-h-[90vh] max-h-[100vh] overflow-y-auto">
       <h2>Створення нового рейсу</h2>
       <Box className="flex gap-2">
         <TextField
