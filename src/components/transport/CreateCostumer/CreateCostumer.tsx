@@ -27,11 +27,11 @@ export default function CreateCostumer({
   return (
     <section
       className={clsx(
-        'fixed bottom-0 left-0 bg-white p-4 shadow-lg rounded-lg z-50 overflow-y-auto',
+        'fixed bottom-0 left-0 bg-white p-4 shadow-lg rounded-lg z-50 ',
         className,
       )}
     >
-      <Box className="flex flex-col gap-0 pt-2">
+      <Box className="flex flex-col gap-0 pt-2 overflow-y-auto">
         <TextField
           className="w-full"
           label="Назва контрагента"
