@@ -74,7 +74,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
   };
 
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-2 min-h-[80vh] max-h-[100vh] overflow-y-auto">
       <h2>Створення нового рейсу</h2>
       <Box className="flex gap-2">
         <TextField
@@ -197,7 +197,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
 
         {isActiveCreateDispModal && (
           <CreateCostumer
-            className=" absolute top-14 w-full h-80 shadow-lg  rounded-lg z-100"
+            className=" absolute top-14 w-full shadow-lg  rounded-lg z-100"
             onClose={() => setIsActiveCreateDispModal(false)}
             customer={dispetcher.name}
             onChangeName={setDispetcher}
@@ -205,7 +205,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
         )}
         {isFocused && (
           <PickCostumer
-            className="absolute top-14 w-full  shadow-lg  rounded-lg z-100"
+            className="absolute top-14 w-full shadow-lg rounded-lg z-100"
             searchName={dispetcher.name}
             setSelectedCustomer={setDispetcher}
           >
