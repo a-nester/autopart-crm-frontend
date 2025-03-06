@@ -9,7 +9,7 @@ type Props = {
   setSelectedCustomer: (customer: Customer) => void;
 };
 
-export default function PickCostumer({
+export default function PickCustomer({
   children,
   className,
   searchName,
@@ -37,7 +37,7 @@ export default function PickCostumer({
               className="border-[1px] border-[solid] border-[black]"
               onClick={() => setSelectedCustomer(customer)}
             >
-              {`${customer.name}  ${customer.company}`}
+              {customer.name}
             </Button>
           </li>
         ))}

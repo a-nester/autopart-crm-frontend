@@ -6,12 +6,14 @@ import {
   getProductsByCategoryIdOperation,
   getProductsByIdListOperation,
   getStoreCategoriesOperation,
+  getTripCustomersOperation,
   getTripsOperation,
   setProductDiscountTimerOperation,
+  setTripCustomerOperation,
   setTripOperation,
   userLoginOperation,
 } from './operations';
-import { OrdersStore, TimerParams, Trip } from '@/types/types';
+import { Customer, OrdersStore, TimerParams, Trip } from '@/types/types';
 
 type OrdersPersist = Pick<OrdersStore, 'orders'>;
 
@@ -28,6 +30,7 @@ const useStore = create<OrdersStore>()(
       shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
       productsWithTimer: [],
       tripsList: [],
+      customers: [],
       userLogin: async (email: string, password: string) => {
         try {
           await userLoginOperation(email, password);
@@ -72,7 +75,15 @@ const useStore = create<OrdersStore>()(
       getTrips: async () => {
         await getTripsOperation(set);
       },
+      setTripCustomer: async (customer: Customer) => {
+        await setTripCustomerOperation(set, customer);
+      },
+      getTripCustomers: async () => {
+        await getTripCustomersOperation(set);
+  },
+
     }),
+    
     {
       name: 'orders-storage',
       partialize: (state) => ({

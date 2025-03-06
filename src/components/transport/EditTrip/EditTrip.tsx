@@ -1,7 +1,7 @@
 import Button from '@/components/CommonComponents/Button/Button';
 import CommonMultiSelect from '@/components/CommonComponents/CommonMultiSelect/CommonMultiSelect';
 import { Box, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { drivers, trucks } from '@/constants/mockdata';
 import { useStore } from '@/globalState/store';
 import dayjs, { Dayjs } from 'dayjs';
@@ -13,15 +13,14 @@ import { CURRENCY } from '@/constants/constants';
 import { Customer, Trip } from '@/types/types';
 
 import CreateCostumer from '../CreateCostumer/CreateCostumer';
-import PickCostumer from '../PickCostumer/PickCostumer';
-import { customersList } from '@/constants/mockdata';
+import PickCustomer from '../PickCostumer/PickCostumer';
 
 interface EditTripProps {
   onClose: () => void;
 }
 
 export default function EditTrip({ onClose }: EditTripProps) {
-  const { setTrip } = useStore();
+  const { setTrip, customers, getTripCustomers } = useStore();
   const [id, setId] = useState<string>();
   const [driver, setDriver] = useState([]);
   const [truck, setTruck] = useState([]);
@@ -39,6 +38,11 @@ export default function EditTrip({ onClose }: EditTripProps) {
   const [dispFeeCurrency, setDispFeeCurrency] = useState<string>('');
   const [isActiveCreateDispModal, setIsActiveCreateDispModal] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    getTripCustomers();
+    console.log(customers);
+  }, []);
 
   const handleSave = async () => {
     const newTrip: Trip = {
@@ -60,7 +64,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
     if (unloadDate && dayjs(unloadDate).isValid()) {
       newTrip.unloadDate = dayjs(unloadDate).valueOf();
     }
-    console.log(newTrip);
+    // console.log(newTrip);
 
     await setTrip(newTrip);
     useStore.setState((state) => ({
@@ -197,20 +201,20 @@ export default function EditTrip({ onClose }: EditTripProps) {
 
         {isActiveCreateDispModal && (
           <CreateCostumer
-            className=" absolute top-14 w-full shadow-lg  rounded-lg z-100"
+            className=" absolute top-14 w-full z-100"
             onClose={() => setIsActiveCreateDispModal(false)}
             customer={dispetcher.name}
             onChangeName={setDispetcher}
           />
         )}
         {isFocused && (
-          <PickCostumer
+          <PickCustomer
             className="absolute top-14 w-full shadow-lg rounded-lg z-100"
             searchName={dispetcher.name}
             setSelectedCustomer={setDispetcher}
           >
-            {customersList}
-          </PickCostumer>
+            {customers}
+          </PickCustomer>
         )}
       </Box>
       <Box className="flex flex-row gap-2">

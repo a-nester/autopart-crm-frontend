@@ -1,4 +1,4 @@
-import {  CategoryElement, Order, Product, TimerParams, Trip } from "@/types/types";
+import {  CategoryElement, Customer, Order, OrdersStore, Product, TimerParams, Trip } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -49,6 +49,18 @@ type SetFunction_setTripOperation = (partial: Partial<{
 
 type SetFunction_getTrips = (partial: Partial<{
   tripsList: Trip[];
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
+// type SetFunction_setCustomer = (partial: Partial<{
+//   customers: Customer[];
+//   isLoading: boolean;
+//   error: string | null;
+// }>) => void;
+
+type SetFunction_getCustomer = (partial: Partial<{
+  customers: Customer[];
   isLoading: boolean;
   error: string | null;
 }>) => void;
@@ -332,5 +344,50 @@ export const getTripsOperation = async (set: SetFunction_getTrips, ) => {
   } catch (error) {
     set({ error: error instanceof Error ? error.message : 'Unknown error' })
     toast.error('Виникла помилка з завантаженням списку рейсів!')
+  }
+}
+
+export const setTripCustomerOperation = async (set: { (partial: OrdersStore | Partial<OrdersStore> | ((state: OrdersStore) => OrdersStore | Partial<OrdersStore>), replace?: false): void; (state: OrdersStore | ((state: OrdersStore) => OrdersStore), replace: true): void; (arg0: { (prevState: OrdersStore): Partial<{ customers: Customer[]; isLoading: boolean; error: string | null; }>; isLoading?: boolean; error?: string | null; }): void; }, customer: Customer) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = 'transport/customer/'
+
+  try {
+    const response = await axios.post('/api/proxy', customer, {
+      params: {
+      service, URL
+      }
+    })
+  set((prevState: OrdersStore) => ({
+  customers: [...(prevState.customers || []), response.data], // Перевіряємо, чи існує customers
+  isLoading: false,
+  error: null
+  }) as Partial<{ customers: Customer[]; isLoading: boolean; error: string | null }>);
+    toast.success('Експедитора успішно додано!')
+
+  } catch (error) {
+    set({
+      error: error instanceof Error ? error.message: 'Unknown error'
+    })
+    toast.error('Виникла помилка з записом експедитора!')
+  }
+}
+
+export const getTripCustomersOperation = async (set: SetFunction_getCustomer) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = 'transport/customers/';
+
+  try {
+    const response = await axios.get('/api/proxy', {
+      params: {
+        service, URL
+      }
+    });
+    set({ customers: response.data.data, isLoading: false })
+    
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при завантаження переліку експедиторів!')
   }
 }

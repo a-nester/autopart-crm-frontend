@@ -199,6 +199,7 @@ export type State = {
   shops: string[];
   productsWithTimer: TimerParams[];
   tripsList: Trip[];
+  customers: Customer[],
 };
 
 export type TimerParams = {
@@ -227,6 +228,8 @@ export type Actions = {
   getProductDiscountTimer: (getTimerParams: string) => void;
   setTrip: (tripParams: Trip) => void;
   getTrips: () => void;
+  setTripCustomer: (customer: Customer) => void;
+  getTripCustomers: () => void;
   
 };
 

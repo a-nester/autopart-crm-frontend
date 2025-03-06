@@ -3,7 +3,7 @@ import { Trip } from '@/types/types';
 import dayjs from 'dayjs';
 
 export default function TripRow({ trip }: { trip: Trip }) {
-  console.log(trip);
+  // console.log(trip);
 
   return (
     <>
