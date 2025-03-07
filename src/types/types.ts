@@ -255,7 +255,7 @@ export type TripRowProps = {
 }
 
 export type Trip = {
-  id: string | undefined,
+  id?: string | undefined,
   driver: string,
   truck: string[],
   loadingPlace: string,

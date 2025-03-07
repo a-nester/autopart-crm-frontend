@@ -5,7 +5,7 @@ export interface TripsTableProps {
 }
 
 const headers = [
-  'id',
+  'Завант',
   //   'startDate',
   'Водій',
   'Авто',
