@@ -46,7 +46,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
 
   const handleSave = async () => {
     const newTrip: Trip = {
-      // id,
+      id,
       driver: driver[0],
       truck: truck[0],
       loadingPlace: load,
@@ -64,7 +64,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
     if (unloadDate && dayjs(unloadDate).isValid()) {
       newTrip.unloadDate = dayjs(unloadDate).valueOf();
     }
-    console.log(newTrip);
+    // console.log(newTrip);
 
     await setTrip(newTrip);
     useStore.setState((state) => ({
