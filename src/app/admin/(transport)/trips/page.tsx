@@ -20,7 +20,7 @@ export default function Page() {
 
   return (
     <>
-      <section className="flex relative h-[calc(75vh)] flex-col justify-between">
+      <section className="flex relative h-[calc(75vh)] flex-col ">
         {tripsList && <TripsList trips={tripsList} />}
         <div className="sticky bottom-0 bg-white py-2">
           <Button
