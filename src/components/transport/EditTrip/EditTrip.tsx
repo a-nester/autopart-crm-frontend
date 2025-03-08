@@ -21,7 +21,7 @@ interface EditTripProps {
 
 export default function EditTrip({ onClose }: EditTripProps) {
   const { setTrip, customers, getTripCustomers } = useStore();
-  const [id, setId] = useState<string>();
+  const [_id, setId] = useState<string>();
   const [driver, setDriver] = useState([]);
   const [truck, setTruck] = useState([]);
   const [loadDate, setLoadDate] = useState<Dayjs | null | undefined>();
@@ -41,12 +41,12 @@ export default function EditTrip({ onClose }: EditTripProps) {
 
   useEffect(() => {
     getTripCustomers();
-    console.log(customers);
+    // console.log(customers);
   }, []);
 
   const handleSave = async () => {
     const newTrip: Trip = {
-      id,
+      _id,
       driver: driver[0],
       truck: truck[0],
       loadingPlace: load,

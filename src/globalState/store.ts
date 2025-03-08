@@ -31,7 +31,7 @@ const useStore = create<OrdersStore>()(
       shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
       productsWithTimer: [],
       tripsList: [],
-      trip: {},
+      trip: null,
       customers: [],
       userLogin: async (email: string, password: string) => {
         try {

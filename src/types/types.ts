@@ -199,7 +199,7 @@ export type State = {
   shops: string[];
   productsWithTimer: TimerParams[];
   tripsList: Trip[];
-  trip: Trip;
+  trip: Trip | null;
   customers: Customer[],
 };
 

@@ -1,28 +1,22 @@
 'use client';
 
 import { useStore } from '@/globalState/store';
-import { Trip } from '@/types/types';
-import { use, useEffect, useState } from 'react';
+
+import { use, useEffect } from 'react';
 
 interface TripPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function TripPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default function TripPage({ params }: TripPageProps) {
   const { id } = use(params);
 
   const { trip, getTripById } = useStore();
-  //   const [trip, setTrip] = useState<Trip | null>(null);
 
   useEffect(() => {
     async function fetchTrip() {
       try {
-        const fetchedTrip = await getTripById(id);
-        // setTrip(fetchedTrip);
+        await getTripById(id);
       } catch (error) {
         console.error('Error fetching trip:', error);
       }
