@@ -6,6 +6,7 @@ import {
   getProductsByCategoryIdOperation,
   getProductsByIdListOperation,
   getStoreCategoriesOperation,
+  getTripByIdOperation,
   getTripCustomersOperation,
   getTripsOperation,
   setProductDiscountTimerOperation,
@@ -30,6 +31,7 @@ const useStore = create<OrdersStore>()(
       shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
       productsWithTimer: [],
       tripsList: [],
+      trip: {},
       customers: [],
       userLogin: async (email: string, password: string) => {
         try {
@@ -74,6 +76,9 @@ const useStore = create<OrdersStore>()(
       },
       getTrips: async () => {
         await getTripsOperation(set);
+      },
+      getTripById: async (tripId: string) => {
+        await getTripByIdOperation(set, tripId);
       },
       setTripCustomer: async (customer: Customer) => {
         await setTripCustomerOperation(set, customer);

@@ -199,6 +199,7 @@ export type State = {
   shops: string[];
   productsWithTimer: TimerParams[];
   tripsList: Trip[];
+  trip: Trip;
   customers: Customer[],
 };
 
@@ -228,6 +229,7 @@ export type Actions = {
   getProductDiscountTimer: (getTimerParams: string) => void;
   setTrip: (tripParams: Trip) => void;
   getTrips: () => void;
+  getTripById: (tripId: string) => void;
   setTripCustomer: (customer: Customer) => void;
   getTripCustomers: () => void;
   
@@ -255,7 +257,7 @@ export type TripRowProps = {
 }
 
 export type Trip = {
-  id?: string | undefined,
+  _id?: string | undefined,
   driver: string,
   truck: string[],
   loadingPlace: string,

@@ -53,11 +53,11 @@ type SetFunction_getTrips = (partial: Partial<{
   error: string | null;
 }>) => void;
 
-// type SetFunction_setCustomer = (partial: Partial<{
-//   customers: Customer[];
-//   isLoading: boolean;
-//   error: string | null;
-// }>) => void;
+type SetFunction_getTripById = (partial: Partial<{
+  trip: Trip;
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
 
 type SetFunction_getCustomer = (partial: Partial<{
   customers: Customer[];
@@ -344,6 +344,24 @@ export const getTripsOperation = async (set: SetFunction_getTrips, ) => {
   } catch (error) {
     set({ error: error instanceof Error ? error.message : 'Unknown error' })
     toast.error('Виникла помилка з завантаженням списку рейсів!')
+  }
+}
+
+export const getTripByIdOperation = async (set: SetFunction_getTripById, tripId: string) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = `transport/${tripId}`;
+
+  try {
+    const response = await axios.get('/api/proxy', {
+      params: {
+      service, URL
+      }
+    })
+    set({isLoading: false, trip: response.data.data})
+  } catch (error) {
+    set({ error: error instanceof Error ? error.message : 'Unknown error' })
+    toast.error('Виникла помилка з завантаженням даних рейса!')
   }
 }
 

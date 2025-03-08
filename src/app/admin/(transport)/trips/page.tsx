@@ -11,7 +11,7 @@ import { useStore } from '@/globalState/store';
 export default function Page() {
   const { tripsList, getTrips } = useStore();
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(tripsList);
+  console.log(tripsList);
 
   useEffect(() => {
     // const page = 1;
