@@ -8,8 +8,8 @@ const SERVICES = {
       baseURL: 'https://my.prom.ua/api/v1/',
     },
     myApp: {
-      baseURL: 'http://93.183.216.213:8080/',
-      // baseURL: 'http://localhost:8080/',
+      // baseURL: 'http://93.183.216.213:8080/',
+      baseURL: 'http://localhost:8080/',
 
     }
 }
@@ -45,7 +45,7 @@ async function makeRequest({ method, service, storeId, URL, queryParams, body }:
       Authorization: `Bearer ${tokenObj.token}`,
       'Content-Type': 'application/json',
     },
-    data: method === 'POST' ? body : undefined,
+    data: method === 'POST' || method === 'PATCH' ? body : undefined,
     params: method === 'GET' ? queryParams : undefined,
   })
 }
@@ -79,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 console.log('queryParams', queryParams);
 
-  if (method === 'GET' || method === 'POST') {
+  if (method === 'GET' || method === 'POST' || method === 'PATCH') {
     try {
       if (!URL || typeof URL !== 'string') {
       return res.status(400).json({ error: 'Invalid or missing URL parameter' });

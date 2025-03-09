@@ -67,7 +67,6 @@ export default function OrdersList() {
         {uniqueDates.map((date) => (
           <div key={date}>
             {' '}
-            {/* Замість <li> тепер <div> */}
             <DateSeparator
               date={date}
               orderCount={ordersByDate(orders, date).length}

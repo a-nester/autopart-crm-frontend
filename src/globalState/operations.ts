@@ -41,11 +41,13 @@ type GetFunction_getProductDiscountTimerOperation = (partial: Partial<{
   error: string | null;
 }>) => void;
 
-type SetFunction_setTripOperation = (partial: Partial<{
-  response: { data: string };
-  isLoading: boolean;
-  error: string | null;
-}>) => void;
+// type SetFunction_setTripOperation = (partial: Partial<{
+//   tripsList: { data: string };
+//   isLoading: boolean;
+//   error: string | null;
+// }>) => void;
+
+type SetFunction_setTripOperation = (partial: Partial<OrdersStore> | ((state: OrdersStore) => Partial<OrdersStore>)) => void;
 
 type SetFunction_getTrips = (partial: Partial<{
   tripsList: Trip[];
@@ -54,6 +56,12 @@ type SetFunction_getTrips = (partial: Partial<{
 }>) => void;
 
 type SetFunction_getTripById = (partial: Partial<{
+  trip: Trip;
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
+type SetFunction_updateTrip = (partial: Partial<{
   trip: Trip;
   isLoading: boolean;
   error: string | null;
@@ -321,7 +329,10 @@ export const setTripOperation = async (set: SetFunction_setTripOperation, setTri
     const response = await axios.post('/api/proxy', setTripParams, {
       params: { service, URL },
     });
-    set({ isLoading: false, response: response.data })
+    set((state: OrdersStore) => ({
+      isLoading: false,
+      tripsList: [...state.tripsList, response.data.data],
+    }));
     toast.success('Рейс успішно записано!')
   } catch (error) {
     set({
@@ -362,6 +373,26 @@ export const getTripByIdOperation = async (set: SetFunction_getTripById, tripId:
   } catch (error) {
     set({ error: error instanceof Error ? error.message : 'Unknown error' })
     toast.error('Виникла помилка з завантаженням даних рейса!')
+  }
+}
+
+export const updateTripOperation = async (set: SetFunction_updateTrip , trip: Trip, id: string) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = `transport/${id}`;
+
+  try {
+    const response = await axios.patch('/api/proxy', trip , {
+      params: {
+      service, URL
+      }
+    })
+    set({ isLoading: false, trip: response.data.data })
+    toast.success('Дані рейсу успішно оновлені!')
+  } catch (error) {
+    set({ error: error instanceof Error ? error.message : 'Unknown error' })
+    toast.error('Виникла помилка з оновленням даних рейса!')
+        
   }
 }
 

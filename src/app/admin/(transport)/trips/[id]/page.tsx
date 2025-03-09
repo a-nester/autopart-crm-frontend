@@ -1,5 +1,6 @@
 'use client';
 
+import TripDetails from '@/components/transport/TripDetails/TripDetails';
 import { useStore } from '@/globalState/store';
 
 import { use, useEffect } from 'react';
@@ -27,5 +28,5 @@ export default function TripPage({ params }: TripPageProps) {
   }, [id, getTripById]);
   console.log('Trip', trip);
 
-  return <p>{id}</p>;
+  return <section>{trip && <TripDetails>{trip}</TripDetails>}</section>;
 }

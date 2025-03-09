@@ -232,6 +232,7 @@ export type Actions = {
   getTripById: (tripId: string) => void;
   setTripCustomer: (customer: Customer) => void;
   getTripCustomers: () => void;
+  updateTrip: (trip: Trip, id: string) => void;
   
 };
 
@@ -258,20 +259,21 @@ export type TripRowProps = {
 
 export type Trip = {
   _id?: string | undefined,
-  driver: string,
-  truck: string[],
-  loadingPlace: string,
+  driver: string | undefined,
+  truck: string[] | undefined,
+  loadingPlace: string | undefined,
   loadDate: number | null,
-  unloadingPlace: string,
+  unloadingPlace: string | undefined,
   unloadDate?: number | null,
-  rangeTo: number | undefined,
-  range: number | undefined,
+  rangeTo: number,
+  range: number,
   price: number | undefined,
   currency: Currency,
-  payment_Form: string,
+  payment_Form: string | undefined,
   dispetcher_id: number | undefined,
   dispetcher_fee: number | undefined,
-  dispetcher_Currency: Currency,
+  dispetcher_Currency: Currency | undefined,
+  weight: number
 }
     
 export type Customer = {

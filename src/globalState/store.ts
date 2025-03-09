@@ -12,6 +12,7 @@ import {
   setProductDiscountTimerOperation,
   setTripCustomerOperation,
   setTripOperation,
+  updateTripOperation,
   userLoginOperation,
 } from './operations';
 import { Customer, OrdersStore, TimerParams, Trip } from '@/types/types';
@@ -85,8 +86,10 @@ const useStore = create<OrdersStore>()(
       },
       getTripCustomers: async () => {
         await getTripCustomersOperation(set);
-  },
-
+      },
+      updateTrip: async (trip: Trip, id: string) => {
+        await updateTripOperation(set, trip, id);
+      }
     }),
     
     {

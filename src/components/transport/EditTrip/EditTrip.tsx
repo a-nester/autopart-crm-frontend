@@ -17,25 +17,39 @@ import PickCustomer from '../PickCostumer/PickCostumer';
 
 interface EditTripProps {
   onClose: () => void;
+  children?: Trip;
 }
 
-export default function EditTrip({ onClose }: EditTripProps) {
-  const { setTrip, customers, getTripCustomers } = useStore();
-  const [_id, setId] = useState<string>();
-  const [driver, setDriver] = useState([]);
-  const [truck, setTruck] = useState([]);
-  const [loadDate, setLoadDate] = useState<Dayjs | null | undefined>();
-  const [unloadDate, setUnloadDate] = useState<Dayjs | null | undefined>();
-  const [load, setLoad] = useState<string>('');
-  const [unload, setUnload] = useState<string>('');
-  const [rangeTo, setRangeTo] = useState<number>();
-  const [range, setRange] = useState<number>();
-  const [price, setPrice] = useState<number>();
-  const [currency, setCurrency] = useState<string>('');
-  const [paymentForm, setPaymentForm] = useState<string>('');
-  const [dispetcher, setDispetcher] = useState<Customer>({ name: '' });
-  const [dispFee, setDispFee] = useState<number>();
-  const [dispFeeCurrency, setDispFeeCurrency] = useState<string>('');
+export default function EditTrip({ onClose, children }: EditTripProps) {
+  const { setTrip, updateTrip, customers, getTripCustomers } = useStore();
+  // const [_id, setId] = useState<string | undefined>(children?._id);
+  const [driver, setDriver] = useState([children?.driver]);
+  const [truck, setTruck] = useState([children?.truck]);
+  const [loadDate, setLoadDate] = useState<Dayjs | number | null | undefined>(
+    children?.loadDate,
+  );
+  const [unloadDate, setUnloadDate] = useState<
+    Dayjs | number | null | undefined
+  >(children?.unloadDate);
+  const [load, setLoad] = useState<string | undefined>(children?.loadingPlace);
+  const [unload, setUnload] = useState<string | undefined>(
+    children?.unloadingPlace,
+  );
+  const [rangeTo, setRangeTo] = useState<number>(children?.rangeTo || 0);
+  const [range, setRange] = useState<number>(children?.range || 0);
+  const [price, setPrice] = useState<number | undefined>(children?.price);
+  const [currency, setCurrency] = useState([children?.currency]);
+  const [paymentForm, setPaymentForm] = useState([children?.payment_Form]);
+  const [dispetcher, setDispetcher] = useState<Customer>(
+    customers.find((elem) => elem._id === children?.dispetcher_id) ||
+      ({} as Customer),
+  );
+  const [dispFee, setDispFee] = useState<number | undefined>(
+    children?.dispetcher_fee,
+  );
+  const [dispFeeCurrency, setDispFeeCurrency] = useState([
+    children?.dispetcher_Currency,
+  ]);
   const [isActiveCreateDispModal, setIsActiveCreateDispModal] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -46,7 +60,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
 
   const handleSave = async () => {
     const newTrip: Trip = {
-      _id,
+      // _id,
       driver: driver[0],
       truck: truck[0],
       loadingPlace: load,
@@ -55,21 +69,25 @@ export default function EditTrip({ onClose }: EditTripProps) {
       rangeTo: rangeTo,
       range: range,
       price: price,
-      currency: currency[0],
+      currency: currency[0] || 'USD',
       payment_Form: paymentForm[0],
       dispetcher_id: dispetcher._id,
       dispetcher_fee: dispFee,
       dispetcher_Currency: dispFeeCurrency[0],
+      weight: 23000,
     };
     if (unloadDate && dayjs(unloadDate).isValid()) {
       newTrip.unloadDate = dayjs(unloadDate).valueOf();
     }
     // console.log(newTrip);
-
-    await setTrip(newTrip);
-    useStore.setState((state) => ({
-      tripsList: [...state.tripsList, newTrip],
-    }));
+    if (!children?._id) {
+      setTrip(newTrip);
+    } else if (children._id) {
+      updateTrip(newTrip, children._id);
+    }
+    // useStore.setState((state) => ({
+    //   tripsList: [...state.tripsList, newTrip],
+    // }));
     // onClose();
   };
 
@@ -79,15 +97,17 @@ export default function EditTrip({ onClose }: EditTripProps) {
 
   return (
     <section className="flex flex-col gap-2 min-h-[80vh] max-h-[100vh] overflow-y-auto">
-      <h2>Створення нового рейсу</h2>
+      {!children?._id && <h2>Створення нового рейсу</h2>}
+      {children?._id && <h2>Редагування рейсу</h2>}
       <Box className="flex gap-2">
-        <TextField
+        {/* <TextField
+          value={_id}
           className="flex w-full"
           id="id"
           label="id"
           variant="outlined"
           onChange={(evt) => setId(evt.target.value)}
-        />
+        /> */}
         <Box className="w-full"></Box>
       </Box>
       <Box className="flex flex-row gap-2">
@@ -115,6 +135,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
         <TextField
           className="flex-[3]"
           id="load"
+          value={load}
           label="Завантаження"
           variant="outlined"
           onChange={(evt) => setLoad(evt.target.value)}
@@ -122,6 +143,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
         <TextField
           className="flex-[1]"
           id="rangeTo"
+          value={rangeTo}
           label="Доїзд, км"
           variant="outlined"
           onChange={(evt) => setRangeTo(Number(evt.target.value))}
@@ -140,6 +162,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
         <TextField
           className="flex-[3]"
           id="unload"
+          value={unload}
           label="Вивантаження"
           variant="outlined"
           onChange={(evt) => setUnload(evt.target.value)}
@@ -147,6 +170,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
         <TextField
           className="flex-[1]"
           id="range"
+          value={range}
           label="Від-нь, км"
           variant="outlined"
           onChange={(evt) => setRange(Number(evt.target.value))}
@@ -156,6 +180,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
         <TextField
           className="w-full"
           id="price"
+          value={price}
           label="Ціна"
           variant="outlined"
           onChange={(evt) => setPrice(Number(evt.target.value))}
@@ -221,6 +246,7 @@ export default function EditTrip({ onClose }: EditTripProps) {
         <TextField
           className="w-full"
           id="dispFee"
+          value={dispFee}
           label="Диспетч."
           variant="outlined"
           onChange={(evt) => setDispFee(Number(evt.target.value))}
