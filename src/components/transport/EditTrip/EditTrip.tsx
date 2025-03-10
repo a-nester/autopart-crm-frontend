@@ -40,23 +40,29 @@ export default function EditTrip({ onClose, children }: EditTripProps) {
   const [price, setPrice] = useState<number | undefined>(children?.price);
   const [currency, setCurrency] = useState([children?.currency]);
   const [paymentForm, setPaymentForm] = useState([children?.payment_Form]);
-  const [dispetcher, setDispetcher] = useState<Customer>(
-    customers.find((elem) => elem._id === children?.dispetcher_id) ||
-      ({} as Customer),
-  );
+  const [dispetcher, setDispetcher] = useState<Customer>({} as Customer);
   const [dispFee, setDispFee] = useState<number | undefined>(
     children?.dispetcher_fee,
   );
   const [dispFeeCurrency, setDispFeeCurrency] = useState([
     children?.dispetcher_Currency,
   ]);
+  const [weight, setWeight] = useState(23000);
   const [isActiveCreateDispModal, setIsActiveCreateDispModal] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     getTripCustomers();
-    // console.log(customers);
-  }, []);
+    if (children?.dispetcher_id) {
+      const foundDispetcher = customers.find(
+        (elem) => elem._id === children.dispetcher_id,
+      );
+      if (foundDispetcher) {
+        setDispetcher(foundDispetcher);
+      }
+    }
+    console.log('Dispetchers', customers);
+  }, [children?.dispetcher_id]);
 
   const handleSave = async () => {
     const newTrip: Trip = {
@@ -71,10 +77,10 @@ export default function EditTrip({ onClose, children }: EditTripProps) {
       price: price,
       currency: currency[0] || 'USD',
       payment_Form: paymentForm[0],
-      dispetcher_id: dispetcher._id,
+      dispetcher_id: dispetcher._id || 0,
       dispetcher_fee: dispFee,
       dispetcher_Currency: dispFeeCurrency[0],
-      weight: 23000,
+      weight,
     };
     if (unloadDate && dayjs(unloadDate).isValid()) {
       newTrip.unloadDate = dayjs(unloadDate).valueOf();
@@ -85,9 +91,7 @@ export default function EditTrip({ onClose, children }: EditTripProps) {
     } else if (children._id) {
       updateTrip(newTrip, children._id);
     }
-    // useStore.setState((state) => ({
-    //   tripsList: [...state.tripsList, newTrip],
-    // }));
+
     // onClose();
   };
 
@@ -100,14 +104,6 @@ export default function EditTrip({ onClose, children }: EditTripProps) {
       {!children?._id && <h2>Створення нового рейсу</h2>}
       {children?._id && <h2>Редагування рейсу</h2>}
       <Box className="flex gap-2">
-        {/* <TextField
-          value={_id}
-          className="flex w-full"
-          id="id"
-          label="id"
-          variant="outlined"
-          onChange={(evt) => setId(evt.target.value)}
-        /> */}
         <Box className="w-full"></Box>
       </Box>
       <Box className="flex flex-row gap-2">
@@ -209,7 +205,7 @@ export default function EditTrip({ onClose, children }: EditTripProps) {
           variant="outlined"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-          value={dispetcher.name}
+          value={dispetcher.name || ''}
           onChange={(evt) =>
             setDispetcher({
               name: evt.target.value,
@@ -235,7 +231,7 @@ export default function EditTrip({ onClose, children }: EditTripProps) {
         {isFocused && (
           <PickCustomer
             className="absolute top-14 w-full shadow-lg rounded-lg z-100"
-            searchName={dispetcher.name}
+            searchName={dispetcher.name || ''}
             setSelectedCustomer={setDispetcher}
           >
             {customers}
@@ -259,6 +255,14 @@ export default function EditTrip({ onClose, children }: EditTripProps) {
         >
           {Object.keys(CURRENCY)}
         </CommonMultiSelect>
+        <TextField
+          className="w-full"
+          id="weight"
+          value={weight}
+          label="Вага, кг"
+          variant="outlined"
+          onChange={(evt) => setWeight(Number(evt.target.value))}
+        />
         <Box className="w-full"></Box>
       </Box>
 

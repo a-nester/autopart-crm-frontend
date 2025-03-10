@@ -1,9 +1,10 @@
 import Button from '@/components/CommonComponents/Button/Button';
 import { Trip } from '@/types/types';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { useState } from 'react';
 import EditTrip from '../EditTrip/EditTrip';
 import Modal from '@/components/Modal/Modal';
+import tripCalc from '@/helpers/tripCalc';
 
 //  _id,
 //       driver: driver[0],
@@ -22,12 +23,18 @@ import Modal from '@/components/Modal/Modal';
 
 export default function TripDetails({ children }: { children: Trip }) {
   const [editIsOpen, setEditIsOpen] = useState(false);
+  const [fuelPrice, setFuelPrice] = useState(52);
+  const [usdPrice, setUsdPrice] = useState(41.5);
+
+  const { weight, loadingPlace, unloadingPlace } = children;
+
+  const calculatedData = tripCalc(children, usdPrice, fuelPrice);
+  const { totalFuel, totalDistance, driverSalary, totalEarnings } =
+    calculatedData;
 
   const handleEdit = () => {
     setEditIsOpen(true);
   };
-  const { loadingPlace, unloadingPlace, rangeTo, range } = children;
-  const totalDistance = rangeTo + range;
   return (
     <section>
       <Button onClick={handleEdit}>Edit</Button>
@@ -39,10 +46,50 @@ export default function TripDetails({ children }: { children: Trip }) {
         <p>Відстань = </p>
         <p>{totalDistance}</p>
       </Box>
+      <Box>Вага:{weight}, кг</Box>
+      <p>
+        USD price:{' '}
+        {
+          <TextField
+            // className="h-4"
+            value={usdPrice}
+            type="number"
+            sx={{
+              '& .MuiInputBase-root': { width: 80, height: 24, p: 0 },
+              '& .MuiInputBase-input': { p: 1 },
+            }}
+            // inputProps={{ step: '0.01' }}
+            onChange={(evt) => setUsdPrice(Number(evt.target.value))}
+            variant="outlined"
+          ></TextField>
+        }{' '}
+        uah
+      </p>
+
       <Box>
-        <p>Витрата пального = </p>
-        <p></p>
+        <p>Витрата пального = {totalFuel} літрів</p>
+        <p>
+          Ціна палива:{' '}
+          {
+            <TextField
+              // className="h-4"
+              value={fuelPrice}
+              sx={{
+                '& .MuiInputBase-root': { width: 60, height: 24, p: 0 },
+              }}
+              onChange={(evt) => setFuelPrice(Number(evt.target.value))}
+              variant="outlined"
+            ></TextField>
+          }{' '}
+          uah
+        </p>
+
+        <p>В грошах: {totalFuel * fuelPrice} uah</p>
+        <p>
+          З.п. водія: {driverSalary.value} {driverSalary.currency}
+        </p>
       </Box>
+      <Box>Заробіток: {totalEarnings}</Box>
       {editIsOpen && (
         <Modal
           isOpen={editIsOpen}
