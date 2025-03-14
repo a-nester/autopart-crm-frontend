@@ -8,8 +8,8 @@ const SERVICES = {
       baseURL: 'https://my.prom.ua/api/v1/',
     },
     myApp: {
-      // baseURL: 'http://93.183.216.213:8080/',
-      baseURL: 'http://localhost:8080/',
+      baseURL: 'http://93.183.216.213:8080/',
+      // baseURL: 'http://localhost:8080/',
 
     }
 }
