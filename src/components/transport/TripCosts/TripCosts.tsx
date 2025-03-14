@@ -12,11 +12,11 @@ export default function TripCosts({ tripId }: { tripId: string }) {
 
   const [isOpenAddCost, setIsOpenAddCost] = useState(false);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-  const costsFilter = { _id: tripId };
 
   useEffect(() => {
+    const costsFilter = { _id: tripId };
     getCosts(costsFilter);
-  }, []);
+  }, [getCosts, tripId]);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = evt.target;
