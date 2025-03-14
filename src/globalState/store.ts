@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 import {
   fetchAndSetOrders,
+  getCostsOperation,
   getProductDiscountTimerOperation,
   getProductsByCategoryIdOperation,
   getProductsByIdListOperation,
@@ -9,13 +10,14 @@ import {
   getTripByIdOperation,
   getTripCustomersOperation,
   getTripsOperation,
+  setCost,
   setProductDiscountTimerOperation,
   setTripCustomerOperation,
   setTripOperation,
   updateTripOperation,
   userLoginOperation,
 } from './operations';
-import { Customer, OrdersStore, TimerParams, Trip } from '@/types/types';
+import { Cost, Customer, OrdersStore, TimerParams, Trip } from '@/types/types';
 
 type OrdersPersist = Pick<OrdersStore, 'orders'>;
 
@@ -34,6 +36,8 @@ const useStore = create<OrdersStore>()(
       tripsList: [],
       trip: null,
       customers: [],
+      costs: [],
+      costsByParam: [],
       userLogin: async (email: string, password: string) => {
         try {
           await userLoginOperation(email, password);
@@ -89,6 +93,12 @@ const useStore = create<OrdersStore>()(
       },
       updateTrip: async (trip: Trip, id: string) => {
         await updateTripOperation(set, trip, id);
+      },
+      setCost: async (cost: Cost) => {
+        await setCost(set, cost);
+      }, 
+      getCosts: async (costsFilter) => {
+        await getCostsOperation(set, costsFilter);
       }
     }),
     

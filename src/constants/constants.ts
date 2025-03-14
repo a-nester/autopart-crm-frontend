@@ -9,3 +9,4 @@ export const CURRENCY: Record<Currency, string> = {
     UAH: '₴',
     EUR: '€'
 }
+

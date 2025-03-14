@@ -8,8 +8,8 @@ const SERVICES = {
       baseURL: 'https://my.prom.ua/api/v1/',
     },
     myApp: {
-      baseURL: 'http://93.183.216.213:8080/',
-      // baseURL: 'http://localhost:8080/',
+      // baseURL: 'http://93.183.216.213:8080/',
+      baseURL: 'http://localhost:8080/',
 
     }
 }
@@ -74,6 +74,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   ...(limit && { limit: String(limit) }),
   ...(last_id && { last_id: String(last_id) }),
   ...(group_id && { group_id: String(group_id) }),
+    ...(query.filter && { filter: query.filter }),
+    ...query,
   
 };
 

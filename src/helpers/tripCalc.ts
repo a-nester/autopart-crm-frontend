@@ -17,7 +17,7 @@ export default function tripCalc(tripData: Trip, usdPrice: number, fuelPrice: nu
     //       dispetcher_Currency: dispFeeCurrency[0],
     //       weight,
 
-    const { weight, range, rangeTo, price = 0, currency } = tripData;
+    const { weight, range, rangeTo, price = 0, currency, dispetcher_fee = 0, dispetcher_Currency } = tripData;
     
     const totalDistance = rangeTo + range;
     
@@ -36,10 +36,14 @@ export default function tripCalc(tripData: Trip, usdPrice: number, fuelPrice: nu
 
     const totalEarnings = () => {
         let coef = 1;
+        let disp_coef = 1;
         if (currency !== 'ГРН') {
             coef = usdPrice;
         }
-        const total = (price * coef - driverSalary.value * coef - totalFuel * fuelPrice);
+        if (dispetcher_Currency !== 'ГРН') {
+            disp_coef = usdPrice;
+        }
+        const total = Math.ceil(price * coef - dispetcher_fee * disp_coef - driverSalary.value * coef - totalFuel * fuelPrice * 5/6);
         return total;
     }
 
@@ -49,6 +53,7 @@ export default function tripCalc(tripData: Trip, usdPrice: number, fuelPrice: nu
         totalFuel,
         driverSalary,
         totalEarnings: totalEarnings(),
+        totalEaringsCurrency: 'ГРН'
     }
     return calculatedData;
 }

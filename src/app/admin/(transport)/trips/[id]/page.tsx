@@ -2,7 +2,6 @@
 
 import TripDetails from '@/components/transport/TripDetails/TripDetails';
 import { useStore } from '@/globalState/store';
-
 import { use, useEffect } from 'react';
 
 interface TripPageProps {
@@ -11,13 +10,14 @@ interface TripPageProps {
 
 export default function TripPage({ params }: TripPageProps) {
   const { id } = use(params);
-
-  const { trip, getTripById } = useStore();
+  const { trip, getTripById, getCosts } = useStore();
+  const costsFilter = { _id: id };
 
   useEffect(() => {
     async function fetchTrip() {
       try {
-        await getTripById(id);
+        getTripById(id);
+        // getCosts(costsFilter);
       } catch (error) {
         console.error('Error fetching trip:', error);
       }
@@ -26,7 +26,10 @@ export default function TripPage({ params }: TripPageProps) {
       fetchTrip();
     }
   }, [id, getTripById]);
-  console.log('Trip', trip);
 
-  return <section>{trip && <TripDetails>{trip}</TripDetails>}</section>;
+  return (
+    <section className="p-1">
+      {trip && <TripDetails>{trip}</TripDetails>}
+    </section>
+  );
 }

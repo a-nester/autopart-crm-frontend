@@ -35,7 +35,6 @@ export const {auth, signIn, signOut } = NextAuth({
 
         const { email, password } = parsedCredentials.data;
 
-
         try {
           
           const response = await userLoginOperation(email, password);

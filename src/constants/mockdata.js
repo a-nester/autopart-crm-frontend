@@ -1,5 +1,6 @@
 export const drivers = ['Базильчук', 'Дебальчук', 'Долінський', 'Петровець'];
 export const trucks = ['BK6443HI', 'BK6282HI', 'BK7513HE', 'BK0167XP'];
+export const COST_TYPES = ['ремонт', 'толл'];
 
 export const trips = [
   {

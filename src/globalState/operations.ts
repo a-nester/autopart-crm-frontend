@@ -1,4 +1,4 @@
-import {  CategoryElement, Customer, Order, OrdersStore, Product, TimerParams, Trip } from "@/types/types";
+import {  CategoryElement, Cost, CostsFilter, Customer, Order, OrdersStore, Product, TimerParams, Trip } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -73,6 +73,12 @@ type SetFunction_getCustomer = (partial: Partial<{
   error: string | null;
 }>) => void;
 
+type SetFunction_getCostsOperation = (partial: Partial<{
+  costsByParam: Cost[];
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
 // Trade Operations
 
 export const userLoginOperation = async (email: string, password: string) => {
@@ -102,7 +108,7 @@ export const fetchAndSetOrders = async (stores: string[], set: SetFunction_fetch
   
     const service = 'prom';
     const URL = 'orders/list/';
-        try { 
+        try {
           const responses = await Promise.all(
             stores.map((storeId) => axios
               .get('/api/proxy', { params: { service, storeId, URL } })
@@ -179,7 +185,6 @@ export const getStoreCategoriesOperation = async (store: string, set: SetFunctio
         console.error("Помилка при отриманні категорій:", error);
     }
 };
-
 
 export const getProductsByCategoryIdOperation = async (store: string, set: SetFunction_getProductsByCategoryIdOperation, group_id: number) => {
   const storeId = store[0];
@@ -408,7 +413,7 @@ export const setTripCustomerOperation = async (set: { (partial: OrdersStore | Pa
       }
     })
   set((prevState: OrdersStore) => ({
-  customers: [...(prevState.customers || []), response.data], // Перевіряємо, чи існує customers
+  customers: [...(prevState.customers || []), response.data.data], // Перевіряємо, чи існує customers
   isLoading: false,
   error: null
   }) as Partial<{ customers: Customer[]; isLoading: boolean; error: string | null }>);
@@ -422,11 +427,12 @@ export const setTripCustomerOperation = async (set: { (partial: OrdersStore | Pa
   }
 }
 
+
 export const getTripCustomersOperation = async (set: SetFunction_getCustomer) => {
   set({ isLoading: true, error: null });
   const service = 'myApp';
   const URL = 'transport/customers/';
-
+  
   try {
     const response = await axios.get('/api/proxy', {
       params: {
@@ -438,5 +444,48 @@ export const getTripCustomersOperation = async (set: SetFunction_getCustomer) =>
   } catch (error) {
     set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
     toast.error('Виникла помилка при завантаження переліку експедиторів!')
+  }
+}
+
+export const setCost = async (set: { (partial: OrdersStore | Partial<OrdersStore> | ((state: OrdersStore) => OrdersStore | Partial<OrdersStore>), replace?: false): void; (state: OrdersStore | ((state: OrdersStore) => OrdersStore), replace: true): void; (arg0: { (prevState: OrdersStore): Partial<{ costs: Cost[]; isLoading: boolean; error: string | null; }>; isLoading?: boolean; error?: string | null; }): void; }, cost: Cost) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = 'transport/cost/';
+
+  try {
+    const response = await axios.post('/api/proxy', cost, {
+      params: {
+      service, URL
+      }
+    })
+    set((prevState: OrdersStore) => ({
+  costs: [...(prevState.costs || []), response.data.data], // Перевіряємо, чи існує customers
+  isLoading: false, error: null
+    }) as Partial<{ costs: Cost[]; isLoading: boolean; error: string | null }>);
+    toast.success('Витрата успішно записана!')
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при створенні витрати!');
+  }
+}
+
+export const getCostsOperation = async (set: SetFunction_getCostsOperation, costsFilter: CostsFilter) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = 'transport/costs/';
+
+  try {
+    const response = await axios.get('/api/proxy', {
+      params: {
+        service,
+        URL,
+        filter: costsFilter,
+      }
+    });
+
+    set({isLoading: false, costsByParam: response.data.data.data})
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при завантаження переліку витрат!')
   }
 }

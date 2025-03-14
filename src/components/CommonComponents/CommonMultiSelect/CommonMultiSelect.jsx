@@ -28,13 +28,11 @@ function CommonMultiSelect({ children, values, setValues, label, ...props }) {
     const {
       target: { value },
     } = evt;
-    // console.log(target);
 
     setValues(typeof value === 'string' ? value.split(',') : value);
-    // addStores();
   };
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth {...props}>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
       <Select
         labelId="demo-simple-select-label"

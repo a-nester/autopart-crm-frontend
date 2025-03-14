@@ -201,6 +201,8 @@ export type State = {
   tripsList: Trip[];
   trip: Trip | null;
   customers: Customer[],
+  costs: Cost[],
+  costsByParam: Cost[],
 };
 
 export type TimerParams = {
@@ -233,7 +235,8 @@ export type Actions = {
   setTripCustomer: (customer: Customer) => void;
   getTripCustomers: () => void;
   updateTrip: (trip: Trip, id: string) => void;
-  
+  setCost: (cost: Cost) => void;
+  getCosts: (costsFilter: CostsFilter) => void;
 };
 
 export type OrdersStore = State & Actions;
@@ -282,4 +285,28 @@ export type Customer = {
   company?: string;
   phone?: string;
   email?: string;
+};
+
+export type Cost = {
+  _id?: string,
+  name: string,
+  date: number,
+  odometr: number | null | undefined,
+  costType: string,
+  price: number,
+  currency: string,
+  company?: string,
+  truck: string,
+  driver: string,
+  tripId: string,
+};
+
+export type CostsFilter = {
+  _id: string, 
+  name?: string,
+  costType?: string,
+  date?: string,
+  truck?: string,
+  driver?: string,
+  tripId?: string,
 };
