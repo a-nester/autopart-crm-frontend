@@ -466,7 +466,7 @@ export const setCostOperation = async (set: { (partial: OrdersStore | Partial<Or
       }
     })
     set((prevState: OrdersStore) => ({
-  costs: [...(prevState.costs || []), response.data.data], // Перевіряємо, чи існує customers
+  costsByParam: [...(prevState.costsByParam), response.data.data], 
   isLoading: false, error: null
     }) as Partial<{ costs: Cost[]; isLoading: boolean; error: string | null }>);
     toast.success('Витрата успішно записана!')

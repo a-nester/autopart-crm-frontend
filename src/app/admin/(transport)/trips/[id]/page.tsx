@@ -11,13 +11,11 @@ interface TripPageProps {
 export default function TripPage({ params }: TripPageProps) {
   const { id } = use(params);
   const { trip, getTripById, getCosts } = useStore();
-  const costsFilter = { _id: id };
 
   useEffect(() => {
     async function fetchTrip() {
       try {
         getTripById(id);
-        getCosts(costsFilter);
       } catch (error) {
         console.error('Error fetching trip:', error);
       }
