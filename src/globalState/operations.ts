@@ -1,6 +1,7 @@
 import {  CategoryElement, Cost, CostsFilter, Customer, Order, OrdersStore, Product, TimerParams, Trip } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useStore } from "./store";
 
 type SetFunction_fetchAndSetOrders = (partial: Partial<{
   orders: Order[];
@@ -74,6 +75,12 @@ type SetFunction_getCustomer = (partial: Partial<{
 }>) => void;
 
 type SetFunction_getCostsOperation = (partial: Partial<{
+  costsByParam: Cost[];
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
+type SetFunction_deleteCostsOperation = (partial: Partial<{
   costsByParam: Cost[];
   isLoading: boolean;
   error: string | null;
@@ -447,7 +454,7 @@ export const getTripCustomersOperation = async (set: SetFunction_getCustomer) =>
   }
 }
 
-export const setCost = async (set: { (partial: OrdersStore | Partial<OrdersStore> | ((state: OrdersStore) => OrdersStore | Partial<OrdersStore>), replace?: false): void; (state: OrdersStore | ((state: OrdersStore) => OrdersStore), replace: true): void; (arg0: { (prevState: OrdersStore): Partial<{ costs: Cost[]; isLoading: boolean; error: string | null; }>; isLoading?: boolean; error?: string | null; }): void; }, cost: Cost) => {
+export const setCostOperation = async (set: { (partial: OrdersStore | Partial<OrdersStore> | ((state: OrdersStore) => OrdersStore | Partial<OrdersStore>), replace?: false): void; (state: OrdersStore | ((state: OrdersStore) => OrdersStore), replace: true): void; (arg0: { (prevState: OrdersStore): Partial<{ costs: Cost[]; isLoading: boolean; error: string | null; }>; isLoading?: boolean; error?: string | null; }): void; }, cost: Cost) => {
   set({ isLoading: true, error: null });
   const service = 'myApp';
   const URL = 'transport/cost/';
@@ -487,5 +494,32 @@ export const getCostsOperation = async (set: SetFunction_getCostsOperation, cost
   } catch (error) {
     set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
     toast.error('Виникла помилка при завантаження переліку витрат!')
+  }
+}
+
+export const deleteCostsOperation = async (set: SetFunction_deleteCostsOperation, costs: Record<string, boolean>) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';  
+
+  try {
+    const responses = await Promise.all(
+      Object.keys(costs).map((key) => {
+        const URL = `transport/cost/${key}/`
+         return axios.delete('/api/proxy', {
+          params: {
+            service, URL
+          }
+        }).then((response) => ({ _id: key, data: response.data }))
+      })
+    );
+    const costsByParam = useStore.getState().costsByParam;
+    const updatedCosts = costsByParam.filter(
+      (cost) => !responses.some((res) => res._id === cost._id)
+    );
+
+    set({ costsByParam: updatedCosts, isLoading: false });  
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при видаленні переліку витрат!')
   }
 }

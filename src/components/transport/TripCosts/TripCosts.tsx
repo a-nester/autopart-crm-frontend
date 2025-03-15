@@ -8,10 +8,11 @@ import TripCostItem from '../TripCostItem/TripCostItem';
 import { Cost } from '@/types/types';
 
 export default function TripCosts({ tripId }: { tripId: string }) {
-  const { costsByParam, getCosts } = useStore();
+  const { costsByParam, getCosts, deleteCosts } = useStore();
 
   const [isOpenAddCost, setIsOpenAddCost] = useState(false);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+  console.log(costsByParam);
 
   useEffect(() => {
     const costsFilter = { _id: tripId };
@@ -21,6 +22,14 @@ export default function TripCosts({ tripId }: { tripId: string }) {
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = evt.target;
     setCheckedItems({ ...checkedItems, [name]: checked });
+  };
+
+  const handleDelete = () => {
+    // Object.keys(checkedItems).map((key) => console.log(key));
+    console.log('1', checkedItems);
+
+    deleteCosts(checkedItems);
+    setCheckedItems({});
   };
 
   return (
@@ -47,7 +56,9 @@ export default function TripCosts({ tripId }: { tripId: string }) {
         className="flex flex-row justify-end items-center"
       >
         <Box className="flex flex-row gap-1 justify-end p-[1px]">
-          <Button className="rounded-lg">-</Button>
+          <Button className="rounded-lg" onClick={handleDelete}>
+            -
+          </Button>
           <Button
             onClick={() => {
               setIsOpenAddCost(true);

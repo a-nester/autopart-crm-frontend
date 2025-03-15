@@ -237,6 +237,7 @@ export type Actions = {
   updateTrip: (trip: Trip, id: string) => void;
   setCost: (cost: Cost) => void;
   getCosts: (costsFilter: CostsFilter) => void;
+  deleteCosts: (costs: Record<string, boolean>) => void;
 };
 
 export type OrdersStore = State & Actions;

@@ -18,7 +18,7 @@ interface NewCostProps {
 }
 
 export default function NewCost({ onClose, tripId }: NewCostProps) {
-  const { setCost } = useStore();
+  const { setCost, getCosts } = useStore();
   const [name, setName] = useState<string>('');
   const [costType, setCostType] = useState<string>('');
   const [date, setDate] = useState<Dayjs | number | null | undefined>();
@@ -41,7 +41,9 @@ export default function NewCost({ onClose, tripId }: NewCostProps) {
       tripId,
     };
 
-    setCost(newCost);
+    await setCost(newCost);
+    const costsFilter = { _id: tripId };
+    getCosts(costsFilter);
     // onClose();
   };
 

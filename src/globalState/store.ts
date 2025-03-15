@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 import {
+  deleteCostsOperation,
   fetchAndSetOrders,
   getCostsOperation,
   getProductDiscountTimerOperation,
@@ -10,7 +11,7 @@ import {
   getTripByIdOperation,
   getTripCustomersOperation,
   getTripsOperation,
-  setCost,
+  setCostOperation,
   setProductDiscountTimerOperation,
   setTripCustomerOperation,
   setTripOperation,
@@ -95,10 +96,13 @@ const useStore = create<OrdersStore>()(
         await updateTripOperation(set, trip, id);
       },
       setCost: async (cost: Cost) => {
-        await setCost(set, cost);
+        await setCostOperation(set, cost);
       }, 
       getCosts: async (costsFilter) => {
         await getCostsOperation(set, costsFilter);
+      },
+      deleteCosts: async (costs: Record<string, boolean>) => {
+        await deleteCostsOperation(set, costs);
       }
     }),
     
