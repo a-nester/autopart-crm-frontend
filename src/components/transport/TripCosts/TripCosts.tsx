@@ -12,7 +12,6 @@ export default function TripCosts({ tripId }: { tripId: string }) {
 
   const [isOpenAddCost, setIsOpenAddCost] = useState(false);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-  console.log(costsByParam);
 
   useEffect(() => {
     const costsFilter = { _id: tripId };
@@ -25,9 +24,6 @@ export default function TripCosts({ tripId }: { tripId: string }) {
   };
 
   const handleDelete = () => {
-    // Object.keys(checkedItems).map((key) => console.log(key));
-    console.log('1', checkedItems);
-
     deleteCosts(checkedItems);
     setCheckedItems({});
   };

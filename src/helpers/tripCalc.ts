@@ -1,6 +1,6 @@
-import { Trip } from "@/types/types";
+import { Cost, Trip } from "@/types/types";
 
-export default function tripCalc(tripData: Trip, usdPrice: number, fuelPrice: number) {
+export default function tripCalc(tripData: Trip, usdPrice: number, eurPrice: number, fuelPrice: number, costsByParam: Cost[]) {
 
     //   driver[0],
     //       truck: truck[0],
@@ -33,6 +33,18 @@ export default function tripCalc(tripData: Trip, usdPrice: number, fuelPrice: nu
         currency
     }
 
+    const calcCosts = costsByParam
+    .map((cost: Cost) => {
+      if (cost.currency === 'EUR') {
+        return cost.price * eurPrice;
+      } else if (cost.currency === 'USD') {
+        return cost.price * usdPrice;
+      } else return cost.price;
+    })
+    .reduce((acc: number, cost: number) => {
+      return acc + cost;
+    }, 0);
+
 
     const totalEarnings = () => {
         let coef = 1;
@@ -43,7 +55,7 @@ export default function tripCalc(tripData: Trip, usdPrice: number, fuelPrice: nu
         if (dispetcher_Currency !== 'ГРН') {
             disp_coef = usdPrice;
         }
-        const total = Math.ceil(price * coef - dispetcher_fee * disp_coef - driverSalary.value * coef - totalFuel * fuelPrice * 5/6);
+        const total = Math.ceil(price * coef - dispetcher_fee * disp_coef - driverSalary.value * coef - totalFuel * fuelPrice * 5/6 - calcCosts);
         return total;
     }
 
@@ -53,7 +65,8 @@ export default function tripCalc(tripData: Trip, usdPrice: number, fuelPrice: nu
         totalFuel,
         driverSalary,
         totalEarnings: totalEarnings(),
-        totalEaringsCurrency: 'ГРН'
+        totalEaringsCurrency: 'ГРН',
+        totalCostsInTrip: calcCosts,
     }
     return calculatedData;
 }

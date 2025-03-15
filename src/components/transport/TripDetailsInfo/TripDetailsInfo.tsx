@@ -1,7 +1,9 @@
 import Button from '@/components/CommonComponents/Button/Button';
+import { useStore } from '@/globalState/store';
 import tripCalc from '@/helpers/tripCalc';
 import { Trip } from '@/types/types';
 import { Box, TextField } from '@mui/material';
+import clsx from 'clsx';
 import { useState } from 'react';
 
 export default function TripDetailsInfo({
@@ -11,17 +13,28 @@ export default function TripDetailsInfo({
   trip: Trip;
   onEdit: (isEditing: boolean) => void;
 }) {
+  const { costsByParam } = useStore();
   const [fuelPrice, setFuelPrice] = useState(52);
   const [usdPrice, setUsdPrice] = useState(41.5);
+  const [eurPrice, setEurPrice] = useState(45);
 
   const { weight, loadingPlace, unloadingPlace } = trip;
-  const calculatedData = tripCalc(trip, usdPrice, fuelPrice);
+
+  const calculatedData = tripCalc(
+    trip,
+    usdPrice,
+    eurPrice,
+    fuelPrice,
+    costsByParam,
+  );
+
   const {
     totalFuel,
     totalDistance,
     driverSalary,
     totalEarnings,
     totalEaringsCurrency,
+    totalCostsInTrip,
   } = calculatedData;
 
   return (
@@ -51,6 +64,22 @@ export default function TripDetailsInfo({
         }{' '}
         uah
       </div>
+      <div>
+        USD price:{' '}
+        {
+          <TextField
+            value={eurPrice}
+            type="number"
+            sx={{
+              '& .MuiInputBase-root': { width: 80, height: 24, p: 0 },
+              '& .MuiInputBase-input': { p: 1 },
+            }}
+            onChange={(evt) => setEurPrice(Number(evt.target.value))}
+            variant="outlined"
+          ></TextField>
+        }{' '}
+        uah
+      </div>
 
       <Box>
         <div>Витрата пального = {totalFuel} літрів</div>
@@ -75,7 +104,18 @@ export default function TripDetailsInfo({
         </div>
       </Box>
       <Box className="flex flex-row justify-between">
-        Заробіток: {totalEarnings} {totalEaringsCurrency}
+        <Box>
+          <div>
+            Витрати в рейсі: {totalCostsInTrip} {'ГРН'}
+          </div>
+          <div
+            className={clsx(
+              totalEarnings > 0 ? 'text-green-500' : 'text-red-500',
+            )}
+          >
+            Заробіток: {totalEarnings} {totalEaringsCurrency}
+          </div>
+        </Box>
         <Button onClick={() => onEdit(true)}>Edit</Button>
       </Box>
     </section>

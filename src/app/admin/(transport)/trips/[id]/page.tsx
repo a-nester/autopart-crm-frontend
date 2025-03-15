@@ -10,14 +10,14 @@ interface TripPageProps {
 
 export default function TripPage({ params }: TripPageProps) {
   const { id } = use(params);
-  const { trip, getTripById } = useStore();
-  // const costsFilter = { _id: id };
+  const { trip, getTripById, getCosts } = useStore();
+  const costsFilter = { _id: id };
 
   useEffect(() => {
     async function fetchTrip() {
       try {
         getTripById(id);
-        // getCosts(costsFilter);
+        getCosts(costsFilter);
       } catch (error) {
         console.error('Error fetching trip:', error);
       }
@@ -25,7 +25,7 @@ export default function TripPage({ params }: TripPageProps) {
     if (id) {
       fetchTrip();
     }
-  }, [id, getTripById]);
+  }, [id, getTripById, getCosts]);
 
   return (
     <section className="p-1">

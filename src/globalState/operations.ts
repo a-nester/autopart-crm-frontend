@@ -477,6 +477,8 @@ export const setCostOperation = async (set: { (partial: OrdersStore | Partial<Or
 }
 
 export const getCostsOperation = async (set: SetFunction_getCostsOperation, costsFilter: CostsFilter) => {
+  console.log(costsFilter);
+  
   set({ isLoading: true, error: null });
   const service = 'myApp';
   const URL = 'transport/costs/';
