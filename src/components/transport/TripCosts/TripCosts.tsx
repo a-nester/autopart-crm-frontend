@@ -62,7 +62,7 @@ export default function TripCosts({ tripId }: { tripId: string }) {
         {costsByParam.map((cost: Cost) =>
           cost._id ? (
             <label key={cost._id}>
-              <Box className="flex flex-row gap-1 border-solid border-[1px] rounded-lg p-1">
+              <Box className="flex flex-row items-center gap-1 border-solid border-[1px] rounded-lg p-1">
                 <input
                   type="checkbox"
                   name={cost._id}
