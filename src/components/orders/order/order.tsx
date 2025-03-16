@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,11 +24,11 @@ export default function Order({
     if (status === 'paid') return 'bg-purple-200 text-purplu-700';
   };
 
-  const accordionSettings = {
-    root: 'm-0',
-    content: 'max-h-full',
-    title: 'm-0',
-  };
+  // const accordionSettings = {
+  //   // root: 'm-0',
+  //   content: 'max-h-full',
+  //   // title: 'm-0',
+  // };
 
   return (
     order && (
@@ -102,7 +104,7 @@ export default function Order({
           </div>
         </div>
 
-        <CommonAccordion settings={accordionSettings} title="Деталі Замовлення">
+        <CommonAccordion title="Деталі Замовлення">
           <OrderDetails order={order}></OrderDetails>
         </CommonAccordion>
       </section>
