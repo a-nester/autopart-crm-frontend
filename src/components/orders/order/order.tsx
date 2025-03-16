@@ -5,25 +5,27 @@ import styles from './order.module.css';
 import { Order as OrderType } from '@/types/types';
 import { HiOutlinePercentBadge, HiOutlineShoppingCart } from 'react-icons/hi2';
 import { FiUser } from 'react-icons/fi';
+import CommonAccordion from '@/ui/CommonAccordion/CommonAccordion';
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 export default function Order({
   elem,
 }: {
   elem: OrderType;
 }): JSX.Element | undefined {
-  // const orderId = id;
   const order = elem;
-
-  const handleDetails = () => {
-    console.log(elem);
-  };
-
   const statusStyle = (status: string) => {
     if (status === 'pending') return 'bg-green-200 text-green-700';
     if (status === 'delivered') return 'bg-gray-200 text-gray-700';
     if (status === 'canceled') return 'bg-red-200 text-red-700';
     if (status === 'received') return 'bg-yellow-200 text-yellow-700';
     if (status === 'paid') return 'bg-purple-200 text-purplu-700';
+  };
+
+  const accordionSettings = {
+    root: 'm-0',
+    content: 'max-h-full',
+    title: 'm-0',
   };
 
   return (
@@ -66,7 +68,6 @@ export default function Order({
           </div>
           {/*Block info */}
           <div className="flex flex-col justify-between gap-3 md:flex-row w-full p-1">
-            {/* <div> */}
             <p
               className={clsx(
                 styles.productText,
@@ -75,7 +76,7 @@ export default function Order({
             >
               {order.products[0].name_multilang.uk}
             </p>
-            {/* </div> */}
+
             {/*Price block */}
             <div className="flex justify-between md:flex-col">
               <p>
@@ -84,7 +85,7 @@ export default function Order({
                   {order.full_price}
                 </span>
               </p>
-              {/* <p>{order.products.length}шт.</p> */}
+
               <p>
                 <span className="inline-flex items-center gap-1 px-3 py-1 text-sm font-semibold rounded-full bg-slate-100">
                   <HiOutlinePercentBadge />
@@ -100,9 +101,10 @@ export default function Order({
             </div>
           </div>
         </div>
-        <button className="m-auto" onClick={handleDetails}>
-          Log details
-        </button>
+
+        <CommonAccordion settings={accordionSettings} title="Деталі Замовлення">
+          <OrderDetails order={order}></OrderDetails>
+        </CommonAccordion>
       </section>
     )
   );
