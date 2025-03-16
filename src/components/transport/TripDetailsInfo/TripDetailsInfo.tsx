@@ -65,7 +65,7 @@ export default function TripDetailsInfo({
         uah
       </div>
       <div>
-        USD price:{' '}
+        EUR price:{' '}
         {
           <TextField
             value={eurPrice}
