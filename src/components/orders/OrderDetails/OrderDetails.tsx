@@ -6,8 +6,6 @@ import Image from 'next/image';
 
 export default function OrderDetails({ order }: { order: Order }) {
   return (
-    // <Box>
-    //   {
     <ul className="flex flex-col gap-1">
       {order.products.map((product: OrderProduct, idx: number) => (
         <li key={idx}>
@@ -15,9 +13,9 @@ export default function OrderDetails({ order }: { order: Order }) {
             display="flex"
             alignItems={'center'}
             gap={1}
-            className="h-12 border rounded-xl p-1"
+            className="h-auto border rounded-xl p-1"
           >
-            <div className="max-w-12 min-w-10 max-h-12 min-h-10 object-contain p-1">
+            <div className="max-w-12 max-h-12 min-h-10 object-contain p-1">
               <Image
                 className="rounded-lg object-contain w-full h-full"
                 src={product.image}
@@ -27,33 +25,45 @@ export default function OrderDetails({ order }: { order: Order }) {
               />
             </div>
 
-            <Box className="flex w-full max-w-full gap-2 justify-between items-center">
-              <Typography>{product.sku}</Typography>
+            <Box className="flex flex-col w-full max-w-full gap-0 justify-between items-center">
               <Typography
-                className="text-xs"
                 sx={{
-                  //   whiteSpace: 'nowrap',
+                  whiteSpace: 'nowrap',
+                  fontSize: '12px',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
-                  maxWidth: 'auto', // змінюй під свої потреби
+                  maxWidth: 'auto',
+                }}
+              >
+                <span className="text-purple-600">Art:</span>
+                {product.sku}
+              </Typography>
+              <div className="w-full h-[1px] bg-black"></div>
+              <Typography
+                sx={{
+                  fontSize: '12px',
+                  overflow: 'hidden',
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 2, // обмежує до двох рядків
+                  textOverflow: 'ellipsis',
+                  maxWidth: '100%', //
                 }}
               >
                 {product.name}
               </Typography>
-              <Typography
-                sx={{
-                  whiteSpace: 'nowrap',
-                  maxWidth: 'auto',
-                }}
-              >
-                {product.price}
-              </Typography>
             </Box>
+            <Typography
+              sx={{
+                whiteSpace: 'nowrap',
+                maxWidth: 'auto',
+              }}
+            >
+              {product.price}
+            </Typography>
           </Box>
         </li>
       ))}
     </ul>
-    //   }
-    // </Box>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@/globalState/store';
-import CommonMultiSelect from '../../CommonComponents/CommonMultiSelect/CommonMultiSelect';
+// import CommonMultiSelect from '../../CommonComponents/CommonMultiSelect/CommonMultiSelect';
 import { useEffect, useState } from 'react';
 import Order from '../order/order';
 import { Order as OrderType } from '@/types/types';
@@ -20,6 +20,15 @@ const DateSeparator = ({
     </span>
     <div className="flex-grow border-t border-gray-700"></div>
   </div>
+);
+
+import dynamic from 'next/dynamic';
+const CommonMultiSelect = dynamic(
+  () =>
+    import('../../CommonComponents/CommonMultiSelect/CommonMultiSelect.jsx'),
+  {
+    ssr: false,
+  },
 );
 
 export default function OrdersList() {
