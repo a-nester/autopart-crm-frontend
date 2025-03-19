@@ -29,7 +29,7 @@ const menuItems = [
       },
       {
         title: 'Ремонти',
-        path: '/admin/cariers/repairs',
+        path: '/admin/repairs',
       },
     ],
   },

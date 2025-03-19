@@ -14,7 +14,7 @@ import { useStore } from '@/globalState/store';
 
 interface NewCostProps {
   onClose: () => void;
-  tripId: string;
+  tripId?: string;
 }
 
 export default function NewCost({ onClose, tripId }: NewCostProps) {

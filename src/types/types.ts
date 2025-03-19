@@ -299,11 +299,11 @@ export type Cost = {
   company?: string,
   truck: string,
   driver: string,
-  tripId: string,
+  tripId?: string,
 };
 
 export type CostsFilter = {
-  _id: string, 
+  _id?: string, 
   name?: string,
   costType?: string,
   date?: string,

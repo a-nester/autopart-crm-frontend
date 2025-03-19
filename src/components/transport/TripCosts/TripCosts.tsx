@@ -7,16 +7,35 @@ import { useStore } from '@/globalState/store';
 import TripCostItem from '../TripCostItem/TripCostItem';
 import { Cost } from '@/types/types';
 
-export default function TripCosts({ tripId }: { tripId: string }) {
+export default function TripCosts({
+  tripId,
+  repairs,
+  truck,
+}: {
+  tripId?: string;
+  repairs?: string;
+  truck?: string[];
+}) {
   const { costsByParam, getCosts, deleteCosts } = useStore();
 
   const [isOpenAddCost, setIsOpenAddCost] = useState(false);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const costsFilter = { _id: tripId };
+    let costsFilter = {};
+    if (tripId) {
+      costsFilter = { _id: tripId };
+    }
+    if (repairs) {
+      costsFilter = { costType: repairs };
+    }
+    if (truck) {
+      console.log(truck);
+
+      costsFilter = { truck: truck[0] };
+    }
     getCosts(costsFilter);
-  }, [getCosts, tripId]);
+  }, [getCosts, tripId, repairs, truck]);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = evt.target;
