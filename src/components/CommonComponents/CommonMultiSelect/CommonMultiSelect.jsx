@@ -34,13 +34,16 @@ function CommonMultiSelect({ children, values, setValues, label, ...props }) {
   return (
     <FormControl fullWidth {...props}>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={values}
         onChange={handleChange}
         input={<OutlinedInput label={label} />}
-        renderValue={(selected) => selected.join(', ')}
+        renderValue={(selected) =>
+          selected.length > 0 ? selected.join(', ') : 'Немає вибору'
+        }
         MenuProps={MenuProps}
         {...props}
       >

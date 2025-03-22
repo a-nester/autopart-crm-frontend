@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <section className="p-2">
       <FixesFilter truck={truck} setTruck={setTruck} />
-      <TripCosts repairs={'ремонт'} truck={truck}></TripCosts>
+      <TripCosts costType={'ремонт'} truck={truck}></TripCosts>
     </section>
   );
 }

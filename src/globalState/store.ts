@@ -4,6 +4,7 @@ import {
   deleteCostsOperation,
   fetchAndSetOrders,
   getCostsOperation,
+  getExcellGroupsOperation,
   getProductDiscountTimerOperation,
   getProductsByCategoryIdOperation,
   getProductsByIdListOperation,
@@ -18,7 +19,7 @@ import {
   updateTripOperation,
   userLoginOperation,
 } from './operations';
-import { Cost, Customer, OrdersStore, TimerParams, Trip } from '@/types/types';
+import { Cost, Customer, GroupFilter, OrdersStore, TimerParams, Trip } from '@/types/types';
 
 type OrdersPersist = Pick<OrdersStore, 'orders'>;
 
@@ -39,6 +40,7 @@ const useStore = create<OrdersStore>()(
       customers: [],
       costs: [],
       costsByParam: [],
+      excellGroups: [],
       userLogin: async (email: string, password: string) => {
         try {
           await userLoginOperation(email, password);
@@ -103,6 +105,9 @@ const useStore = create<OrdersStore>()(
       },
       deleteCosts: async (costs: Record<string, boolean>) => {
         await deleteCostsOperation(set, costs);
+      },
+      getExcellGroups: async (groupFilter: GroupFilter) => {
+        await getExcellGroupsOperation(set, groupFilter);
       }
     }),
     

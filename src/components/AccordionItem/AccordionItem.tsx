@@ -2,15 +2,20 @@ import { getSubcategoriesByParentId } from '@/helpers/getCategories';
 import { useStore } from '@/globalState/store';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { CategoryElement } from '@/types/types';
+import { PromGroup } from '@/types/types';
+import Button from '../CommonComponents/Button/Button';
 
-// Define the type for the element prop
-
-export function AccordionItem({ element }: { element: CategoryElement }) {
+export function AccordionItem({
+  element,
+  button,
+  onSave,
+}: {
+  element: PromGroup;
+  button?: boolean;
+  onSave?: (id: PromGroup) => void;
+}) {
   const { storeCategories, getProductsByCategoryId } = useStore();
-  const [subCategories, setSubCategory] = useState<CategoryElement[] | null>(
-    null,
-  );
+  const [subCategories, setSubCategory] = useState<PromGroup[] | null>(null);
 
   const group_id = element.id;
 
@@ -23,18 +28,29 @@ export function AccordionItem({ element }: { element: CategoryElement }) {
     getProductsByCategoryId(group_id);
   };
 
+  const handleSave = () => {
+    if (onSave) onSave(element);
+  };
+
   return (
     <div>
-      <Accordion>
-        <AccordionSummary className="m-1 bg-gray-100 rounded-md">
-          <div onClick={handleClick}>{element.name_multilang.uk}</div>
-        </AccordionSummary>
+      <Accordion className="w-full">
+        <div className="w-full flex justify-between items-center ">
+          <AccordionSummary className="m-1 bg-gray-100 rounded-md ">
+            <div onClick={handleClick}>{element.name_multilang.uk}</div>
+          </AccordionSummary>
+          {button && <Button onClick={handleSave}>Вибрати</Button>}
+        </div>
         <AccordionDetails className="p-1">
           {subCategories && (
             <ul>
               {subCategories.map((subElem) => (
                 <li key={subElem.id}>
-                  <AccordionItem element={subElem} />
+                  <AccordionItem
+                    element={subElem}
+                    button={true}
+                    onSave={onSave}
+                  />
                 </li>
               ))}
             </ul>

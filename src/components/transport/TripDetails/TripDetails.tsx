@@ -7,10 +7,13 @@ import TripCosts from '../TripCosts/TripCosts';
 
 export default function TripDetails({ children }: { children: Trip }) {
   const [editIsOpen, setEditIsOpen] = useState(false);
-
+  // const truck = [children.truck];
   const handleEdit = () => {
     setEditIsOpen(true);
   };
+
+  // console.log('Children', truck);
+
   return (
     <section className="flex flex-col">
       <TripDetailsInfo trip={children} onEdit={handleEdit} />

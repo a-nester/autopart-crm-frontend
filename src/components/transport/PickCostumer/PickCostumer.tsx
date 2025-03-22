@@ -21,6 +21,7 @@ export default function PickCustomer({
       : children.filter((elem) =>
           elem.name.toLowerCase().includes(searchName.toLowerCase()),
         );
+  console.log('Entries', children);
 
   return (
     <section

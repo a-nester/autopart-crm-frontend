@@ -9,11 +9,11 @@ import { Cost } from '@/types/types';
 
 export default function TripCosts({
   tripId,
-  repairs,
+  costType,
   truck,
 }: {
   tripId?: string;
-  repairs?: string;
+  costType?: string;
   truck?: string[];
 }) {
   const { costsByParam, getCosts, deleteCosts } = useStore();
@@ -26,16 +26,14 @@ export default function TripCosts({
     if (tripId) {
       costsFilter = { _id: tripId };
     }
-    if (repairs) {
-      costsFilter = { costType: repairs };
+    if (costType) {
+      costsFilter = { costType: costType };
     }
     if (truck) {
-      console.log(truck);
-
       costsFilter = { truck: truck[0] };
     }
     getCosts(costsFilter);
-  }, [getCosts, tripId, repairs, truck]);
+  }, [getCosts, tripId, costType, truck]);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = evt.target;
@@ -102,7 +100,12 @@ export default function TripCosts({
         )}
       </form>
       <Modal isOpen={isOpenAddCost} onClose={() => setIsOpenAddCost(false)}>
-        <NewCost tripId={tripId} onClose={() => setIsOpenAddCost(false)} />
+        <NewCost
+          tripId={tripId}
+          onClose={() => setIsOpenAddCost(false)}
+          truckProp={truck}
+          costTypeProp={costType}
+        />
       </Modal>
     </Box>
   );

@@ -191,7 +191,7 @@ export type Order = {
 export type State = {
   token: string;
   orders: Order[];
-  storeCategories: CategoryElement[];
+  storeCategories: PromGroup[];
   shop: string;
   products: Product[];
   isLoading: boolean;
@@ -203,6 +203,7 @@ export type State = {
   customers: Customer[],
   costs: Cost[],
   costsByParam: Cost[],
+  excellGroups: ExcellGroup[],
 };
 
 export type TimerParams = {
@@ -238,6 +239,7 @@ export type Actions = {
   setCost: (cost: Cost) => void;
   getCosts: (costsFilter: CostsFilter) => void;
   deleteCosts: (costs: Record<string, boolean>) => void;
+  getExcellGroups: (groupFilter: GroupFilter) => void;
 };
 
 export type OrdersStore = State & Actions;
@@ -311,3 +313,32 @@ export type CostsFilter = {
   driver?: string,
   tripId?: string,
 };
+
+export type ExcellGroup = {
+  _id: string;
+  name: string;
+  code: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type PromGroup = {
+  id: number;
+  name: string;
+  description: string;
+  description_multilang: {
+    ru: string;
+    uk: string;
+  };
+  image: string;
+  name_multilang: {
+    ru: string;
+    uk: string;
+  }
+  parent_group_id: number;
+}
+
+export type GroupFilter = {
+  page?: number;
+  perPage?: number;
+}

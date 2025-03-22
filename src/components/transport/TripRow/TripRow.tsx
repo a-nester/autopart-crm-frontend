@@ -1,12 +1,9 @@
 import { CURRENCY } from '@/constants/constants';
 import { Trip } from '@/types/types';
 import dayjs from 'dayjs';
-// import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function TripRow({ trip }: { trip: Trip }) {
-  // console.log(trip);
-
   const router = useRouter();
   return (
     <>
@@ -14,7 +11,6 @@ export default function TripRow({ trip }: { trip: Trip }) {
         onClick={() => router.push(`/admin/trips/${trip._id}`)}
         className="h-14 text-[10px] md:text-base font-medium text-center text-gray-800 bg-white hover:bg-gray-200 transition"
       >
-        {/* <Link href={`/admin/trips/${trip._id}`} className="contents"> */}
         <td className="p-1 text-blue-700 rounded-l border-l-4 border-blue-700">
           {trip.loadDate ? dayjs(trip.loadDate).format('DD.MM.YY') : '-'}
         </td>
@@ -29,7 +25,6 @@ export default function TripRow({ trip }: { trip: Trip }) {
           {trip.price}
           {CURRENCY[trip.currency]}
         </td>
-        {/* </Link> */}
       </tr>
     </>
   );

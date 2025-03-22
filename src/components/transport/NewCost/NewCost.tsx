@@ -15,16 +15,25 @@ import { useStore } from '@/globalState/store';
 interface NewCostProps {
   onClose: () => void;
   tripId?: string;
+  truckProp?: string[];
+  costTypeProp?: string;
 }
 
-export default function NewCost({ onClose, tripId }: NewCostProps) {
+export default function NewCost({
+  onClose,
+  tripId,
+  truckProp,
+  costTypeProp,
+}: NewCostProps) {
   const { setCost } = useStore();
   const [name, setName] = useState<string>('');
-  const [costType, setCostType] = useState<string>('');
+  const [costType, setCostType] = useState<string | string[]>(
+    costTypeProp ? [costTypeProp] : '',
+  );
   const [date, setDate] = useState<Dayjs | number | null | undefined>();
   const [odometr, setOdometr] = useState<number | null>();
   const [driver, setDriver] = useState([]);
-  const [truck, setTruck] = useState([]);
+  const [truck, setTruck] = useState(truckProp ? truckProp : []);
   const [price, setPrice] = useState<number>(0);
   const [currency, setCurrency] = useState<string[]>(['']);
 
@@ -69,7 +78,13 @@ export default function NewCost({ onClose, tripId }: NewCostProps) {
         >
           {drivers}
         </CommonMultiSelect>
-        <CommonMultiSelect values={truck} setValues={setTruck} label={'Авто'}>
+
+        <CommonMultiSelect
+          values={truck}
+          setValues={setTruck}
+          label={'Авто'}
+          disabled={truck.length > 0}
+        >
           {trucks}
         </CommonMultiSelect>
       </Box>
@@ -89,6 +104,7 @@ export default function NewCost({ onClose, tripId }: NewCostProps) {
           values={costType}
           setValues={setCostType}
           label={'Тип витрати'}
+          disabled={costType.length > 0}
         >
           {COST_TYPES}
         </CommonMultiSelect>

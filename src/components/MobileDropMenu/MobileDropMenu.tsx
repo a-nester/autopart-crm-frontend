@@ -3,12 +3,12 @@ import Link from 'next/link';
 
 const menuItems = [
   {
-    title: 'Замовлення',
-    path: '/admin/orders',
-  },
-  {
-    title: 'Цінові таймери',
+    title: 'Автопарт',
     submenu: [
+      {
+        title: 'Замовлення',
+        path: '/admin/orders',
+      },
       {
         title: 'Таймери',
         path: '/admin/timers/set',
@@ -16,6 +16,10 @@ const menuItems = [
       {
         title: 'Встановлені таймери',
         path: '/admin/timers/setted',
+      },
+      {
+        title: 'Вигрузка категорій Storm',
+        path: '/admin/storm',
       },
     ],
   },

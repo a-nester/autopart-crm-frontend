@@ -1,4 +1,4 @@
-import {  CategoryElement, Cost, CostsFilter, Customer, Order, OrdersStore, Product, TimerParams, Trip } from "@/types/types";
+import {  Cost, CostsFilter, Customer, ExcellGroup, GroupFilter, Order, OrdersStore, Product, PromGroup, TimerParams, Trip } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useStore } from "./store";
@@ -11,7 +11,7 @@ type SetFunction_fetchAndSetOrders = (partial: Partial<{
 }>) => void;
 
 type SetFunction_getStoreCategoriesOperation = (partial: Partial<{
-  storeCategories: CategoryElement[];
+  storeCategories: PromGroup[];
   
     isLoading: boolean;
     error: string | null;
@@ -82,6 +82,12 @@ type SetFunction_getCostsOperation = (partial: Partial<{
 
 type SetFunction_deleteCostsOperation = (partial: Partial<{
   costsByParam: Cost[];
+  isLoading: boolean;
+  error: string | null;
+}>) => void;
+
+type SetFunction_getExcellGroups = (partial: Partial<{
+  excellGroups: ExcellGroup[];
   isLoading: boolean;
   error: string | null;
 }>) => void;
@@ -477,8 +483,6 @@ export const setCostOperation = async (set: { (partial: OrdersStore | Partial<Or
 }
 
 export const getCostsOperation = async (set: SetFunction_getCostsOperation, costsFilter: CostsFilter) => {
-  console.log(costsFilter);
-  
   set({ isLoading: true, error: null });
   const service = 'myApp';
   const URL = 'transport/costs/';
@@ -524,4 +528,27 @@ export const deleteCostsOperation = async (set: SetFunction_deleteCostsOperation
     set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
     toast.error('Виникла помилка при видаленні переліку витрат!')
   }
+}
+
+export const getExcellGroupsOperation = async (set: SetFunction_getExcellGroups , groupFilter: GroupFilter) => {
+  set({ isLoading: true, error: null })
+  
+  const service = 'myApp';
+  const URL = 'storm/groups/';
+
+  try {
+    const response = await axios.get('/api/proxy', {
+      params: {
+        service,
+        URL,
+        filter: groupFilter,
+      }
+    });
+    set({isLoading: false, excellGroups: response.data.data.data})   
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при завантаження переліку груп!')
+  }
+
+
 }

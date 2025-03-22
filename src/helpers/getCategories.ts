@@ -1,7 +1,7 @@
-import { CategoryElement } from "@/types/types";
+import { CategoryElement, PromGroup } from "@/types/types";
 
 
- export const getRootCategories = (storeCategories: CategoryElement[]): CategoryElement[] => {
+ export const getRootCategories = (storeCategories: PromGroup[]): PromGroup[] => {
   // Перевірка на наявність значення parent_group_id
   const minParentGroupId = storeCategories.reduce(
     (min: number, elem: CategoryElement) => {
@@ -28,8 +28,8 @@ import { CategoryElement } from "@/types/types";
 };
 
 export const getSubcategoriesByParentId = (
-  storeCategories: CategoryElement[],
+  storeCategories: PromGroup[],
   parentCatId: number,
-): CategoryElement[] => {
+): PromGroup[] => {
   return storeCategories.filter((elem) => elem.parent_group_id === parentCatId);
 };
