@@ -1,8 +1,10 @@
 import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 import {
+  createStoreOperation,
   deleteCostsOperation,
   fetchAndSetOrders,
+  getAllStoresOperation,
   getCostsOperation,
   getExcellGroupsOperation,
   getProductDiscountTimerOperation,
@@ -19,7 +21,7 @@ import {
   updateTripOperation,
   userLoginOperation,
 } from './operations';
-import { Cost, Customer, GroupFilter, OrdersStore, TimerParams, Trip } from '@/types/types';
+import { Cost, Customer, GroupFilter, OrdersStore, Store, TimerParams, Trip } from '@/types/types';
 
 type OrdersPersist = Pick<OrdersStore, 'orders'>;
 
@@ -33,7 +35,7 @@ const useStore = create<OrdersStore>()(
       products: [],
       isLoading: false,
       error: null,
-      shops: ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'],
+      shops: [],
       productsWithTimer: [],
       tripsList: [],
       trip: null,
@@ -49,11 +51,11 @@ const useStore = create<OrdersStore>()(
           console.error('Error during login', error);
         }
       },
-      addStores: (newShops: string[]) => {
+      addStores: (newShops: Store[]) => {
         set({ shops: [...newShops] });
       },
-      fetchOrders: async () => {
-        const { shops } = get();
+      fetchOrders: async (shops: Store[]) => {
+        // const { shops } = get();
         await fetchAndSetOrders(shops, set);
       },
       clearOrders: () => set({ orders: [] }),
@@ -108,9 +110,14 @@ const useStore = create<OrdersStore>()(
       },
       getExcellGroups: async (groupFilter: GroupFilter) => {
         await getExcellGroupsOperation(set, groupFilter);
-      }
+      },
+      createStore: async (newStore) => {
+        await createStoreOperation(set, newStore);
+      },
+      getAllStores: async () => {
+        await getAllStoresOperation(set);
+      },
     }),
-    
     {
       name: 'orders-storage',
       partialize: (state) => ({

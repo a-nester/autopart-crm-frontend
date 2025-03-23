@@ -1,4 +1,7 @@
-
+export type Store = { 
+  name: string;
+  company: string;
+}
 
 export type Token = {
   accessToken: string
@@ -94,24 +97,6 @@ export type OrderProduct = {
   url: string;
 }
 
-// export type Order = {
-//   id: number;
-//   promStoreId: number;
-//   date_created: string;
-//   products: OrderProduct[];
-//   // {
-//   //   image: string;
-//   //   name_multilang: {
-//   //     uk: string;
-//   //     [key: string]: string;
-//   //   };
-//   // }[];
-//   full_price: number;
-//   cpa_commission: {
-//     amount: number;
-//   };
-// };
-
 export type Order = {
   cancellation: string | null;
   client: {
@@ -196,7 +181,7 @@ export type State = {
   products: Product[];
   isLoading: boolean;
   error: string | null;
-  shops: string[];
+  shops: Store[];
   productsWithTimer: TimerParams[];
   tripsList: Trip[];
   trip: Trip | null;
@@ -221,8 +206,8 @@ export type GetTimerParams = {
 }
 
 export type Actions = {
-  addStores: (newStores: string[]) => void;
-  fetchOrders: () => Promise<void>;
+  addStores: (newStores: Store[]) => void;
+  fetchOrders: (shops: Store[]) => Promise<void>;
   clearOrders: () => void;
   addStore: (newStore: string) => void;
   getStoreCategories: () => void;
@@ -240,6 +225,8 @@ export type Actions = {
   getCosts: (costsFilter: CostsFilter) => void;
   deleteCosts: (costs: Record<string, boolean>) => void;
   getExcellGroups: (groupFilter: GroupFilter) => void;
+  createStore: (newStore: Store) => void;
+  getAllStores: () => void;
 };
 
 export type OrdersStore = State & Actions;

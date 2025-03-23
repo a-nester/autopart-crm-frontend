@@ -24,12 +24,6 @@ export default function Order({
     if (status === 'paid') return 'bg-purple-200 text-purplu-700';
   };
 
-  // const accordionSettings = {
-  //   // root: 'm-0',
-  //   content: 'max-h-full',
-  //   // title: 'm-0',
-  // };
-
   return (
     order && (
       <section className="w-full  flex flex-col flex-wrap md:flex-nowrap bg-white gap-3 border-[1px] rounded-lg p-2 text-sm md:text-lg">

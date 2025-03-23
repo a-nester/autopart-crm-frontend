@@ -39,7 +39,12 @@ const menuItems = [
   },
   {
     title: 'Налаштування',
-    path: '/admin/settings',
+    submenu: [
+      {
+        title: 'Магазини',
+        path: '/admin/shops/',
+      },
+    ],
   },
 ];
 interface MobileDropMenuProps {

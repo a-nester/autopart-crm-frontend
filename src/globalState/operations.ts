@@ -1,4 +1,4 @@
-import {  Cost, CostsFilter, Customer, ExcellGroup, GroupFilter, Order, OrdersStore, Product, PromGroup, TimerParams, Trip } from "@/types/types";
+import {  Cost, CostsFilter, Customer, ExcellGroup, GroupFilter, Order, OrdersStore, Product, PromGroup, Store, TimerParams, Trip } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useStore } from "./store";
@@ -41,12 +41,6 @@ type GetFunction_getProductDiscountTimerOperation = (partial: Partial<{
   isLoading: boolean;
   error: string | null;
 }>) => void;
-
-// type SetFunction_setTripOperation = (partial: Partial<{
-//   tripsList: { data: string };
-//   isLoading: boolean;
-//   error: string | null;
-// }>) => void;
 
 type SetFunction_setTripOperation = (partial: Partial<OrdersStore> | ((state: OrdersStore) => Partial<OrdersStore>)) => void;
 
@@ -92,6 +86,17 @@ type SetFunction_getExcellGroups = (partial: Partial<{
   error: string | null;
 }>) => void;
 
+// type SetFunction_createStoreOperation = (partial: Partial<{
+//   excellGroups: ExcellGroup[];
+//   isLoading: boolean;
+//   error: string | null;
+// }>) => void;
+
+type SetFunction_createStoreOperation = (partial: Partial<OrdersStore> | ((state: OrdersStore) => Partial<OrdersStore>)) => void;
+
+type SetFunction_getAllStoresOperation = (partial: Partial<OrdersStore> | ((state: OrdersStore) => Partial<OrdersStore>)) => void;
+
+
 // Trade Operations
 
 export const userLoginOperation = async (email: string, password: string) => {
@@ -116,7 +121,7 @@ export const userLoginOperation = async (email: string, password: string) => {
 }
 }
 
-export const fetchAndSetOrders = async (stores: string[], set: SetFunction_fetchAndSetOrders) => {
+export const fetchAndSetOrders = async (stores: Store[], set: SetFunction_fetchAndSetOrders) => {
   set({ isLoading: true, error: null });
   
     const service = 'prom';
@@ -440,7 +445,6 @@ export const setTripCustomerOperation = async (set: { (partial: OrdersStore | Pa
   }
 }
 
-
 export const getTripCustomersOperation = async (set: SetFunction_getCustomer) => {
   set({ isLoading: true, error: null });
   const service = 'myApp';
@@ -550,5 +554,46 @@ export const getExcellGroupsOperation = async (set: SetFunction_getExcellGroups 
     toast.error('Виникла помилка при завантаження переліку груп!')
   }
 
+
+}
+
+export const createStoreOperation = async (set: SetFunction_createStoreOperation , newStore: Store) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = 'settings/shops/';
+
+  try {
+    const response = await axios.post('/api/proxy', newStore, {
+      params: {
+      service, URL
+      }
+    })
+    set((prevState: OrdersStore) => ({
+      shops: [...prevState.shops, response.data.data.name], isLoading: false, error: null
+    }));
+    toast.success('Успішно створено новий магазин!')
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при створенні магазину!');
+  }
+} 
+
+export const getAllStoresOperation = async (set: SetFunction_getAllStoresOperation ) => {
+  set({ isLoading: true, error: null });
+  const params = {
+    service: 'myApp',
+    URL: 'settings/shops/',
+    company: 'Avtopart',
+  }
+
+  try {
+    const response = await axios.get('/api/proxy', { params });
+console.log(response.data.data);
+
+    set({ isLoading: false, shops: response.data.data.map((shop: Store)=>shop.name) });
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при завантаженні магазинів!');
+  }
 
 }

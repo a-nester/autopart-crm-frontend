@@ -1,8 +1,5 @@
 'use client';
 
-import { useStore } from '@/globalState/store';
-// import CommonMultiSelect from '../../CommonComponents/CommonMultiSelect/CommonMultiSelect';
-import { useEffect, useState } from 'react';
 import Order from '../order/order';
 import { Order as OrderType } from '@/types/types';
 
@@ -22,40 +19,17 @@ const DateSeparator = ({
   </div>
 );
 
-import dynamic from 'next/dynamic';
-const CommonMultiSelect = dynamic(
-  () =>
-    import('../../CommonComponents/CommonMultiSelect/CommonMultiSelect.jsx'),
-  {
-    ssr: false,
-  },
-);
-
-export default function OrdersList() {
-  const { shops, addStores, fetchOrders } = useStore();
-  const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
-  const [storesList, setStoresList] = useState<string[]>(shops);
-  const orders = useStore((state) => state.orders);
-
-  useEffect(() => {
-    addStores(storesList);
-  }, [storesList, addStores]);
-
-  useEffect(() => {
-    if (storesList.length > 0) fetchOrders();
-
-    const interval = setInterval(() => {
-      if (storesList.length > 0) fetchOrders();
-    }, 60000);
-    return () => clearInterval(interval);
-  }, [storesList, fetchOrders]);
-
+export default function OrdersList({ orders }: { orders: OrderType[] }) {
   const uniqueDates = [
-    ...new Set(orders.map((order) => order.date_created.split('T')[0])),
+    ...new Set(
+      orders.map((order) =>
+        new Date(order.date_created).toLocaleDateString('uk-UA'),
+      ),
+    ),
   ];
 
   const formatDate = (dateCreated: string) => {
-    return dateCreated.split('T')[0];
+    return new Date(dateCreated).toLocaleDateString('uk-UA');
   };
 
   const ordersByDate = (elems: OrderType[], date: string) => {
@@ -64,14 +38,6 @@ export default function OrdersList() {
 
   return (
     <section className="flex flex-col gap-2 bg-gray-100">
-      <CommonMultiSelect
-        values={storesList}
-        setValues={setStoresList}
-        label={'Магазин'}
-        multiple
-      >
-        {STORE_IDS}
-      </CommonMultiSelect>
       <div className="flex flex-col gap-2">
         {uniqueDates.map((date) => (
           <div key={date}>
