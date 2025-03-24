@@ -588,7 +588,6 @@ export const getAllStoresOperation = async (set: SetFunction_getAllStoresOperati
 
   try {
     const response = await axios.get('/api/proxy', { params });
-console.log(response.data.data);
 
     set({ isLoading: false, shops: response.data.data.map((shop: Store)=>shop.name) });
   } catch (error) {

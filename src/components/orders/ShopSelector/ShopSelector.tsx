@@ -14,13 +14,11 @@ const CommonMultiSelect = dynamic(
 );
 
 export default function ShopSelector({ shops }: { shops: Store[] }) {
-  const { fetchOrders } = useStore();
+  const { addStores } = useStore();
   const [storesList, setStoresList] = useState<Store[]>(shops);
 
   useEffect(() => {
-    if (JSON.stringify(shops) !== JSON.stringify(storesList)) {
-      fetchOrders(storesList);
-    }
+    addStores(storesList);
   }, [storesList]);
 
   return (

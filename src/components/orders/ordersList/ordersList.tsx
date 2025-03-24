@@ -1,7 +1,9 @@
 'use client';
 
+import { useEffect } from 'react';
 import Order from '../order/order';
 import { Order as OrderType } from '@/types/types';
+import { useStore } from '@/globalState/store';
 
 const DateSeparator = ({
   date,
@@ -19,35 +21,41 @@ const DateSeparator = ({
   </div>
 );
 
-export default function OrdersList({ orders }: { orders: OrderType[] }) {
-  const uniqueDates = [
-    ...new Set(
-      orders.map((order) =>
-        new Date(order.date_created).toLocaleDateString('uk-UA'),
-      ),
-    ),
-  ];
+export default function OrdersList() {
+  const { orders, storesToFetch, fetchOrders } = useStore();
+
+  useEffect(() => {
+    if (storesToFetch.length > 0) {
+      fetchOrders();
+      const interval = setInterval(() => {
+        fetchOrders();
+      }, 60000);
+      return () => clearInterval(interval);
+    }
+  }, [storesToFetch, fetchOrders]);
 
   const formatDate = (dateCreated: string) => {
     return new Date(dateCreated).toLocaleDateString('uk-UA');
   };
 
-  const ordersByDate = (elems: OrderType[], date: string) => {
-    return elems.filter((elem) => formatDate(elem.date_created) === date);
-  };
+  const ordersGroupedByDates = orders.reduce<Record<string, OrderType[]>>(
+    (acc, order) => {
+      const date = formatDate(order.date_created);
+      acc[date] = acc[date] || [];
+      acc[date].push(order);
+      return acc;
+    },
+    {},
+  );
 
   return (
     <section className="flex flex-col gap-2 bg-gray-100">
       <div className="flex flex-col gap-2">
-        {uniqueDates.map((date) => (
+        {Object.entries(ordersGroupedByDates).map(([date, orders]) => (
           <div key={date}>
-            {' '}
-            <DateSeparator
-              date={date}
-              orderCount={ordersByDate(orders, date).length}
-            />
+            <DateSeparator date={date} orderCount={orders.length} />
             <ul>
-              {ordersByDate(orders, date).map((elem) => (
+              {orders.map((elem) => (
                 <li key={elem.id}>
                   <Order elem={elem} />
                 </li>

@@ -36,6 +36,7 @@ const useStore = create<OrdersStore>()(
       isLoading: false,
       error: null,
       shops: [],
+      storesToFetch: [],
       productsWithTimer: [],
       tripsList: [],
       trip: null,
@@ -52,11 +53,11 @@ const useStore = create<OrdersStore>()(
         }
       },
       addStores: (newShops: Store[]) => {
-        set({ shops: [...newShops] });
+        set({ storesToFetch: [...newShops] });
       },
-      fetchOrders: async (shops: Store[]) => {
-        // const { shops } = get();
-        await fetchAndSetOrders(shops, set);
+      fetchOrders: async () => {
+        const { storesToFetch } = get();
+        await fetchAndSetOrders(storesToFetch, set);
       },
       clearOrders: () => set({ orders: [] }),
       addStore: (newShop: string) => {

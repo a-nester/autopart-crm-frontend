@@ -98,6 +98,7 @@ export type OrderProduct = {
 }
 
 export type Order = {
+  length: number;
   cancellation: string | null;
   client: {
     first_name: string; //'Анна',
@@ -182,6 +183,7 @@ export type State = {
   isLoading: boolean;
   error: string | null;
   shops: Store[];
+  storesToFetch: Store[];
   productsWithTimer: TimerParams[];
   tripsList: Trip[];
   trip: Trip | null;
@@ -207,7 +209,7 @@ export type GetTimerParams = {
 
 export type Actions = {
   addStores: (newStores: Store[]) => void;
-  fetchOrders: (shops: Store[]) => Promise<void>;
+  fetchOrders: () => Promise<void>;
   clearOrders: () => void;
   addStore: (newStore: string) => void;
   getStoreCategories: () => void;

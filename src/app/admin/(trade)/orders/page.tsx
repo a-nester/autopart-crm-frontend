@@ -8,14 +8,12 @@ import { useEffect, useState } from 'react';
 
 export default function Page({}) {
   const { shops, getAllStores } = useStore();
-  const orders = useStore((state) => state.orders);
+  // const orders = useStore((state) => state.orders);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      await getAllStores();
-      setLoading(false);
-    })();
+    getAllStores();
+    setLoading(false);
   }, []);
 
   return (
@@ -28,7 +26,7 @@ export default function Page({}) {
         shops.length > 0 && (
           <>
             <ShopSelector shops={shops} />
-            <OrdersList orders={orders} />
+            <OrdersList />
           </>
         )
       )}
