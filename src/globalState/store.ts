@@ -21,7 +21,7 @@ import {
   updateTripOperation,
   userLoginOperation,
 } from './operations';
-import { Cost, Customer, GroupFilter, OrdersStore, Store, TimerParams, Trip } from '@/types/types';
+import { Cost, Customer, GroupFilter, OrdersStore, TimerParams, Trip } from '@/types/types';
 
 type OrdersPersist = Pick<OrdersStore, 'orders'>;
 
@@ -52,7 +52,7 @@ const useStore = create<OrdersStore>()(
           console.error('Error during login', error);
         }
       },
-      addStores: (newShops: Store[]) => {
+      addStores: (newShops: string[]) => {
         set({ storesToFetch: [...newShops] });
       },
       fetchOrders: async () => {

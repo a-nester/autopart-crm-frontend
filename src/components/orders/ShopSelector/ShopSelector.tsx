@@ -2,9 +2,8 @@
 
 import { useStore } from '@/globalState/store';
 import { useEffect, useState } from 'react';
-
 import dynamic from 'next/dynamic';
-import { Store } from '@/types/types.js';
+
 const CommonMultiSelect = dynamic(
   () =>
     import('../../CommonComponents/CommonMultiSelect/CommonMultiSelect.jsx'),
@@ -13,9 +12,9 @@ const CommonMultiSelect = dynamic(
   },
 );
 
-export default function ShopSelector({ shops }: { shops: Store[] }) {
+export default function ShopSelector({ shops }: { shops: string[] }) {
   const { addStores } = useStore();
-  const [storesList, setStoresList] = useState<Store[]>(shops);
+  const [storesList, setStoresList] = useState<string[]>(shops);
 
   useEffect(() => {
     addStores(storesList);

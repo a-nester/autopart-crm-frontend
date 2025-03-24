@@ -121,7 +121,7 @@ export const userLoginOperation = async (email: string, password: string) => {
 }
 }
 
-export const fetchAndSetOrders = async (stores: Store[], set: SetFunction_fetchAndSetOrders) => {
+export const fetchAndSetOrders = async (stores: string[], set: SetFunction_fetchAndSetOrders) => {
   set({ isLoading: true, error: null });
   
     const service = 'prom';
@@ -557,10 +557,11 @@ export const getExcellGroupsOperation = async (set: SetFunction_getExcellGroups 
 
 }
 
-export const createStoreOperation = async (set: SetFunction_createStoreOperation , newStore: Store) => {
+export const createStoreOperation = async (set: SetFunction_createStoreOperation , store: string) => {
   set({ isLoading: true, error: null });
   const service = 'myApp';
   const URL = 'settings/shops/';
+  const newStore = { name: store, company: 'Avtopart' };
 
   try {
     const response = await axios.post('/api/proxy', newStore, {

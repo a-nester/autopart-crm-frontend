@@ -2,8 +2,6 @@
 
 import Button from '@/components/CommonComponents/Button/Button';
 import { useStore } from '@/globalState/store';
-import { Store } from '@/types/types';
-
 import { Box, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -17,8 +15,7 @@ export default function Page() {
 
   const handleClick = () => {
     console.log(newStore);
-    const shop = { name: newStore, company: 'Avtopart' };
-    createStore(shop);
+    createStore(newStore);
   };
 
   return (
@@ -32,9 +29,9 @@ export default function Page() {
         <Button onClick={handleClick}>Додати</Button>
       </Box>
       <ul>
-        {shops.map((shop: Store, idx) => (
+        {shops.map((shop, idx) => (
           <li key={idx}>
-            <p>{shop.name}</p>
+            <p>{shop}</p>
           </li>
         ))}
       </ul>

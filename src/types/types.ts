@@ -182,8 +182,8 @@ export type State = {
   products: Product[];
   isLoading: boolean;
   error: string | null;
-  shops: Store[];
-  storesToFetch: Store[];
+  shops: string[];
+  storesToFetch: string[];
   productsWithTimer: TimerParams[];
   tripsList: Trip[];
   trip: Trip | null;
@@ -208,7 +208,7 @@ export type GetTimerParams = {
 }
 
 export type Actions = {
-  addStores: (newStores: Store[]) => void;
+  addStores: (newStores: string[]) => void;
   fetchOrders: () => Promise<void>;
   clearOrders: () => void;
   addStore: (newStore: string) => void;
@@ -227,7 +227,7 @@ export type Actions = {
   getCosts: (costsFilter: CostsFilter) => void;
   deleteCosts: (costs: Record<string, boolean>) => void;
   getExcellGroups: (groupFilter: GroupFilter) => void;
-  createStore: (newStore: Store) => void;
+  createStore: (newStore: string) => void;
   getAllStores: () => void;
 };
 
