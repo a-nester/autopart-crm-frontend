@@ -6,7 +6,7 @@ import CategoriesListElement from '@/components/storm/CategoriesListElement/Cate
 import { useStore } from '@/globalState/store';
 import { getRootCategories } from '@/helpers/getCategories';
 import { ExcellGroup } from '@/types/types';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 // type Group = {
@@ -20,17 +20,32 @@ export default function Page() {
   const [checkedItems, setChecked] = useState<{ [id: string]: boolean }>({});
   const { shop, addStore, storeCategories, getStoreCategories } = useStore();
   const [fetchStore, setFetchStore] = useState('');
+  const [filter, setFilter] = useState('');
+  const [filtered, setFiltered] = useState(excellGroups);
 
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
 
   const groupFilter = {};
+  console.log(excellGroups);
+
+  useEffect(() => {
+    setFiltered(excellGroups);
+  }, [excellGroups]);
+
+  useEffect(() => {
+    const filtered = excellGroups.filter((elem) => elem.name.includes(filter));
+    setFiltered(filtered);
+  }, [filter]);
 
   useEffect(() => {
     if (fetchStore) {
       addStore(fetchStore);
-      if (shop) getStoreCategories();
     }
   }, [fetchStore]);
+
+  useEffect(() => {
+    if (shop) getStoreCategories();
+  }, [shop]);
 
   const rootCategories = getRootCategories(storeCategories);
 
@@ -60,8 +75,6 @@ export default function Page() {
     );
   };
 
-  console.log(excellGroups);
-
   return (
     <section className="p-2">
       <Box className="flex flex-row items-center gap-3 min-w-52 max-w-96 mb-3">
@@ -75,14 +88,22 @@ export default function Page() {
         <Button onClick={handleSave} disabled={fetchStore ? false : true}>
           Save
         </Button>
+        <TextField
+          label={'Filter'}
+          value={filter}
+          onChange={(evt) => setFilter(evt.target.value)}
+        ></TextField>
       </Box>
-      {excellGroups.map((group: ExcellGroup) => (
+      {filtered.map((group: ExcellGroup) => (
         <CategoriesListElement
           key={group._id}
           group={group}
           checkedItems={checkedItems}
           setChecked={handleChange}
           promRootCategories={rootCategories}
+          fieldDisabled={fetchStore === ''}
+          shop={shop}
+          promStoreCategories={storeCategories}
         />
       ))}
     </section>

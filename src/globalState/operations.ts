@@ -1,7 +1,8 @@
-import {  Cost, CostsFilter, Customer, ExcellGroup, GroupFilter, Order, OrdersStore, Product, PromGroup, Store, TimerParams, Trip } from "@/types/types";
+import {  Cost, CostsFilter, Customer, ExcellGroup, GroupData, GroupFilter, Order, OrdersStore, Product, PromGroup, Store, TimerParams, Trip } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useStore } from "./store";
+import { StateCreator } from "zustand";
 
 type SetFunction_fetchAndSetOrders = (partial: Partial<{
   orders: Order[];
@@ -594,6 +595,27 @@ export const getAllStoresOperation = async (set: SetFunction_getAllStoresOperati
   } catch (error) {
     set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
     toast.error('Виникла помилка при завантаженні магазинів!');
+  }
+}
+
+export const setGroupConnectionsOperation = async (set: Parameters<StateCreator<OrdersStore>>[0], groupData: GroupData) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = 'storm/groups/';
+
+  try {
+    const response = await axios.patch('/api/proxy', groupData, {
+      params: {
+      service, URL
+      }
+    })
+    set((prevState: OrdersStore) => ({
+      promGroups: [...prevState.promGroups, response.data.data], isLoading: false
+    }))
+    toast.success('Групи успішно звʼязані!')
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    toast.error('Виникла помилка при звʼязанні груп!');
   }
 
 }

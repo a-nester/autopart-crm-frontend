@@ -15,13 +15,14 @@ import {
   getTripCustomersOperation,
   getTripsOperation,
   setCostOperation,
+  setGroupConnectionsOperation,
   setProductDiscountTimerOperation,
   setTripCustomerOperation,
   setTripOperation,
   updateTripOperation,
   userLoginOperation,
 } from './operations';
-import { Cost, Customer, GroupFilter, OrdersStore, TimerParams, Trip } from '@/types/types';
+import { Cost, Customer, GroupData, GroupFilter, OrdersStore, TimerParams, Trip } from '@/types/types';
 
 type OrdersPersist = Pick<OrdersStore, 'orders'>;
 
@@ -44,6 +45,7 @@ const useStore = create<OrdersStore>()(
       costs: [],
       costsByParam: [],
       excellGroups: [],
+      promGroups: [],
       userLogin: async (email: string, password: string) => {
         try {
           await userLoginOperation(email, password);
@@ -118,6 +120,9 @@ const useStore = create<OrdersStore>()(
       getAllStores: async () => {
         await getAllStoresOperation(set);
       },
+      setGroupConnections: async (groupData: GroupData) => {
+        await setGroupConnectionsOperation(set, groupData);
+      }
     }),
     {
       name: 'orders-storage',

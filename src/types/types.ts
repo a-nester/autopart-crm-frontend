@@ -191,6 +191,7 @@ export type State = {
   costs: Cost[],
   costsByParam: Cost[],
   excellGroups: ExcellGroup[],
+  promGroups: GroupData[],
 };
 
 export type TimerParams = {
@@ -229,6 +230,7 @@ export type Actions = {
   getExcellGroups: (groupFilter: GroupFilter) => void;
   createStore: (newStore: string) => void;
   getAllStores: () => void;
+  setGroupConnections: (groupData: GroupData) => void;
 };
 
 export type OrdersStore = State & Actions;
@@ -325,9 +327,20 @@ export type PromGroup = {
     uk: string;
   }
   parent_group_id: number;
-}
+};
 
 export type GroupFilter = {
   page?: number;
   perPage?: number;
-}
+};
+
+export type GroupData = {
+        excellGroupId: number,
+        promGroup: {
+          id: number,
+          name: string,
+          discountValue: number | undefined,
+          discountType: string,
+        },
+        promShop: string,
+      };
