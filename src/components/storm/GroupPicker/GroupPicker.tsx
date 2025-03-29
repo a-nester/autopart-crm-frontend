@@ -27,7 +27,7 @@ export default function GroupPicker({
       : children.filter((elem) =>
           elem.name.toLowerCase().includes(searchName.toLowerCase()),
         );
-  console.log('Entries', children);
+  // console.log('Entries', children);
 
   return (
     <section
@@ -40,7 +40,9 @@ export default function GroupPicker({
         <h2>Список </h2>
         <Button onClick={onClose}>x</Button>
       </Box>
-      <CategoriesSelector onSave={onSave}>{filtered}</CategoriesSelector>
+      <CategoriesSelector onSave={onSave} hasBtn>
+        {filtered}
+      </CategoriesSelector>
     </section>
   );
 }

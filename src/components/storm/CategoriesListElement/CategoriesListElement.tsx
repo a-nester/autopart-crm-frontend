@@ -79,7 +79,7 @@ export default function CategoriesListElement({
     <section key={group._id} className="p-2">
       <form className="flex flex-col gap-4">
         <label>
-          <Box className="flex flex-row gap-4 justify-between items-center">
+          <Box className="flex flex-col md:flex-row gap-4 justify-between items-left">
             <Box className="flex gap-2">
               <p className="min-w-14">{group.code}</p>
               <input
@@ -89,10 +89,11 @@ export default function CategoriesListElement({
                 checked={!!checkedItems[group._id] || false}
                 onChange={setChecked}
               />
+              <Typography textAlign={'center'} className="max-w-52">
+                {group.name}
+              </Typography>
             </Box>
-            <Typography textAlign={'center'} className="max-w-52">
-              {group.name}
-            </Typography>
+
             <Box className="flex gap-2 ">
               <TextField
                 className="relative"

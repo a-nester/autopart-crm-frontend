@@ -546,7 +546,7 @@ export const getExcellGroupsOperation = async (set: SetFunction_getExcellGroups 
       params: {
         service,
         URL,
-        filter: groupFilter,
+        ...groupFilter,
       }
     });
     set({isLoading: false, excellGroups: response.data.data.data})   

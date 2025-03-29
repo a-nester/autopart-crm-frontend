@@ -22,18 +22,25 @@ export default function Page() {
   const [fetchStore, setFetchStore] = useState('');
   const [filter, setFilter] = useState('');
   const [filtered, setFiltered] = useState(excellGroups);
+  const [perPage, setPerPage] = useState('');
 
   const STORE_IDS = ['AvtoKlan', 'AutoAx', 'iDoAuto', 'ToAuto'];
-
-  const groupFilter = {};
-  console.log(excellGroups);
+  const PERPAGE_IDS = ['20', '50', '100', '200', '500'];
+  const page = 1;
+  const groupFilter = {
+    page,
+    perPage: Number(perPage),
+  };
+  // console.log(excellGroups);
 
   useEffect(() => {
     setFiltered(excellGroups);
   }, [excellGroups]);
 
   useEffect(() => {
-    const filtered = excellGroups.filter((elem) => elem.name.includes(filter));
+    const filtered = excellGroups.filter((elem) =>
+      elem.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
+    );
     setFiltered(filtered);
   }, [filter]);
 
@@ -51,7 +58,7 @@ export default function Page() {
 
   useEffect(() => {
     getExcellGroups(groupFilter);
-  }, [getExcellGroups]);
+  }, [getExcellGroups, page, perPage]);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     console.log(evt);
@@ -81,7 +88,7 @@ export default function Page() {
         <CommonMultiSelect
           values={fetchStore}
           setValues={setFetchStore}
-          label={'Store'}
+          label={'Магазин'}
         >
           {STORE_IDS}
         </CommonMultiSelect>
@@ -89,10 +96,17 @@ export default function Page() {
           Save
         </Button>
         <TextField
-          label={'Filter'}
+          label={'Фільтр'}
           value={filter}
           onChange={(evt) => setFilter(evt.target.value)}
         ></TextField>
+        <CommonMultiSelect
+          values={perPage}
+          setValues={setPerPage}
+          label={'На сторінці'}
+        >
+          {PERPAGE_IDS}
+        </CommonMultiSelect>
       </Box>
       {filtered.map((group: ExcellGroup) => (
         <CategoriesListElement
