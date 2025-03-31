@@ -15,6 +15,7 @@ import {
   getTripCustomersOperation,
   getTripsOperation,
   setCostOperation,
+  setDataToPromOperation,
   setGroupConnectionsOperation,
   setProductDiscountTimerOperation,
   setTripCustomerOperation,
@@ -122,6 +123,11 @@ const useStore = create<OrdersStore>()(
       },
       setGroupConnections: async (groupData: GroupData) => {
         await setGroupConnectionsOperation(set, groupData);
+      },
+      setDataToProm: async (data: { group: string, store: string }) => {
+        console.log(data);
+        
+        await setDataToPromOperation(set, data);
       }
     }),
     {

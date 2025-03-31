@@ -17,8 +17,8 @@ import { useEffect, useState } from 'react';
 
 export default function Page() {
   const { excellGroups, getExcellGroups } = useStore();
-  const [checkedItems, setChecked] = useState<{ [id: string]: boolean }>({});
   const { shop, addStore, storeCategories, getStoreCategories } = useStore();
+  const [checkedItems, setChecked] = useState<{ [id: string]: boolean }>({});
   const [fetchStore, setFetchStore] = useState('');
   const [filter, setFilter] = useState('');
   const [filtered, setFiltered] = useState(excellGroups);
@@ -86,7 +86,7 @@ export default function Page() {
     <section className="p-2">
       <Box className="flex flex-row items-center gap-3 min-w-52 max-w-96 mb-3">
         <CommonMultiSelect
-          values={fetchStore}
+          values={fetchStore || ''}
           setValues={setFetchStore}
           label={'Магазин'}
         >
@@ -97,7 +97,7 @@ export default function Page() {
         </Button>
         <TextField
           label={'Фільтр'}
-          value={filter}
+          value={filter || ''}
           onChange={(evt) => setFilter(evt.target.value)}
         ></TextField>
         <CommonMultiSelect

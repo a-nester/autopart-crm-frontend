@@ -619,3 +619,23 @@ export const setGroupConnectionsOperation = async (set: Parameters<StateCreator<
   }
 
 }
+
+export const setDataToPromOperation = async (set, data) => {
+  set({ isLoading: true, error: null });
+  const service = 'myApp';
+  const URL = 'storm/setData/';
+
+  try {
+    const response = await axios.post('/api/proxy', data, {
+      params: {
+        service, URL
+      }
+    });
+
+    toast.success('Відправлено!');
+  } catch (error) {
+    set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error ' });
+    toast.error('Виникла помилка при відправці данних.');
+  }
+
+}
