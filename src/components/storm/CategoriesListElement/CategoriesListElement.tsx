@@ -81,9 +81,6 @@ export default function CategoriesListElement({
     setDataToProm({ group: group.code, store: shop });
   };
 
-  const handleSetAccordionState = () => {
-    setAccordionState((prev) => !prev);
-  };
   return (
     <section
       key={group._id}
@@ -141,7 +138,9 @@ export default function CategoriesListElement({
                     disabled={fieldDisabled}
                   ></TextField>
 
-                  <Button onClick={handleConnect}>+</Button>
+                  <Button type="button" onClick={handleConnect}>
+                    +
+                  </Button>
                   <TextField
                     value={discount ?? 0}
                     onChange={(evt) => setDiscount(Number(evt.target.value))}
@@ -157,7 +156,9 @@ export default function CategoriesListElement({
                     className="w-full"
                   ></TextField>
                   <Button>Parse</Button>
-                  <Button onClick={handleSet}>SetData</Button>
+                  <Button type="button" onClick={handleSet}>
+                    SetData
+                  </Button>
                 </Box>
               </>
             </CommonAccordion>

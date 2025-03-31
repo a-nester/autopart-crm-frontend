@@ -124,7 +124,7 @@ const useStore = create<OrdersStore>()(
       setGroupConnections: async (groupData: GroupData) => {
         await setGroupConnectionsOperation(set, groupData);
       },
-      setDataToProm: async (data: { group: string, store: string }) => {
+      setDataToProm: async (data: { group: number, store: string }) => {
         console.log(data);
         
         await setDataToPromOperation(set, data);

@@ -617,16 +617,15 @@ export const setGroupConnectionsOperation = async (set: Parameters<StateCreator<
     set({ isLoading: false, error: error instanceof Error ? error.message : 'Unknown error' });
     toast.error('Виникла помилка при звʼязанні груп!');
   }
-
 }
 
-export const setDataToPromOperation = async (set, data) => {
+export const setDataToPromOperation = async (set: Parameters<StateCreator<OrdersStore>>[0], data: {group: number, store: string}) => {
   set({ isLoading: true, error: null });
   const service = 'myApp';
   const URL = 'storm/setData/';
 
   try {
-    const response = await axios.post('/api/proxy', data, {
+     await axios.post('/api/proxy', data, {
       params: {
         service, URL
       }

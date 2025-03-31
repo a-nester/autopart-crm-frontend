@@ -231,6 +231,7 @@ export type Actions = {
   createStore: (newStore: string) => void;
   getAllStores: () => void;
   setGroupConnections: (groupData: GroupData) => void;
+  setDataToProm: (data: { group: number, store: string }) => void;
 };
 
 export type OrdersStore = State & Actions;

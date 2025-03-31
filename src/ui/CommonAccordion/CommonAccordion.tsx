@@ -23,8 +23,8 @@ export default function CommonAccordion({
   title: string;
   settings?: Partial<SettingsProp>;
   children: ReactElement;
-  externalState?: ReactElement;
-  setExternelState: () => void;
+  externalBtn?: boolean;
+  externalState?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(externalState || false);
 
