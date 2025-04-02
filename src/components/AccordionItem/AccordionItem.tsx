@@ -48,7 +48,7 @@ export function AccordionItem({
                 <li key={subElem.id}>
                   <AccordionItem
                     element={subElem}
-                    button={true}
+                    button={button}
                     onSave={onSave}
                   />
                 </li>

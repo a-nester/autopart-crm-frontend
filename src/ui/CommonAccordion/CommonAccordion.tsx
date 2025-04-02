@@ -56,12 +56,12 @@ export default function CommonAccordion({
           externalBtn
             ? clsx(
                 ' overflow-hidden transition-all duration-300',
-                externalState ? 'max-h-40 p-2' : 'max-h-0 p-0',
+                externalState ? 'p-1' : 'max-h-0 p-0',
                 settings?.content,
               )
             : clsx(
                 'overflow-hidden transition-all duration-300',
-                isOpen ? 'max-h-40 p-2' : 'max-h-0 p-0',
+                isOpen ? ' p-1' : 'max-h-0 p-0',
                 settings?.content,
               )
         }

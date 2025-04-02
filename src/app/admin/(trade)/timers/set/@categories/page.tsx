@@ -19,7 +19,7 @@ export default function Page({}: PageProps) {
 
   return (
     <section className="flex flex-col gap-3 h-[85vh] overflow-y-auto">
-      <CategoriesNav>{rootCategories}</CategoriesNav>
+      <CategoriesNav button={false}>{rootCategories}</CategoriesNav>
     </section>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import TimersProductItem from '@/components/TimersProductItem/TimersProductItem';
 import {
+  Box,
   Checkbox,
   FormControlLabel,
   FormGroup,
@@ -59,23 +60,29 @@ export default function Page({}) {
 
   return (
     <section className="flex flex-col items-center p-1 md:p-4 gap-2">
-      <p>Встановити цінові таймери</p>
-      <FormGroup>
-        <TextField
-          onChange={(evt) => {
-            setSearch(evt.target.value);
-          }}
-          id="outlined-basic"
-          label="Outlined"
-          variant="outlined"
-        />
-        <FormControlLabel
-          control={<Checkbox checked={isAvailable} />}
-          label="В наявності"
-          onChange={handleChange}
-        />
-        {/* <FormControlLabel required control={<Checkbox />} label="Required" /> */}
-        {/* <FormControlLabel disabled control={<Checkbox />} label="Disabled" /> */}
+      <FormGroup className="flex flex-row gap-2">
+        <Box>
+          <p>Встановити цінові таймери</p>
+          <TextField
+            onChange={(evt) => {
+              setSearch(evt.target.value);
+            }}
+            id="outlined-basic"
+            label="Пошук"
+            variant="outlined"
+            size={'small'}
+            className="w-60"
+          />
+        </Box>
+        <Box className="flex flex-col items-center">
+          <p>Наявнсть</p>
+          <FormControlLabel
+            className="m-auto"
+            control={<Checkbox checked={isAvailable} />}
+            label=""
+            onChange={handleChange}
+          />
+        </Box>
       </FormGroup>
       <CommonPagination
         elements={filteredProducts.length}

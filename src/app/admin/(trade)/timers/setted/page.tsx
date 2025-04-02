@@ -30,7 +30,7 @@ export default function Page() {
   }, [productsWithTimer]);
 
   return (
-    <section className="flex flex-col justify-center gap-3 p-1 min-w-72  ">
+    <section className="flex flex-col justify-center gap-3 p-2 min-w-72  ">
       <CommonMultiSelect
         values={fetchStore}
         setValues={setFetchStore}

@@ -5,6 +5,8 @@ import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
 export default function OrderDetails({ order }: { order: Order }) {
+  console.log(order);
+
   return (
     <ul className="flex flex-col gap-1">
       {order.products.map((product: OrderProduct, idx: number) => (
@@ -54,12 +56,13 @@ export default function OrderDetails({ order }: { order: Order }) {
               </Typography>
             </Box>
             <Typography
+              fontSize={12}
               sx={{
                 whiteSpace: 'nowrap',
                 maxWidth: 'auto',
               }}
             >
-              {product.price}
+              {product.quantity} x {product.price}
             </Typography>
           </Box>
         </li>
