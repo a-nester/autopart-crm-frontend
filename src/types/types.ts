@@ -195,6 +195,7 @@ export type State = {
 };
 
 export type TimerParams = {
+  _id?: string;
   shop: string;
   productId: number;
   dayDiscountType: string;

@@ -26,7 +26,9 @@ export default function Page() {
   }, [fetchStore, addStore]);
 
   useEffect(() => {
-    if (productsWithTimer) getProductsByIdList(productsWithTimer);
+    if (productsWithTimer) {
+      getProductsByIdList(productsWithTimer);
+    }
   }, [productsWithTimer]);
 
   return (

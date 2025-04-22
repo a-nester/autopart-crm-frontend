@@ -98,19 +98,19 @@ export function TimersProductItem({
       nightDiscount,
     });
 
-    console.log({
-      shop: shop[0],
-      productId: product.id,
-      dayDiscountType,
-      dayDiscount,
-      nightDiscountType,
-      nightDiscount,
-    });
+    // console.log({
+    //   shop: shop[0],
+    //   productId: product.id,
+    //   dayDiscountType,
+    //   dayDiscount,
+    //   nightDiscountType,
+    //   nightDiscount,
+    // });
   };
 
   const handleDeleteTimer = () => {
-    console.log(product);
-    console.log(timer);
+    const prod = productsWithTimer.find((elem) => elem.productId === id);
+    console.log(prod?._id ?? 'no ID');
   };
 
   const handleAccordionChange = () => {};

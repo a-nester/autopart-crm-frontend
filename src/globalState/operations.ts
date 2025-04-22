@@ -276,7 +276,7 @@ export const getProductsByIdListOperation = async (store: string, set: SetFuncti
   const service = 'prom';
   
   try {
-    const responses = await Promise.all(
+    const responses = await Promise.allSettled(
       productsList.map(product => axios
         .get('/api/proxy', {
           params: {
@@ -285,17 +285,30 @@ export const getProductsByIdListOperation = async (store: string, set: SetFuncti
               }`
           }
         })
-        // .then((response)=> ({response.data}))
       )
     );
-    const products = responses.map(response => response.data.product);
-    console.log('Products:', products);
+
+    const products = responses.map(response => {
+      if (response.status === "fulfilled") {
+        return response.value.data.product;
+      } else {
+        const product = {
+          available: 'notavailable',
+          images: [],
+          discount: 0,
+          article: 'noArticle',
+          id: Number(response.reason.config.params.URL.split('/')[2]),
+        };
+        return product;
+      }
+    });
     set({products, isLoading: false});
   } catch (error) {
     console.error('Error fetching products:', error);
     
   }
 }
+
 
 export const setProductDiscountTimerOperation = async (store: string, set: SetFunction_setProductDiscountTimerOperation, timerParams: TimerParams) => {
   const storeId = store[0];
