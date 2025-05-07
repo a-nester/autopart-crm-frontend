@@ -83,30 +83,33 @@ export default function Page() {
   };
 
   return (
-    <section className="p-2">
-      <Box className="flex flex-row items-center gap-3 min-w-52 max-w-96 mb-3">
-        <CommonMultiSelect
-          values={fetchStore || ''}
-          setValues={setFetchStore}
-          label={'Магазин'}
-        >
-          {STORE_IDS}
-        </CommonMultiSelect>
-        <Button onClick={handleSave} disabled={fetchStore ? false : true}>
-          Save
-        </Button>
+    <section className="p-2 md:px-40">
+      <Box className="flex flex-col md:flex-row items-center gap-3 mb-3">
+        <Box className="flex flex-row min-w-96 md:min-w-96 max-w-96 gap-3">
+          <CommonMultiSelect
+            values={fetchStore || ''}
+            setValues={setFetchStore}
+            label={'Магазин'}
+          >
+            {STORE_IDS}
+          </CommonMultiSelect>
+          <Button onClick={handleSave} disabled={fetchStore ? false : true}>
+            Save
+          </Button>
+          <CommonMultiSelect
+            values={perPage}
+            setValues={setPerPage}
+            label={'На сторінці'}
+          >
+            {PERPAGE_IDS}
+          </CommonMultiSelect>
+        </Box>
         <TextField
+          className="flex mix-w-96"
           label={'Фільтр'}
           value={filter || ''}
           onChange={(evt) => setFilter(evt.target.value)}
         ></TextField>
-        <CommonMultiSelect
-          values={perPage}
-          setValues={setPerPage}
-          label={'На сторінці'}
-        >
-          {PERPAGE_IDS}
-        </CommonMultiSelect>
       </Box>
       {filtered.map((group: ExcellGroup) => (
         <CategoriesListElement

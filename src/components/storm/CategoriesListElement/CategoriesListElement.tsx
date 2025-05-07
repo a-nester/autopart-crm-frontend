@@ -93,7 +93,7 @@ export default function CategoriesListElement({
     >
       <form className="flex flex-col w-full gap-4">
         <label>
-          <Box className="flex flex-col w-full md:flex-row gap-2 justify-between items-left">
+          <Box className="flex flex-col w-full  gap-2 justify-between items-left">
             <Box className="flex gap-2 w-full justify-between">
               <Box className="flex items-center">
                 <p className="min-w-14">{group.code}</p>
